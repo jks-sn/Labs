@@ -48,7 +48,6 @@ public:
     operator std::string() const;
 
     size_t size() const;  // size in bytes
-private:
     bool sign;
     size_t counter;
     unsigned int *data;
@@ -57,7 +56,7 @@ private:
 
     void div2();
 
-    char ismore(const BigInt& number);
+    char ismore(const BigInt& number) const;
 };
 
 BigInt operator+(const BigInt&, const BigInt&);

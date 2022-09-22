@@ -42,6 +42,7 @@ BigInt& BigInt::operator=(const BigInt &number){
 BigInt BigInt::operator~() const
 {
     BigInt ans = *this;
+    ans.sign = !(ans.sign);
     for(size_t i = 0; i < counter;++i)
     {
         ans.data[i] = ~(ans.data[i]);
@@ -55,6 +56,18 @@ BigInt& BigInt::operator +=(const BigInt& number)
         numberCopy.resize(counter);
     if(numberCopy.counter > counter)
         this->resize(numberCopy.counter);
+    bool isequal = true;
+    if(sign != number.sign)
+    {
+        isequal = false;
+        char isbig = this->ismore(number);
+        if(isbig == 2) //определение итогового знака
+        {
+            this->sign = false; //обработка отсутствия отрицательного нуля
+        }
+        if(isbig == 0)
+            this->sign = number.sign;
+    }
     unsigned long long int buffer = 0;
     bool overbuffer = false;
     for(size_t i = 0; i < counter;++i) //насколько дешёво обращение в поля класса
@@ -63,7 +76,7 @@ BigInt& BigInt::operator +=(const BigInt& number)
         data[i] = buffer;
         overbuffer = (buffer > UINT_MAX);
     }
-    if(sign == number.sign)
+    if(isequal)
     {
         if(overbuffer) {
             this->resize(counter + 1);
@@ -73,17 +86,6 @@ BigInt& BigInt::operator +=(const BigInt& number)
                 data[counter - 1] = 1;
         }
     }
-    /*
-    else{
-        char issign = this->ismore(number);
-        if(issign == 2) //определение итогового знака
-        {
-            this->sign = false; //обработка отсутствия отрицательного нуля
-        }
-        if(issign == 0)
-            this->sign = number.sign;
-    }
-     */
     return *this;
 }
 BigInt& BigInt::operator++(){
@@ -109,10 +111,19 @@ BigInt & BigInt::operator^=(const BigInt & number) {
         this->resize(copyNumber.counter);
     for (size_t i = 0; i < this->counter; ++i)
         this->data[i] ^= copyNumber.data[i];
+    sign = true;
+    if(sign == number.sign)
+    {
+        //sign = fal
+    }
     return *this;
 }
 BigInt & BigInt::operator&=(const BigInt & number) {
     BigInt copyNumber = number;
+    if(sign && number.sign)
+        sign = true;
+    else
+        sign = false;
     if (this->counter > copyNumber.counter)
         copyNumber.resize(this->counter);
     if (copyNumber.counter > this->counter)
@@ -123,6 +134,10 @@ BigInt & BigInt::operator&=(const BigInt & number) {
 }
 BigInt & BigInt::operator|=(const BigInt & number) {
     BigInt copyNumber = number;
+    if(sign || number.sign)
+        sign = true;
+    else
+        sign = false;
     if (this->counter > copyNumber.counter)
         copyNumber.resize(this->counter);
     if (copyNumber.counter > this->counter)
@@ -148,19 +163,11 @@ bool BigInt::operator<(const BigInt & number) const {
         return true;
     if (!sign && number.sign)
         return false;
-    if((counter > number.counter) && (sign))
+    char more = this->ismore(number);
+    if((more == 1) && sign)
         return true;
-    if((counter > number.counter) && (!sign))
-        return false;
-    for(size_t i = counter-1; i >=0; --i)
-    {
-        if(data[i] == number.data[i])
-            continue;
-        if((data[i] > number.data[i]) && sign)
-            return true;
-        else
-            return false;
-    }
+    if((more == 0) && (!sign))
+        return true;
     return false;
 }
 
@@ -204,8 +211,11 @@ void BigInt::resize(size_t size)
     this->data = newData;
     this->counter = size;
 }
-char BigInt::ismore (const BigInt& number)
-{
+char BigInt::ismore (const BigInt& number) const {
+    if(counter > number.counter)
+        return 1;
+    if(number.counter > counter)
+        return 0;
     BigInt copy_this(*this);
     BigInt copy_number(number);
     if(copy_this.sign)
@@ -229,14 +239,14 @@ char BigInt::ismore (const BigInt& number)
         }
         return 2;
     }
-    for(size_t i = number.counter-1;i>=0;--i)
+    for(int i = number.counter-1;i>=0;--i)
     {
         if(copy_this.data[i] == copy_number.data[i])
             continue;
         if(copy_this.data[i] > copy_number.data[i])
-            return true;
+            return 1;
         else
-            return false;
+            return 0;
     }
     return 2;
 }
