@@ -2,8 +2,7 @@
 // Created by User on 01.09.2022.
 //
 
-#ifndef C___BIGINT_BIGINT_HPP
-#define C___BIGINT_BIGINT_HPP
+#pragma once
 #include <iostream>
 #include <string>
 #include <stdexcept>
@@ -70,5 +69,3 @@ BigInt operator%(const BigInt&, const BigInt&);
 BigInt operator&(const BigInt&, const BigInt&);
 BigInt operator|(const BigInt&, const BigInt&);
 std::ostream& operator<<(std::ostream& o, const BigInt& i);
-
-#endif //C___BIGINT_BIGINT_HPP
