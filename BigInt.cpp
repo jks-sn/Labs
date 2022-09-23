@@ -3,19 +3,45 @@
 //
 
 #include "BigInt.hpp"
-BigInt::BigInt(): counter(1), sign(false), data(new unsigned int(this->counter)) //ауффф
+BigInt::BigInt(): counter(1), sign(false), data(new unsigned int[this->counter])
 {
     data[0] = 0;
 }
-BigInt::BigInt(int n) : counter (1), sign(n < 0), data(new unsigned int(this->counter))
+BigInt::BigInt(int n) : counter (1), sign(n < 0), data(new unsigned int[this->counter])
 {
     data[0] = n;
 }
-BigInt::BigInt(std::string s) : counter (1), data(new unsigned int(this->counter))
+BigInt::BigInt(std::string s) : counter (1), sign(false), data(new unsigned int[this->counter])
 {
-    throw std::invalid_argument("Invalid argument\n");
+    this->data[0] = 0;
+    size_t size_string = s.size();
+    bool sign_copy;
+    if(size_string == 0 || size_string == 1)
+        throw std::invalid_argument("Invalid argument\n"); //а он закончит или нет работу?
+    if(s[0] == '+')
+        sign_copy = false;
+    else if(s[0] == '-')
+        sign_copy = true;
+    else
+        throw std::invalid_argument("Invalid argument\n");
+    if(std::isdigit(s[1]))
+        *this += BigInt(s[1]-'0');
+    for(size_t i = 2; i < size_string;++i)
+    {
+        if(std::isdigit(s[i]))
+        {
+            *this *= BigInt(10);
+            *this+= BigInt(s[i]-'0');
+        }
+        else
+            throw std::invalid_argument("Invalid argument\n");
+    }
+    if(sign_copy)
+    {
+        *this = -(*this);
+    }
 }
-BigInt::BigInt(const BigInt& number): counter(number.counter), sign(number.sign), data(new unsigned int(this->counter))
+BigInt::BigInt(const BigInt& number): counter(number.counter), sign(number.sign), data(new unsigned int[this->counter])
 {
     for(size_t i = 0; i < counter;++i)
     {
@@ -49,9 +75,19 @@ BigInt BigInt::operator~() const
     }
     return ans;
 }
+bool BigInt::operator==(const BigInt & number) const {
+    BigInt ans = ((*this) | number);
+    for (size_t i = 0; i < ans.counter; ++i)
+        if (ans.data[i] != 0)
+            return false;
+    return true;
+}
+bool BigInt::operator!=(const BigInt & number) const {
+    return (!(*this == number));
+}
 BigInt& BigInt::operator +=(const BigInt& number)
 {
-    BigInt numberCopy = number;
+    BigInt numberCopy(number);
     if(counter > numberCopy.counter)
         numberCopy.resize(counter);
     if(numberCopy.counter > counter)
@@ -68,7 +104,7 @@ BigInt& BigInt::operator +=(const BigInt& number)
         if(isbig == 0)
             this->sign = number.sign;
     }
-    unsigned long long int buffer = 0;
+    unsigned long long int buffer;
     bool overbuffer = false;
     for(size_t i = 0; i < counter;++i) //насколько дешёво обращение в поля класса
     {
@@ -111,19 +147,12 @@ BigInt & BigInt::operator^=(const BigInt & number) {
         this->resize(copyNumber.counter);
     for (size_t i = 0; i < this->counter; ++i)
         this->data[i] ^= copyNumber.data[i];
-    sign = true;
-    if(sign == number.sign)
-    {
-        //sign = fal
-    }
+    sign ^= number.sign;
     return *this;
 }
 BigInt & BigInt::operator&=(const BigInt & number) {
     BigInt copyNumber = number;
-    if(sign && number.sign)
-        sign = true;
-    else
-        sign = false;
+    sign &= number.sign;
     if (this->counter > copyNumber.counter)
         copyNumber.resize(this->counter);
     if (copyNumber.counter > this->counter)
@@ -134,10 +163,7 @@ BigInt & BigInt::operator&=(const BigInt & number) {
 }
 BigInt & BigInt::operator|=(const BigInt & number) {
     BigInt copyNumber = number;
-    if(sign || number.sign)
-        sign = true;
-    else
-        sign = false;
+    sign |= number.sign;
     if (this->counter > copyNumber.counter)
         copyNumber.resize(this->counter);
     if (copyNumber.counter > this->counter)
@@ -146,6 +172,32 @@ BigInt & BigInt::operator|=(const BigInt & number) {
         this->data[i] |= copyNumber.data[i];
     return *this;
 }
+
+BigInt& BigInt::operator*=(const BigInt&number)
+{
+    BigInt this_copy = this->sign?-(*this):*this;
+    BigInt number_copy = number.sign?-(number):number;
+    BigInt ans(0);
+    ans.resize(counter+number.counter);
+    unsigned long long buffer;
+    BigInt buffer1;
+    buffer1.resize(ans.counter);
+    for(int i = 0; i < (counter);++i) {
+        for (int j = 0; j < (number.counter); ++j)
+        {
+               buffer = static_cast<unsigned long long int>(this_copy.data[i])*number_copy.data[j];
+               buffer1.data[i+j] = static_cast<unsigned int>(buffer);
+               buffer1.data[i+j+1] = static_cast<unsigned int>(buffer>>(sizeof(unsigned int)* numberBitonBite));
+               ans += buffer1;
+               buffer1.data[i+j] = 0;
+               buffer1.data[i+j+1] = 0;
+        }
+    }
+    ans.sign = sign^number.sign;
+    ans.clean();
+    return(*this = ans);
+}
+
 BigInt &BigInt::operator%=(const BigInt & number) {
     BigInt answer;
     BigInt copyNumber = number;
@@ -170,7 +222,16 @@ bool BigInt::operator<(const BigInt & number) const {
         return true;
     return false;
 }
-
+bool BigInt::operator<=(const BigInt & number) const {
+    return ((*this == number) || (*this < number));
+}
+bool BigInt::operator>=(const BigInt & number) const {
+    return (!(*this < number));
+}
+bool BigInt::operator>(const BigInt & number) const
+{
+    return (!(*this <= number));
+}
 void BigInt::div2()
 {
     int buffer;
@@ -182,19 +243,14 @@ void BigInt::div2()
     }
     data[counter-1] >> 1;
 }
-/*
 void BigInt::clean()
 {
-    while(counter != 1)
+    while(counter != 1 && data[counter-1] == 0)
     {
-        if(data[counter-1] == 0 || data[counter-1] == ~0)
-        {
-            this->resize(counter-1);
-            --counter;
-        }
+        --counter;
+        this->resize(counter);
     }
 }
-*/
 void BigInt::resize(size_t size)
 {
     if(size < 2)
@@ -206,7 +262,7 @@ void BigInt::resize(size_t size)
     for (size_t i = 0; i < newLength; ++i)
         newData[i] = data[i];
     for (size_t i = newLength; i != size; ++i)
-        newData[i] = data[size - 1];
+        newData[i] = sign?UINT_MAX:0;
     delete [] data;
     this->data = newData;
     this->counter = size;
@@ -227,7 +283,7 @@ char BigInt::ismore (const BigInt& number) const {
     }
     if(copy_number.sign)
     {
-        for(size_t i = number.counter-1; i >=0;--i)
+        for(int i = number.counter-1; i >=0;--i)
         {
             copy_number.data[i] = ~(copy_number.data[i])+1;
             if(copy_this.data[i] == copy_number.data[i])
@@ -249,6 +305,39 @@ char BigInt::ismore (const BigInt& number) const {
             return 0;
     }
     return 2;
+}
+BigInt operator+(const BigInt & number1, const BigInt & number2) {
+    BigInt ans = number1;
+    ans += number2;
+    return ans;
+}
+BigInt operator*(const BigInt & number1, const BigInt & number2) {
+    BigInt ans = number1;
+    ans *= number2;
+    return ans;
+}
+BigInt operator-(const BigInt & number1, const BigInt & number2) {
+    BigInt ans = number1;
+    ans -= number2;
+    return ans;
+}
+
+BigInt operator^(const BigInt & number1, const BigInt & number2) {
+    BigInt ans = number1;
+    ans ^= number2;
+    return ans;
+}
+
+BigInt operator&(const BigInt & number1, const BigInt & number2) {
+    BigInt ans = number1;
+    ans &= number2;
+    return ans;
+}
+
+BigInt operator|(const BigInt & number1, const BigInt & number2) {
+    BigInt ans = number1;
+    ans |= number2;
+    return ans;
 }
 /*
 BigInt::BigInt() : digits(), sign(false) {}
