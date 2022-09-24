@@ -76,7 +76,7 @@ BigInt BigInt::operator~() const
     return ans;
 }
 bool BigInt::operator==(const BigInt & number) const {
-    BigInt ans = ((*this) | number);
+    BigInt ans = ((*this) ^ number);
     for (size_t i = 0; i < ans.counter; ++i)
         if (ans.data[i] != 0)
             return false;
@@ -197,18 +197,27 @@ BigInt& BigInt::operator*=(const BigInt&number)
     ans.clean();
     return(*this = ans);
 }
-
-BigInt &BigInt::operator%=(const BigInt & number) {
-    BigInt answer;
-    BigInt copyNumber = number;
-    BigInt buffer(1);
-    int buffer1;
-    BigInt previous(1);
-    while(data[0] || counter != 1)
+BigInt &BigInt::operator/=(const BigInt & number)
+{
+    BigInt this_mod = this->sign?-(*this):*this;
+    BigInt number_mod = number.sign?-(number):number;
+    BigInt ans(0);
+    BigInt buffer(0);
+    if(number_mod == ans)
     {
-
+        throw std::invalid_argument("Invalid argument of divide\n");
     }
-    return (*this = answer);
+    while(buffer + number_mod <= this_mod)
+    {
+        buffer += number_mod;
+        ++ans;
+    }
+    ans.sign = (number.sign) ^ (this->sign);
+    ans.clean();
+    return (*this = ans);
+}
+BigInt &BigInt::operator%=(const BigInt & number) {
+    return (*this -= ((*this/number)*number));
 }
 bool BigInt::operator<(const BigInt & number) const {
     if (sign && !number.sign)
@@ -232,17 +241,7 @@ bool BigInt::operator>(const BigInt & number) const
 {
     return (!(*this <= number));
 }
-void BigInt::div2()
-{
-    int buffer;
-    for(size_t i = 0; i+1 < counter; ++i)
-    {
-        data[i]>>1;
-        buffer = (data[i+1] & 0x01)<<31;
-        data[i] &= buffer;
-    }
-    data[counter-1] >> 1;
-}
+
 void BigInt::clean()
 {
     while(counter != 1 && data[counter-1] == 0)
@@ -316,6 +315,18 @@ BigInt operator*(const BigInt & number1, const BigInt & number2) {
     ans *= number2;
     return ans;
 }
+BigInt operator/(const BigInt & number1, const BigInt & number2)
+{
+    BigInt ans = number1;
+    ans /= number2;
+    return ans;
+}
+BigInt operator%(const BigInt & number1, const BigInt & number2)
+{
+    BigInt ans = number1;
+    ans %= number2;
+    return ans;
+}
 BigInt operator-(const BigInt & number1, const BigInt & number2) {
     BigInt ans = number1;
     ans -= number2;
@@ -339,98 +350,22 @@ BigInt operator|(const BigInt & number1, const BigInt & number2) {
     ans |= number2;
     return ans;
 }
-/*
-BigInt::BigInt() : digits(), sign(false) {}
-
-BigInt::BigInt(int n) : digits(), sign (false) {
-    if(n < 0)
-    {
-        sign = true;
-    }
-    do {
-        digits.push_back(n % 10);
-        n/=10;
-    } while (n);
-}
-
-BigInt::BigInt(std::string s) : digits(), sign(false) {
-    if(s[0] == '-')
-        sign = true;
-    int n = s.length();
-    for (int i = n - 1; i >= 0; i--) {
-        if (!isdigit(s[i]))
-            throw std::invalid_argument("Error, not all symbols are digits"); //????
-        digits.push_back(s[i] - '0');
-    }
-}
-
-BigInt::BigInt(const BigInt & number) : digits(number.digits), sign(number.sign)
-{}
-
-BigInt::~BigInt() //??????
-= default;
-
-BigInt& BigInt::operator=(const BigInt &number){
-    digits = number.digits;
-    sign = number.sign;
-    return *this;
-}
-BigInt BigInt::operator~() const {
-    int len = digits.size();
-    BigInt ans(len);
-    ans.sign = sign;
-    for(int i = 0; i < len;++i)
-    {
-        (ans.digits)[i] = ~(digits[i]);
-    }
-    return ans;
-}
-BigInt& BigInt::operator++() {
-    if (sign) {
-        //*this--  ;
-    } else {
-        int i, length = digits.size();
-        for (i = 0; i < length && digits[i] == 9; ++i)
-            digits[i] = 0;
-        if (i != length)
-            ++digits[i];
-        else
-            digits.push_back(1);
-    }
-    return *this;
-}
-BigInt BigInt::operator++(int){
-    BigInt ans = *this;
-    ++*this;
-    return ans;
-}
-BigInt& BigInt::operator--(){
-    int i,length = digits.size();
-    if(digits[length-1] == 0)
-    {
-        sign = true;
-        digits[length-1] = 1;
-    }
-    for(i = 0; digits[i] == 0;++i)
-        digits[i] = 9;
-    --digits[i];
-    return *this;
-}
-BigInt& BigInt::operator +=(const BigInt& number)
+std::ostream & operator<<(std::ostream & out, const BigInt & n)
 {
-
-}
-
-BigInt &BigInt::operator*=(const BigInt & number) {
-    if(this->digits.empty() || number.digits.empty())
+    BigInt n_copy = n;
+    BigInt zero(0);
+    out << (n.sign?'-':'+');
+    std::vector<char> ans;
+    BigInt base(10);
+    while(n_copy != zero)
     {
-
+        ans.push_back((n_copy%base).data[0]);
+        n_copy /= base;
     }
-    return *this;
+    while(!ans.empty())
+    {
+        out<<(static_cast<char>('0'+ans[ans.size()-1]));
+        ans.pop_back();
+    }
+    return out;
 }
-
-countert BigInt::size() const {
-    return digits.size();
-}
-
-*/
