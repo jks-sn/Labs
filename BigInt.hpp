@@ -22,9 +22,9 @@ public:
     BigInt operator~() const;
 
     BigInt& operator++();
-    BigInt& operator++(int);
+    const BigInt operator++(int);
     BigInt& operator--();
-    const BigInt operator--(int) const;
+    const BigInt operator--(int);
 
     BigInt& operator+=(const BigInt&);
     BigInt& operator*=(const BigInt&);
