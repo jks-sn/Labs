@@ -5,8 +5,8 @@
 #include <ctime>
 #include <cstddef> // size_t
 #include "BigInt.hpp"
-#include <gtest/gtest.h>
-
+//#include <gtest/gtest.h>
+/*
 class TestBigInt : public ::testing::Test {
 public:
     BigInt a;
@@ -31,30 +31,40 @@ TEST_F(TestBigInt, test1) {
     EXPECT_FALSE(a >= b);
     EXPECT_FALSE(a > b);
     EXPECT_TRUE(a != b);
-    EXPECT_TRUE(a+b > c);
-    EXPECT_TRUE(b+c < b);
+    EXPECT_TRUE(a + b > c);
+    EXPECT_TRUE(b + c < b);
 }
-//test binary +
+
 TEST_F(TestBigInt, test2) {
+    SetUp("+500", "+2000", "+4");
+    EXPECT_TRUE(a * c == b);
+    EXPECT_TRUE(b / a == c);
+}
+
+TEST_F(TestBigInt, test3) {
+    SetUp("-500", "+2000", "-4");
+    EXPECT_TRUE(a * c == b);
+    EXPECT_TRUE(b / a == c);
+    EXPECT_TRUE(b * c < a);
+}
+//test binary + with big numbers
+TEST_F(TestBigInt, test4) {
     SetUp("+42949672950", "+42949672950", "+85899345900");
     EXPECT_TRUE(a + b == c);
     EXPECT_TRUE(c - b == a);
 }
-
-TEST_F(TestBigInt, test3) {
-    SetUp("+654", "+345", "+225630");
-    EXPECT_TRUE(a * b == c);
-    EXPECT_TRUE(c / b = a);
-}
-
+*/
 int main(int argc, char **argv) {
-
-/*    printf("Running main() from %s\n", __FILE__);
+/*
+    printf("Running main() from %s\n", __FILE__);
     testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();*/
-    //BigInt a("+42949672950");
-    //std::cout<<a<<"\n";
-    unsigned long long int n = static_cast<unsigned long long int>(UINT_MAX)*2;
-    std::cout<<(static_cast<unsigned int>(n) == UINT_MAX);
+    return RUN_ALL_TESTS();
+*/
+
+  BigInt a(INT_MAX);
+    a *= BigInt(2);
+    a += BigInt(2);
+    a*= BigInt(10);
+    std::cout<<a;
     return 0;
 }
