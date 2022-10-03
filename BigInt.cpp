@@ -17,7 +17,7 @@ BigInt::BigInt(std::string s) : counter(1), sign(false), data(new unsigned int[t
     size_t size_string = s.size();
     bool sign_copy;
     if (size_string == 0 || size_string == 1)
-        throw std::invalid_argument("Invalid argument\n"); //а он закончит или нет работу?
+        throw std::invalid_argument("Invalid argument\n");
     if (s[0] == '+')
         sign_copy = false;
     else if (s[0] == '-')
@@ -221,9 +221,8 @@ BigInt &BigInt::operator/=(const BigInt &number) {
     if (number_mod == zero) {
         throw std::invalid_argument("Invalid argument of divide\n");
     }
-    if((this_mod == zero) || (this_mod < number_mod))
-    {
-        return(*this = zero);
+    if ((this_mod == zero) || (this_mod < number_mod)) {
+        return (*this = zero);
     }
     /*if (this_mod.counter == 1)
         std::cout << "this_mod:" << this_mod.data[0] << "      ";
@@ -235,14 +234,14 @@ BigInt &BigInt::operator/=(const BigInt &number) {
         std::cout << "number_mod:" << number_mod.data[1] << " " << number_mod.data[0] << "\n";*/
     while ((left != right) && ((left + one) != right)) {
         //std::cout << (left == right) << std::endl;
-       /* if (left.counter == 1)
-            std::cout << "left:" << left.data[0] << "      ";
-        else
-            std::cout << "left:" << left.data[1] << " " << left.data[0] << "      ";
-        if (right.counter == 1)
-            std::cout << "right:" << right.data[0] << "      ";
-        else
-            std::cout << "right:" << right.data[1] << " " << right.data[0] << "      ";*/
+        /* if (left.counter == 1)
+             std::cout << "left:" << left.data[0] << "      ";
+         else
+             std::cout << "left:" << left.data[1] << " " << left.data[0] << "      ";
+         if (right.counter == 1)
+             std::cout << "right:" << right.data[0] << "      ";
+         else
+             std::cout << "right:" << right.data[1] << " " << right.data[0] << "      ";*/
         buffer = right + left;
         /*if (buffer.counter == 1)
             std::cout << "buffer_before:" << buffer.data[0] << "      ";
@@ -258,7 +257,7 @@ BigInt &BigInt::operator/=(const BigInt &number) {
         if (buffer * number_mod <= this_mod)
             left = buffer;
     }
-    if((left != right) && (right*number_mod == this_mod))
+    if ((left != right) && (right * number_mod == this_mod))
         left = right;
     left.sign = false;
     if ((number.sign) ^ (this->sign)) {
@@ -427,7 +426,7 @@ void BigInt::div2() {
     unsigned int buffer;
     for (size_t i = 0; i + 1 < counter; ++i) {
         data[i] >>= 1;
-        buffer = (data[i+1] & 0x01);
+        buffer = (data[i + 1] & 0x01);
         buffer <<= 31;
         data[i] |= buffer;
     }
