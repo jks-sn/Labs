@@ -6,6 +6,7 @@
 #include <cstddef> // size_t
 #include "BigInt.hpp"
 #include <gtest/gtest.h>
+
 class TestBigInt : public ::testing::Test {
 public:
     BigInt a;
@@ -21,6 +22,7 @@ public:
         c = copy_c;
     }
 };
+
 TEST_F(TestBigInt, test1) {
     SetUp("+20045678", "+203545678", "-123445678");
     EXPECT_FALSE(a == b);
@@ -38,6 +40,7 @@ TEST_F(TestBigInt, test2) {
     EXPECT_TRUE(a * c == b);
     EXPECT_TRUE(b / a == c);
 }
+
 TEST_F(TestBigInt, test3) {
     SetUp("-5000000", "+200000000000", "-40000");
     EXPECT_TRUE(a * c == b);
@@ -50,13 +53,15 @@ TEST_F(TestBigInt, test4) {
     EXPECT_TRUE(a + b == c);
     EXPECT_TRUE(c - b == a);
 }
-TEST_F(TestBigInt, test5){
+
+TEST_F(TestBigInt, test5) {
     SetUp("+67", "+66", "+68");
     EXPECT_TRUE(++b == a);
     EXPECT_TRUE(a++ == b);
     EXPECT_TRUE(--c == b);
     EXPECT_TRUE(c-- == b);
 }
+
 int main(int argc, char **argv) {
     printf("Running main() from %s\n", __FILE__);
     testing::InitGoogleTest(&argc, argv);

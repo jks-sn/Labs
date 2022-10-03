@@ -44,12 +44,13 @@ BigInt::BigInt(const BigInt &number) : counter(number.counter), sign(number.sign
         data[i] = (number.data)[i];
     }
 }
+
 BigInt::~BigInt() {
     delete[] this->data;
 }
+
 BigInt &BigInt::operator=(const BigInt &number) {
-    if (this != &number)
-    {
+    if (this != &number) {
         delete[]this->data;
         this->counter = number.counter;
         data = new unsigned int[counter];
@@ -69,6 +70,7 @@ BigInt BigInt::operator~() const {
     }
     return ans;
 }
+
 BigInt &BigInt::operator++() {
     return (*this += BigInt(1));
 }
@@ -88,6 +90,7 @@ const BigInt BigInt::operator--(int) {
     --(*this);
     return copy_this;
 }
+
 BigInt &BigInt::operator+=(const BigInt &number) {
     BigInt number_copy(number);
     if (counter > number_copy.counter) {
@@ -98,8 +101,7 @@ BigInt &BigInt::operator+=(const BigInt &number) {
     }
     unsigned long long int buffer = 0;
     bool overbuffer = false;
-    for (size_t i = 0; i < counter; ++i)
-    {
+    for (size_t i = 0; i < counter; ++i) {
         buffer = static_cast<unsigned long long>(data[i]) + number_copy.data[i] + overbuffer;
         data[i] = static_cast<unsigned int>(buffer);
         overbuffer = (buffer > UINT_MAX);
@@ -118,6 +120,7 @@ BigInt &BigInt::operator+=(const BigInt &number) {
     }
     return *this;
 }
+
 BigInt &BigInt::operator*=(const BigInt &number) {
     BigInt this_mod = this->sign ? -(*this) : *this;
     BigInt number_mod = number.sign ? -(number) : number;
@@ -140,9 +143,11 @@ BigInt &BigInt::operator*=(const BigInt &number) {
     ans.clean();
     return (*this = ans);
 }
+
 BigInt &BigInt::operator-=(const BigInt &number) {
     return *this += (-number);
 }
+
 BigInt &BigInt::operator/=(const BigInt &number) {
     BigInt zero(0);
     BigInt one(1);
@@ -174,6 +179,7 @@ BigInt &BigInt::operator/=(const BigInt &number) {
     left.clean();
     return (*this = left);
 }
+
 BigInt &BigInt::operator^=(const BigInt &number) {
     BigInt copyNumber = number;
     if (this->counter > copyNumber.counter)
@@ -185,9 +191,11 @@ BigInt &BigInt::operator^=(const BigInt &number) {
     sign ^= number.sign;
     return *this;
 }
+
 BigInt &BigInt::operator%=(const BigInt &number) {
     return (*this -= ((*this / number) * number));
 }
+
 BigInt &BigInt::operator&=(const BigInt &number) {
     BigInt copyNumber = number;
     sign &= number.sign;
@@ -211,6 +219,7 @@ BigInt &BigInt::operator|=(const BigInt &number) {
         this->data[i] |= copyNumber.data[i];
     return *this;
 }
+
 void BigInt::resize(size_t size) {
     if (size < 2) {
         return;
@@ -225,6 +234,7 @@ void BigInt::resize(size_t size) {
     this->data = newData;
     this->counter = size;
 }
+
 BigInt BigInt::operator+() const {
     return *this;
 }
@@ -234,6 +244,7 @@ BigInt BigInt::operator-() const {
     ans += BigInt(1);
     return (ans);
 }
+
 bool BigInt::operator==(const BigInt &number) const {
     BigInt ans = ((*this) ^ number);
     for (size_t i = 0; i < ans.counter; ++i)
@@ -241,9 +252,11 @@ bool BigInt::operator==(const BigInt &number) const {
             return false;
     return true;
 }
+
 bool BigInt::operator!=(const BigInt &number) const {
     return (!(*this == number));
 }
+
 bool BigInt::operator<(const BigInt &number) const {
     if (sign && !number.sign)
         return true;
@@ -254,9 +267,11 @@ bool BigInt::operator<(const BigInt &number) const {
         return true;
     return false;
 }
+
 bool BigInt::operator>(const BigInt &number) const {
     return (!(*this <= number));
 }
+
 bool BigInt::operator<=(const BigInt &number) const {
     return ((*this == number) || (*this < number));
 }
@@ -264,6 +279,7 @@ bool BigInt::operator<=(const BigInt &number) const {
 bool BigInt::operator>=(const BigInt &number) const {
     return (!(*this < number));
 }
+
 BigInt::operator int() const {
     return (static_cast<int>(this->data[0]));
 }
@@ -305,13 +321,13 @@ BigInt::operator std::string() const {
         ans.push_back((this_mod % ten).data[0]);
         this_mod /= ten;
     }
-    while (!ans.empty())
-    {
-        answer.push_back(ans[ans.size()-1]);
+    while (!ans.empty()) {
+        answer.push_back(ans[ans.size() - 1]);
         ans.pop_back();
     }
     return (answer);
 }
+
 size_t BigInt::size() const {
     return (counter * sizeof(unsigned int) + sizeof(size_t) + sizeof(bool));
 }
@@ -321,11 +337,13 @@ BigInt operator+(const BigInt &number1, const BigInt &number2) {
     ans += number2;
     return ans;
 }
+
 BigInt operator-(const BigInt &number1, const BigInt &number2) {
     BigInt ans = number1;
     ans -= number2;
     return ans;
 }
+
 BigInt operator*(const BigInt &number1, const BigInt &number2) {
     BigInt ans = number1;
     ans *= number2;
@@ -337,11 +355,13 @@ BigInt operator/(const BigInt &number1, const BigInt &number2) {
     ans /= number2;
     return ans;
 }
+
 BigInt operator^(const BigInt &number1, const BigInt &number2) {
     BigInt ans = number1;
     ans ^= number2;
     return ans;
 }
+
 BigInt operator%(const BigInt &number1, const BigInt &number2) {
     BigInt ans = number1;
     ans %= number2;
@@ -359,6 +379,7 @@ BigInt operator|(const BigInt &number1, const BigInt &number2) {
     ans |= number2;
     return ans;
 }
+
 std::ostream &operator<<(std::ostream &out, const BigInt &n) {
     BigInt zero(0);
     BigInt n_mod;
