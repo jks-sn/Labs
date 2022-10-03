@@ -44,13 +44,11 @@ BigInt::BigInt(const BigInt &number) : counter(number.counter), sign(number.sign
         data[i] = (number.data)[i];
     }
 }
-
 BigInt::~BigInt() {
     delete[] this->data;
 }
-
 BigInt &BigInt::operator=(const BigInt &number) {
-    if (this != &number) //чтобы delte не обнулил обе части
+    if (this != &number)
     {
         delete[]this->data;
         this->counter = number.counter;
@@ -71,19 +69,25 @@ BigInt BigInt::operator~() const {
     }
     return ans;
 }
-
-bool BigInt::operator==(const BigInt &number) const {
-    BigInt ans = ((*this) ^ number);
-    for (size_t i = 0; i < ans.counter; ++i)
-        if (ans.data[i] != 0)
-            return false;
-    return true;
+BigInt &BigInt::operator++() {
+    return (*this += BigInt(1));
 }
 
-bool BigInt::operator!=(const BigInt &number) const {
-    return (!(*this == number));
+const BigInt BigInt::operator++(int) {
+    const BigInt copy_this = *this;
+    ++(*this);
+    return copy_this;
 }
 
+BigInt &BigInt::operator--() {
+    return (*this -= BigInt(1));
+}
+
+const BigInt BigInt::operator--(int) {
+    const BigInt copy_this = *this;
+    --(*this);
+    return copy_this;
+}
 BigInt &BigInt::operator+=(const BigInt &number) {
     BigInt number_copy(number);
     if (counter > number_copy.counter) {
@@ -94,11 +98,10 @@ BigInt &BigInt::operator+=(const BigInt &number) {
     }
     unsigned long long int buffer = 0;
     bool overbuffer = false;
-    for (size_t i = 0; i < counter; ++i) //насколько дешёво обращение в поля класса
+    for (size_t i = 0; i < counter; ++i)
     {
-        //std::cout<<"BUFFER: "<<data[i]<<" + "<<number_copy.data[i]<<" + "<<overbuffer<<std::endl;
         buffer = static_cast<unsigned long long>(data[i]) + number_copy.data[i] + overbuffer;
-        data[i] = buffer;
+        data[i] = static_cast<unsigned int>(buffer);
         overbuffer = (buffer > UINT_MAX);
     }
     if (sign != number.sign) {
@@ -113,44 +116,64 @@ BigInt &BigInt::operator+=(const BigInt &number) {
             data[counter - 1] = sign ? (~(1) + 1) : 1;
         }
     }
-    this->clean();
     return *this;
 }
-
-BigInt &BigInt::operator++() {
-    return (*this += BigInt(1));
+BigInt &BigInt::operator*=(const BigInt &number) {
+    BigInt this_mod = this->sign ? -(*this) : *this;
+    BigInt number_mod = number.sign ? -(number) : number;
+    BigInt ans(0);
+    ans.resize(counter + number.counter);
+    unsigned long long buffer;
+    BigInt buffer1;
+    buffer1.resize(counter + number.counter);
+    for (int i = 0; i < (counter); ++i) {
+        for (int j = 0; j < (number.counter); ++j) {
+            buffer = static_cast<unsigned long long int>(this_mod.data[i]) * number_mod.data[j];
+            buffer1.data[i + j] = static_cast<unsigned int>(buffer);
+            buffer1.data[i + j + 1] = static_cast<unsigned int>(buffer >> (sizeof(unsigned int) * numberBitonBite));
+            ans += buffer1;
+            buffer1.data[i + j] = 0;
+            buffer1.data[i + j + 1] = 0;
+        }
+    }
+    ans.sign = sign ^ number.sign;
+    ans.clean();
+    return (*this = ans);
 }
-
-const BigInt BigInt::operator++(int) {
-    const BigInt copy_this = *this;
-    ++(*this);
-    return copy_this; //???????
-}
-
-BigInt &BigInt::operator--() {
-    return (*this -= BigInt(1));
-}
-
-const BigInt BigInt::operator--(int) {
-    const BigInt copy_this = *this;
-    --(*this);
-    return copy_this;
-}
-
 BigInt &BigInt::operator-=(const BigInt &number) {
     return *this += (-number);
 }
-
-BigInt BigInt::operator+() const {
-    return *this;
+BigInt &BigInt::operator/=(const BigInt &number) {
+    BigInt zero(0);
+    BigInt one(1);
+    BigInt this_mod = this->sign ? -(*this) : *this;
+    BigInt number_mod = number.sign ? -(number) : number;
+    BigInt left(1);
+    BigInt right(this_mod);
+    BigInt buffer(0);
+    if (number_mod == zero) {
+        throw std::invalid_argument("Invalid argument of divide\n");
+    }
+    if ((this_mod == zero) || (this_mod < number_mod)) {
+        return (*this = zero);
+    }
+    while ((left != right) && ((left + one) != right)) {
+        buffer = right + left;
+        buffer.div2();
+        if (buffer * number_mod >= this_mod)
+            right = buffer;
+        if (buffer * number_mod <= this_mod)
+            left = buffer;
+    }
+    if ((left != right) && (right * number_mod == this_mod))
+        left = right;
+    left.sign = false;
+    if ((number.sign) ^ (this->sign)) {
+        left = -left;
+    }
+    left.clean();
+    return (*this = left);
 }
-
-BigInt BigInt::operator-() const {
-    BigInt ans = ~(*this);
-    ans += BigInt(1);
-    return (ans);
-}
-
 BigInt &BigInt::operator^=(const BigInt &number) {
     BigInt copyNumber = number;
     if (this->counter > copyNumber.counter)
@@ -162,7 +185,9 @@ BigInt &BigInt::operator^=(const BigInt &number) {
     sign ^= number.sign;
     return *this;
 }
-
+BigInt &BigInt::operator%=(const BigInt &number) {
+    return (*this -= ((*this / number) * number));
+}
 BigInt &BigInt::operator&=(const BigInt &number) {
     BigInt copyNumber = number;
     sign &= number.sign;
@@ -186,121 +211,6 @@ BigInt &BigInt::operator|=(const BigInt &number) {
         this->data[i] |= copyNumber.data[i];
     return *this;
 }
-
-BigInt &BigInt::operator*=(const BigInt &number) {
-    BigInt this_copy = this->sign ? -(*this) : *this;
-    BigInt number_copy = number.sign ? -(number) : number;
-    BigInt ans(0);
-    ans.resize(counter + number.counter);
-    unsigned long long buffer;
-    BigInt buffer1;
-    buffer1.resize(ans.counter);
-    for (int i = 0; i < (counter); ++i) {
-        for (int j = 0; j < (number.counter); ++j) {
-            buffer = static_cast<unsigned long long int>(this_copy.data[i]) * number_copy.data[j];
-            buffer1.data[i + j] = static_cast<unsigned int>(buffer);
-            buffer1.data[i + j + 1] = static_cast<unsigned int>(buffer >> (sizeof(unsigned int) * numberBitonBite));
-            ans += buffer1;
-            buffer1.data[i + j] = 0;
-            buffer1.data[i + j + 1] = 0;
-        }
-    }
-    ans.sign = sign ^ number.sign;
-    ans.clean();
-    return (*this = ans);
-}
-
-BigInt &BigInt::operator/=(const BigInt &number) {
-    BigInt this_mod = this->sign ? -(*this) : *this;
-    BigInt number_mod = number.sign ? -(number) : number;
-    BigInt left(1);
-    BigInt right(this_mod);
-    BigInt buffer(0);
-    BigInt zero(0);
-    BigInt one(1);
-    if (number_mod == zero) {
-        throw std::invalid_argument("Invalid argument of divide\n");
-    }
-    if ((this_mod == zero) || (this_mod < number_mod)) {
-        return (*this = zero);
-    }
-    /*if (this_mod.counter == 1)
-        std::cout << "this_mod:" << this_mod.data[0] << "      ";
-    else
-        std::cout << "this_mod:" << this_mod.data[1] << " " << this_mod.data[0] << "     ";
-    if (number_mod.counter == 1)
-        std::cout << "number_mod:" << number_mod.data[0] << "\n";
-    else
-        std::cout << "number_mod:" << number_mod.data[1] << " " << number_mod.data[0] << "\n";*/
-    while ((left != right) && ((left + one) != right)) {
-        //std::cout << (left == right) << std::endl;
-        /* if (left.counter == 1)
-             std::cout << "left:" << left.data[0] << "      ";
-         else
-             std::cout << "left:" << left.data[1] << " " << left.data[0] << "      ";
-         if (right.counter == 1)
-             std::cout << "right:" << right.data[0] << "      ";
-         else
-             std::cout << "right:" << right.data[1] << " " << right.data[0] << "      ";*/
-        buffer = right + left;
-        /*if (buffer.counter == 1)
-            std::cout << "buffer_before:" << buffer.data[0] << "      ";
-        else
-            std::cout << "buffer_before:" << buffer.data[1] << " " << buffer.data[0] << "     ";*/
-        buffer.div2();
-        /*if (buffer.counter == 1)
-            std::cout << "buffer_after:" << buffer.data[0] << "\n";
-        else
-            std::cout << "buffer_after:" << buffer.data[1] << " " << buffer.data[0] << "\n";*/
-        if (buffer * number_mod >= this_mod)
-            right = buffer;
-        if (buffer * number_mod <= this_mod)
-            left = buffer;
-    }
-    if ((left != right) && (right * number_mod == this_mod))
-        left = right;
-    left.sign = false;
-    if ((number.sign) ^ (this->sign)) {
-        left = -left;
-    }
-    left.clean();
-    return (*this = left);
-}
-
-BigInt &BigInt::operator%=(const BigInt &number) {
-    return (*this -= ((*this / number) * number));
-}
-
-bool BigInt::operator<(const BigInt &number) const {
-    if (sign && !number.sign)
-        return true;
-    if (!sign && number.sign)
-        return false;
-    BigInt answer = *this - number;
-    if (answer.sign)
-        return true;
-    return false;
-}
-
-bool BigInt::operator<=(const BigInt &number) const {
-    return ((*this == number) || (*this < number));
-}
-
-bool BigInt::operator>=(const BigInt &number) const {
-    return (!(*this < number));
-}
-
-bool BigInt::operator>(const BigInt &number) const {
-    return (!(*this <= number));
-}
-
-void BigInt::clean() {
-    while (counter != 1 && data[counter - 1] == 0) {
-        --counter;
-        this->resize(counter);
-    }
-}
-
 void BigInt::resize(size_t size) {
     if (size < 2) {
         return;
@@ -315,111 +225,54 @@ void BigInt::resize(size_t size) {
     this->data = newData;
     this->counter = size;
 }
+BigInt BigInt::operator+() const {
+    return *this;
+}
 
-char BigInt::ismore(const BigInt &number) const {
-    if (counter > number.counter)
-        return 1;
-    if (number.counter > counter)
-        return 0;
-    BigInt copy_this(*this);
-    BigInt copy_number(number);
-    if (copy_this.sign) {
-        for (size_t i = 0; i < counter; ++i) {
-            copy_this.data[i] = ~(copy_this.data[i]) + 1;
-        }
+BigInt BigInt::operator-() const {
+    BigInt ans = ~(*this);
+    ans += BigInt(1);
+    return (ans);
+}
+bool BigInt::operator==(const BigInt &number) const {
+    BigInt ans = ((*this) ^ number);
+    for (size_t i = 0; i < ans.counter; ++i)
+        if (ans.data[i] != 0)
+            return false;
+    return true;
+}
+bool BigInt::operator!=(const BigInt &number) const {
+    return (!(*this == number));
+}
+bool BigInt::operator<(const BigInt &number) const {
+    if (sign && !number.sign)
+        return true;
+    if (!sign && number.sign)
+        return false;
+    BigInt answer = *this - number;
+    if (answer.sign)
+        return true;
+    return false;
+}
+bool BigInt::operator>(const BigInt &number) const {
+    return (!(*this <= number));
+}
+bool BigInt::operator<=(const BigInt &number) const {
+    return ((*this == number) || (*this < number));
+}
+
+bool BigInt::operator>=(const BigInt &number) const {
+    return (!(*this < number));
+}
+BigInt::operator int() const {
+    return (static_cast<int>(this->data[0]));
+}
+
+void BigInt::clean() {
+    while (counter != 1 && data[counter - 1] == 0) {
+        --counter;
+        this->resize(counter);
     }
-    if (copy_number.sign) {
-        for (int i = number.counter - 1; i >= 0; --i) {
-            copy_number.data[i] = ~(copy_number.data[i]) + 1;
-            if (copy_this.data[i] == copy_number.data[i])
-                continue;
-            if (copy_this.data[i] > copy_number.data[i])
-                return 1;
-            else
-                return 0;
-        }
-        return 2;
-    }
-    for (int i = number.counter - 1; i >= 0; --i) {
-        if (copy_this.data[i] == copy_number.data[i])
-            continue;
-        if (copy_this.data[i] > copy_number.data[i])
-            return 1;
-        else
-            return 0;
-    }
-    return 2;
-}
-
-BigInt operator+(const BigInt &number1, const BigInt &number2) {
-    BigInt ans = number1;
-    ans += number2;
-    return ans;
-}
-
-BigInt operator*(const BigInt &number1, const BigInt &number2) {
-    BigInt ans = number1;
-    ans *= number2;
-    return ans;
-}
-
-BigInt operator/(const BigInt &number1, const BigInt &number2) {
-    BigInt ans = number1;
-    ans /= number2;
-    return ans;
-}
-
-BigInt operator%(const BigInt &number1, const BigInt &number2) {
-    BigInt ans = number1;
-    ans %= number2;
-    return ans;
-}
-
-BigInt operator-(const BigInt &number1, const BigInt &number2) {
-    BigInt ans = number1;
-    ans -= number2;
-    return ans;
-}
-
-BigInt operator^(const BigInt &number1, const BigInt &number2) {
-    BigInt ans = number1;
-    ans ^= number2;
-    return ans;
-}
-
-BigInt operator&(const BigInt &number1, const BigInt &number2) {
-    BigInt ans = number1;
-    ans &= number2;
-    return ans;
-}
-
-BigInt operator|(const BigInt &number1, const BigInt &number2) {
-    BigInt ans = number1;
-    ans |= number2;
-    return ans;
-}
-
-std::ostream &operator<<(std::ostream &out, const BigInt &n) {
-    BigInt zero(0);
-    BigInt n_copy;
-    if (n.sign) {
-        out << '-';
-        n_copy = -n;
-    } else {
-        out << '+';
-        n_copy = n;
-    }
-    std::vector<char> ans;
-    BigInt base(10);
-    while (n_copy != zero) {
-        ans.push_back((n_copy % base).data[0]);
-        n_copy /= base;
-    }
-    while (!ans.empty()) {
-        out << (static_cast<char>('0' + ans[ans.size() - 1]));
-        ans.pop_back();
-    }
-    return out;
 }
 
 void BigInt::div2() {
@@ -434,7 +287,97 @@ void BigInt::div2() {
     this->clean();
 }
 
-BigInt::operator int() const {
-    return (static_cast<int>(this->data[0]));
+BigInt::operator std::string() const {
+    BigInt zero(0);
+    BigInt one(0);
+    BigInt ten(10);
+    BigInt this_mod;
+    std::string answer;
+    if (this->sign) {
+        answer.push_back('-');
+        this_mod = -(*this);
+    } else {
+        answer.push_back('+');
+        this_mod = *this;
+    }
+    std::vector<char> ans;
+    while (this_mod != zero) {
+        ans.push_back((this_mod % ten).data[0]);
+        this_mod /= ten;
+    }
+    while (!ans.empty())
+    {
+        answer.push_back(ans[ans.size()-1]);
+        ans.pop_back();
+    }
+    return (answer);
+}
+size_t BigInt::size() const {
+    return (counter * sizeof(unsigned int) + sizeof(size_t) + sizeof(bool));
 }
 
+BigInt operator+(const BigInt &number1, const BigInt &number2) {
+    BigInt ans = number1;
+    ans += number2;
+    return ans;
+}
+BigInt operator-(const BigInt &number1, const BigInt &number2) {
+    BigInt ans = number1;
+    ans -= number2;
+    return ans;
+}
+BigInt operator*(const BigInt &number1, const BigInt &number2) {
+    BigInt ans = number1;
+    ans *= number2;
+    return ans;
+}
+
+BigInt operator/(const BigInt &number1, const BigInt &number2) {
+    BigInt ans = number1;
+    ans /= number2;
+    return ans;
+}
+BigInt operator^(const BigInt &number1, const BigInt &number2) {
+    BigInt ans = number1;
+    ans ^= number2;
+    return ans;
+}
+BigInt operator%(const BigInt &number1, const BigInt &number2) {
+    BigInt ans = number1;
+    ans %= number2;
+    return ans;
+}
+
+BigInt operator&(const BigInt &number1, const BigInt &number2) {
+    BigInt ans = number1;
+    ans &= number2;
+    return ans;
+}
+
+BigInt operator|(const BigInt &number1, const BigInt &number2) {
+    BigInt ans = number1;
+    ans |= number2;
+    return ans;
+}
+std::ostream &operator<<(std::ostream &out, const BigInt &n) {
+    BigInt zero(0);
+    BigInt n_mod;
+    if (n.sign) {
+        out << '-';
+        n_mod = -n;
+    } else {
+        out << '+';
+        n_mod = n;
+    }
+    std::vector<char> ans;
+    BigInt base(10);
+    while (n_mod != zero) {
+        ans.push_back((n_mod % base).data[0]);
+        n_mod /= base;
+    }
+    while (!ans.empty()) {
+        out << (static_cast<char>('0' + ans[ans.size() - 1]));
+        ans.pop_back();
+    }
+    return out;
+}

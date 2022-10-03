@@ -12,12 +12,12 @@
 class BigInt {
 public:
     BigInt();
-    explicit BigInt(int); //зачем????????
-    BigInt(std::string); // бросать исключение std::invalid_argument при ошибке
+    explicit BigInt(int);
+    explicit BigInt(std::string);
     BigInt(const BigInt&);
     ~BigInt();
 
-    BigInt& operator=(const BigInt&);  //возможно присваивание самому себе!
+    BigInt& operator=(const BigInt&);
 
     BigInt operator~() const;
 
@@ -25,7 +25,6 @@ public:
     const BigInt operator++(int);
     BigInt& operator--();
     const BigInt operator--(int);
-
     BigInt& operator+=(const BigInt&);
     BigInt& operator*=(const BigInt&);
     BigInt& operator-=(const BigInt&);
@@ -45,19 +44,15 @@ public:
     bool operator<=(const BigInt&) const;
     bool operator>=(const BigInt&) const;
 
-    operator int() const;
-    operator std::string() const;
+    explicit operator int() const;
+    explicit operator std::string() const;
 
     size_t size() const;  // size in bytes
+    void clean();
+    void div2();
     bool sign;
     size_t counter;
     unsigned int *data;
-
-    void clean();
-
-    void div2();
-
-    char ismore(const BigInt& number) const;
 };
 
 BigInt operator+(const BigInt&, const BigInt&);

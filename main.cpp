@@ -57,7 +57,6 @@ TEST_F(TestBigInt, test5){
     EXPECT_TRUE(--c == b);
     EXPECT_TRUE(c-- == b);
 }
-
 int main(int argc, char **argv) {
     printf("Running main() from %s\n", __FILE__);
     testing::InitGoogleTest(&argc, argv);
