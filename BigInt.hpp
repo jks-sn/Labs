@@ -3,7 +3,6 @@
 //
 
 #pragma once
-#define numberBitonBite 8
 
 #include <iostream>
 #include <string>

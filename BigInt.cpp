@@ -4,18 +4,26 @@
 
 #include "BigInt.hpp"
 
+const size_t numberBit_Bite = 8;
+const BigInt zero(0);
+const BigInt one(1);
+const BigInt base_of_string(10);
+const size_t number_first_digit = 1;
+
 BigInt::BigInt() : counter(1), sign(false), data(new unsigned int[this->counter]) {
     data[0] = 0;
 }
 
-BigInt::BigInt(int n) : counter(1), sign(n < 0), data(new unsigned int[this->counter]) {
-    data[0] = n;
+BigInt::BigInt(int n) : counter(1), sign(false), data(new unsigned int[this->counter]) {
+    data[0] = abs(n);
+    if (n < 0)
+        *this = -(*this);
 }
 
 BigInt::BigInt(std::string s) : counter(1), sign(false), data(new unsigned int[this->counter]) {
     this->data[0] = 0;
     size_t size_string = s.size();
-    bool sign_copy;
+    bool sign_copy = false;
     if (size_string == 0 || size_string == 1)
         throw std::invalid_argument("Invalid argument\n");
     if (s[0] == '+')
@@ -24,11 +32,9 @@ BigInt::BigInt(std::string s) : counter(1), sign(false), data(new unsigned int[t
         sign_copy = true;
     else
         throw std::invalid_argument("Invalid argument\n");
-    if (std::isdigit(s[1]))
-        *this += BigInt(s[1] - '0');
-    for (size_t i = 2; i < size_string; ++i) {
+    for (size_t i = number_first_digit; i < size_string; ++i) {
         if (std::isdigit(s[i])) {
-            *this *= BigInt(10);
+            *this *= base_of_string; // set constant dec here
             *this += BigInt(s[i] - '0');
         } else
             throw std::invalid_argument("Invalid argument\n");
@@ -133,13 +139,14 @@ BigInt &BigInt::operator*=(const BigInt &number) {
         for (int j = 0; j < (number.counter); ++j) {
             buffer = static_cast<unsigned long long int>(this_mod.data[i]) * number_mod.data[j];
             buffer1.data[i + j] = static_cast<unsigned int>(buffer);
-            buffer1.data[i + j + 1] = static_cast<unsigned int>(buffer >> (sizeof(unsigned int) * numberBitonBite));
+            buffer1.data[i + j + 1] = static_cast<unsigned int>(buffer >> (sizeof(unsigned int) * numberBit_Bite));
             ans += buffer1;
             buffer1.data[i + j] = 0;
             buffer1.data[i + j + 1] = 0;
         }
     }
-    ans.sign = sign ^ number.sign;
+    if (sign ^ number.sign)
+        ans = -ans;
     ans.clean();
     return (*this = ans);
 }
@@ -149,8 +156,6 @@ BigInt &BigInt::operator-=(const BigInt &number) {
 }
 
 BigInt &BigInt::operator/=(const BigInt &number) {
-    BigInt zero(0);
-    BigInt one(1);
     BigInt this_mod = this->sign ? -(*this) : *this;
     BigInt number_mod = number.sign ? -(number) : number;
     BigInt left(1);
@@ -189,22 +194,26 @@ BigInt &BigInt::operator^=(const BigInt &number) {
     for (size_t i = 0; i < this->counter; ++i)
         this->data[i] ^= copyNumber.data[i];
     sign ^= number.sign;
+    this->clean();
     return *this;
 }
 
 BigInt &BigInt::operator%=(const BigInt &number) {
-    return (*this -= ((*this / number) * number));
+    BigInt this_mod = this->sign ? -(*this) : *this;
+    BigInt number_mod = number.sign ? -(number) : number;
+    return (*this = (this_mod - ((this_mod / number_mod) * number_mod)));
 }
 
 BigInt &BigInt::operator&=(const BigInt &number) {
     BigInt copyNumber = number;
-    sign &= number.sign;
     if (this->counter > copyNumber.counter)
         copyNumber.resize(this->counter);
     if (copyNumber.counter > this->counter)
         this->resize(copyNumber.counter);
-    for (size_t i = 0; i != this->counter; ++i)
+    for (size_t i = 0; i < this->counter; ++i)
         this->data[i] &= copyNumber.data[i];
+    sign &= number.sign;
+    this->clean();
     return *this;
 }
 
@@ -215,8 +224,9 @@ BigInt &BigInt::operator|=(const BigInt &number) {
         copyNumber.resize(this->counter);
     if (copyNumber.counter > this->counter)
         this->resize(copyNumber.counter);
-    for (size_t i = 0; i != this->counter; ++i)
+    for (size_t i = 0; i < this->counter; ++i)
         this->data[i] |= copyNumber.data[i];
+    this->clean();
     return *this;
 }
 
@@ -304,9 +314,6 @@ void BigInt::div2() {
 }
 
 BigInt::operator std::string() const {
-    BigInt zero(0);
-    BigInt one(0);
-    BigInt ten(10);
     BigInt this_mod;
     std::string answer;
     if (this->sign) {
@@ -318,11 +325,11 @@ BigInt::operator std::string() const {
     }
     std::vector<char> ans;
     while (this_mod != zero) {
-        ans.push_back((this_mod % ten).data[0]);
-        this_mod /= ten;
+        ans.push_back((this_mod % base_of_string).data[0]);
+        this_mod /= base_of_string;
     }
     while (!ans.empty()) {
-        answer.push_back(ans[ans.size() - 1]);
+        answer.push_back(static_cast<char>('0' + ans[ans.size() - 1]));
         ans.pop_back();
     }
     return (answer);
@@ -381,7 +388,6 @@ BigInt operator|(const BigInt &number1, const BigInt &number2) {
 }
 
 std::ostream &operator<<(std::ostream &out, const BigInt &n) {
-    BigInt zero(0);
     BigInt n_mod;
     if (n.sign) {
         out << '-';
@@ -391,10 +397,9 @@ std::ostream &operator<<(std::ostream &out, const BigInt &n) {
         n_mod = n;
     }
     std::vector<char> ans;
-    BigInt base(10);
     while (n_mod != zero) {
-        ans.push_back((n_mod % base).data[0]);
-        n_mod /= base;
+        ans.push_back((n_mod % base_of_string).data[0]);
+        n_mod /= base_of_string;
     }
     while (!ans.empty()) {
         out << (static_cast<char>('0' + ans[ans.size() - 1]));
