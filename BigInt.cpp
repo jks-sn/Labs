@@ -14,7 +14,7 @@ BigInt::BigInt() : counter(1), sign(false), data(new unsigned int[this->counter]
     data[0] = 0;
 }
 
-BigInt::BigInt(int n) : counter(1), sign(false), data(new unsigned int[this->counter]) {
+BigInt::BigInt(int n) : counter(1), sign(n<0), data(new unsigned int[this->counter]) {
     data[0] = abs(n);
     if (n < 0)
         data[0] = ~(data[0])+1;
