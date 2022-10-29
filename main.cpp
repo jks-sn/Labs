@@ -1,19 +1,8 @@
-#include <utility>
-
 #include "Life_Core.h"
-int main() {
-    std::ifstream file("C:\\Users\\User\\Documents\\GitHub\\Labs\\test.txt");
-    if (!file.is_open()) {
-        throw std::invalid_argument("file not opened");
-    }
-    Life life;
-    try {
-       life = Life(file);
-    }
-    catch (LifeException &exception)
-    {
-        std::cerr << exception.what()<<std::endl;
-        life = Life();
-    }
+#include "Life_Interface.h"
+int main(int argc, char*argv[]) {
+    interface_online onlineInterface;
+    onlineInterface.interface_(argc,argv);
+    std::cout<<"All is very good";
     return 0;
 }

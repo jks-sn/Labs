@@ -1,6 +1,10 @@
 # ninja log v5
-67	2030	6879415325770504	CMakeFiles/Labs.dir/main.cpp.obj	790d3526ab16cce2
-7	1088	6879433424241032	CMakeFiles/Labs.dir/Life_Core.cpp.obj	df98cf7d83428efe
-1089	1513	6879433428460202	Labs.exe	8404a70bcf71cede
-4	2533	6879433963666344	CMakeFiles/Labs.dir/main.cpp.obj	790d3526ab16cce2
-2534	2937	6879433967728952	Labs.exe	8404a70bcf71cede
+5	1459	6882457559548968	CMakeFiles/Labs.dir/main.cpp.obj	35ac766db9bd8061
+18	1639	6882457561348933	CMakeFiles/Labs.dir/Life_Core.cpp.obj	6202244c5a0b49ae
+1640	2073	6882457565627946	Labs.exe	c8e254976d947cd1
+36	1627	6886439595329217	CMakeFiles/Labs.dir/Life_Interface.cpp.obj	8dece7b6cac551f
+29	1691	6886439595954433	CMakeFiles/Labs.dir/main.cpp.obj	35ac766db9bd8061
+7	1996	6886439598924061	CMakeFiles/Labs.dir/Life_Core.cpp.obj	6202244c5a0b49ae
+1997	2662	6886439605488530	Labs.exe	cca9dec5794d59f2
+6	1082	6886444366215023	CMakeFiles/Labs.dir/Life_Core.cpp.obj	6202244c5a0b49ae
+1083	1483	6886444370122343	Labs.exe	cca9dec5794d59f2

@@ -20,11 +20,15 @@ private:
 class Life{
 public:
     explicit Life();
-    explicit Life(std::ifstream& input);
-    void CheckNeigbours();
-    unsigned char SummNeigbours(const size_t &index)
+    explicit Life(std::ifstream&);
+    void RecountNeigbours();
+    void RecheckLife();
+    void PrintBoard();
+    void PrintBoard(std::ofstream&);
+    void RunLife(unsigned int index);
+    void CountNeigbours(const size_t&);
     ~Life() = default;
-    void at(long long &x, long long &y);
+    void at(long long x, long long y);
     size_t height_; //как сделать конст\static  и т.д.
     size_t weight_;
     std::string name;
