@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include <cstring>
 class LifeException: public std::exception
 {
 public:
