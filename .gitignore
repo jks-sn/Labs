@@ -9,16 +9,12 @@
 *.bin
 *.exe
 *.c
-cmake-build-debug/CMakeFiles/3.21.1/CompilerIdCXX/CMakeCXXCompilerId.cpp
 *.check_cache
 *.obj
 *.pc
-cmake-build-debug/.ninja_deps
-cmake-build-debug/.ninja_log
 *.a
 *.dll
 *.html
 .idea/.name
-cmake-build-debug/o
 o1.abacaba
 /cmake-build-debug/
