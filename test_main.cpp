@@ -3,6 +3,7 @@
 //
 #include <gtest/gtest.h>
 #include "Life_Core.h"
+
 int main(int argc, char *argv[]) {
     printf("Running main() from %s\n", __FILE__);
     testing::InitGoogleTest(&argc, argv);

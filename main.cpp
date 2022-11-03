@@ -1,24 +1,33 @@
 #include "Life_Core.h"
 #include "Life_Interface.h"
-int main(int argc, char*argv[]) {
+
+int main() {
     interface_online onlineInterface;
     interface_offline offlineInterface;
-    if(argc == 1 || argc == 2)
-    {
-            onlineInterface.interface_(argc, argv);
-    }
-    else if(argc == 6)
-    {
-        try {
-            offlineInterface.interface_(argc, argv);
+    std::string buffer;
+    std::cout << "Write number to choose game mode" << std::endl << "1: for online mod" << std::endl
+              << "2: for offline mod"
+              << std::endl;
+    while(true) {
+        std::cin >> buffer;
+        if (buffer == "1") {
+            try {
+                onlineInterface.interface_();
+            }
+            catch (LifeException &exception) { std::cerr << exception.what() << std::endl; }
+            break;
+        } else if (buffer == "2") {
+            try {
+                offlineInterface.interface_();
+            }
+            catch (LifeException &exception) {
+                std::cerr << exception.what() << std::endl;
+            }
+            break;
         }
-        catch(LifeException &exception){
-            std::cerr << exception.what()<<std::endl;
+        else {
+            std::cout << "invalid number; please write again" << std::endl;
         }
     }
-    else
-    {
-        std::cout<<"wrong format of arguments of game"<<std::endl;
-    }
-    std::cout<<"All is very good";
+    std::cout << "All is very good";
 }
