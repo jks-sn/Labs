@@ -18,7 +18,7 @@ void Life::at(long long x, long long y) {
     univercity[weight_ * (y - 1) + (x - 1)] = true; //найти нормальный метод
 }
 
-void Life::RunLife(unsigned int index) {
+void Life::RunLife(unsigned long int index) {
     for (size_t i = 0; i < index; ++i) {
         this->RecountNeigbours();
         this->RecheckLife();

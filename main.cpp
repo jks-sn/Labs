@@ -9,7 +9,7 @@ int main() {
               << "2: for offline mod"
               << std::endl;
     while(true) {
-        std::cin >> buffer;
+        std::getline(std::cin,buffer);
         if (buffer == "1") {
             try {
                 onlineInterface.interface_();
@@ -29,5 +29,5 @@ int main() {
             std::cout << "invalid number; please write again" << std::endl;
         }
     }
-    std::cout << "All is very good";
+    return 0;
 }

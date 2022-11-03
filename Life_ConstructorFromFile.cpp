@@ -58,5 +58,4 @@ Life::Life(std::ifstream &finput) {
         y = std::stoi(buffer);
         this->at(x, y);
     }
-    std::cout << "all is good" << std::endl;
 }

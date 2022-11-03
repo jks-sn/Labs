@@ -19,3 +19,5 @@ cmake-build-debug/.ninja_log
 *.dll
 *.html
 .idea/.name
+cmake-build-debug/o
+o1.abacaba

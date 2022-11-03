@@ -35,7 +35,7 @@ public:
 
     void PrintBoard(std::ofstream &);
 
-    void RunLife(unsigned int index);
+    void RunLife(unsigned long int index);
 
     void CountNeigbours(const size_t &);
 
