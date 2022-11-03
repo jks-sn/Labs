@@ -49,7 +49,7 @@ Life::Life(std::ifstream &finput) {
     if (finput.eof())
         throw LifeException("Invalid format of file(no size of univercity)(height)");
     height_ = std::stoul(buffer);
-    if(height_ > 50 || weight_ > 50)
+    if (height_ > 50 || weight_ > 50)
         throw LifeException("too big size of university");
     this->univercity.resize(weight_ * height_);
     std::fill(univercity.begin(), univercity.end(), false);
@@ -58,69 +58,66 @@ Life::Life(std::ifstream &finput) {
     int x, y;
     while (!finput.eof()) {
         finput >> buffer;
-        x = std::stoi(buffer) ;
-        if(x <= 0 || x>=weight_)
-            throw LifeException("Invalid coordinates");
-        x-=1;
+        x = std::stoi(buffer);
         if (finput.eof()) {
             throw LifeException("Invalid format of file(only weight)");
         }
         finput >> buffer;
         y = std::stoi(buffer);
-        if(y <= 0 ||  y >= height_)
-            throw LifeException("Invalid coordinates");
-        y-=1;
-        univercity[weight_ * y + x] = true;
+        this->at(x,y);
     }
     std::cout << "all is good" << std::endl;
 }
 
 void Life::at(long long x, long long y) {
-    while (x <= 0)
-        x += static_cast<long long>(weight_);
-    while (y <= 0)
-        y += static_cast<long long>(height_);
-    if (x > weight_ || y > height_)
-        univercity[weight_ * y + x] = true; //найти нормальный метод
+    while (x < 1 || x > weight_)
+        throw LifeException("Invalid coordinates(x)");
+    while (y < 1 || y > height_)
+        throw LifeException("Invalid coordinates(y)");
+    univercity[weight_ * (y-1) + (x-1)] = true; //найти нормальный метод
 }
+
 void Life::RunLife(unsigned int index) {
-    for(size_t i = 0 ; i < index;++i) {
+    for (size_t i = 0; i < index; ++i) {
         this->RecountNeigbours();
         this->RecheckLife();
     }
 }
+
 void Life::RecountNeigbours() {
     for (size_t i = 0; i < height_ * weight_; ++i)
         CountNeigbours(i);
-
 }
+
 void Life::RecheckLife() {
     for (int i = 0; i < height_ * weight_; ++i) {
-        if(when_birth[neighbours[i]])
+        if (when_birth[neighbours[i]])
             univercity[i] = true;
-        else if(!when_survival[neighbours[i]])
+        else if (!when_survival[neighbours[i]])
             univercity[i] = false;
     }
 }
+
 void Life::CountNeigbours(const size_t &index) {
     int x = index % weight_;
     int y = index / weight_;
     //std::cout<<mod((y - 1), height_) * weight_ + mod((x - 1), weight_)<<" "<<mod(y - 1, height_) * weight_ + mod(x, weight_)<<" "<<mod(y - 1, height_) * weight_ + mod((x + 1), weight_)<<" "<< mod(y, height_) * weight_ + mod((x - 1), weight_)<<" "<<mod(y, height_) * weight_ + mod(x, weight_)<<" "<<mod(y, height_)* weight_ + mod(x+1, weight_)<<" "<<mod(y + 1, height_) * weight_ + mod((x - 1), weight_)<<" "<<mod(y + 1, height_) * weight_ + mod(x, weight_)<<" "<<mod(y + 1, height_) * weight_ + mod((x + 1), weight_)<<std::endl;
     //std::cout<<univercity[mod((y - 1), height_) * weight_ + mod((x - 1), weight_)]<<" "<<univercity[mod(y - 1, height_) * weight_ + mod(x, weight_)]<<" "<<univercity[mod(y - 1, height_) * weight_ + mod((x + 1), weight_)]<<" "<< univercity[mod(y, height_) * weight_ + mod((x - 1), weight_)]<<" "<<univercity[mod(y, height_) * weight_ + mod(x, weight_)]<<" "<<univercity[mod(y, height_)* weight_ + mod(x+1, weight_)]<<" "<<univercity[mod(y + 1, height_) * weight_ + mod((x - 1), weight_)]<<" "<<univercity[mod(y + 1, height_) * weight_ + mod(x, weight_)]<<" "<<univercity[mod(y + 1, height_) * weight_ + mod((x + 1), weight_)]<<std::endl;
     neighbours[index] = univercity[mod((y - 1), height_) * weight_ + mod((x - 1), weight_)] +
-            univercity[mod(y - 1, height_) * weight_ + mod(x, weight_)] +
-            univercity[mod(y - 1, height_) * weight_ + mod((x + 1), weight_)] +
-            univercity[mod(y, height_) * weight_ + mod((x - 1), weight_)] +
-            univercity[mod(y, height_)* weight_ + mod(x+1, weight_)] +
-            univercity[mod(y + 1, height_) * weight_ + mod((x - 1), weight_)] +
-            univercity[mod(y + 1, height_) * weight_ + mod(x, weight_)] +
-            univercity[mod(y + 1, height_) * weight_ + mod((x + 1), weight_)];
+                        univercity[mod(y - 1, height_) * weight_ + mod(x, weight_)] +
+                        univercity[mod(y - 1, height_) * weight_ + mod((x + 1), weight_)] +
+                        univercity[mod(y, height_) * weight_ + mod((x - 1), weight_)] +
+                        univercity[mod(y, height_) * weight_ + mod(x + 1, weight_)] +
+                        univercity[mod(y + 1, height_) * weight_ + mod((x - 1), weight_)] +
+                        univercity[mod(y + 1, height_) * weight_ + mod(x, weight_)] +
+                        univercity[mod(y + 1, height_) * weight_ + mod((x + 1), weight_)];
 }
+
 void Life::PrintBoard() {
     for (int i = 0; i < height_ * weight_; ++i) {
         if (i % weight_ == 0 && i != 0)
             std::cout << std::endl;
-        std::cout << univercity[i]<<" ";
+        std::cout << univercity[i] << " ";
     }
     std::cout << std::endl;
 }
@@ -131,5 +128,5 @@ void Life::PrintBoard(std::ofstream &foutput) {
             foutput << std::endl;
         foutput << univercity[i] << " ";
     }
-    foutput<<std::endl;
+    foutput << std::endl;
 }

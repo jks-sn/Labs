@@ -30,3 +30,5 @@ cmake-build-debug/.ninja_log
 cmake-build-debug/.ninja_log
 *.obj
 *.obj
+.idea/.name
+cmake-build-debug/.ninja_deps

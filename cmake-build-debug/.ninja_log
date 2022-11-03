@@ -1,5 +1,21 @@
 # ninja log v5
-6	798	6887447885473388	CMakeFiles/Labs.dir/main.cpp.obj	35ac766db9bd8061
-29	1061	6887447887977683	CMakeFiles/Labs.dir/Life_Interface.cpp.obj	8dece7b6cac551f
-22	1177	6887447889223275	CMakeFiles/Labs.dir/Life_Core.cpp.obj	6202244c5a0b49ae
-1178	1701	6887447894379564	Labs.exe	cca9dec5794d59f2
+6	1567	6891825618420585	CMakeFiles/Labs.dir/main.cpp.obj	c09cc794f44c7fa1
+26	2388	6891821311784157	CMakeFiles/Labs.dir/Life_Interface.cpp.obj	8de13118261c38f9
+32	1383	6891821301628101	CMakeFiles/Labs.dir/Life_Core.cpp.obj	1fd98ef4ac42a27d
+1568	5910	6891825661703799	Labs.exe	d21c97f4987b410c
+166	4190	6891028006588886	googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	3c08f287569cfdcf
+19	4909	6891821336783973	CMakeFiles/Labs.dir/tests.cpp.obj	6ba4f2916997e925
+178	18334	6891028147834000	googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	567f5c598a0d9305
+18339	21646	6891028181173845	lib/libgtest.a	3a367667272c1159
+21646	21813	6891028182849289	lib/libgtest_main.a	e3446e3da78ecdc6
+1	1613	6891796932123646	CMakeFiles/Tests.dir/Life_Core.cpp.obj	f6a80bee0c80dd51
+36	2571	6891798483895709	CMakeFiles/Test.dir/Life_Interface.cpp.obj	6528b65793beaa25
+33	2239	6891796938373544	CMakeFiles/Tests.dir/main_test.cpp.obj	44a782a9e6474855
+24	2602	6891796941967264	CMakeFiles/Tests.dir/Life_Interface.cpp.obj	25af5fb3fc422d95
+15	5100	6891796966966821	CMakeFiles/Tests.dir/tests.cpp.obj	f2d6e1aae6e8d9e4
+30	1587	6891805729138732	CMakeFiles/Test.dir/Life_Core.cpp.obj	3dbdef1ab8d3af56
+7	3273	6891805743859526	CMakeFiles/Test.dir/test_main.cpp.obj	cf7e28a6431df5ba
+22	6448	6891805777608935	CMakeFiles/Test.dir/tests.cpp.obj	4e822554ad607feb
+7	4478	6891821937502948	Test.exe	1c47aff03618c27d
+2	1469	6891827034804831	build.ninja	cfd7bbf41dc21d5e
+7	610	6891827203541175	Labs.exe	27a55ecccceacdd1

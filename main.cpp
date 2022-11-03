@@ -21,5 +21,4 @@ int main(int argc, char*argv[]) {
         std::cout<<"wrong format of arguments of game"<<std::endl;
     }
     std::cout<<"All is very good";
-    return 0;
 }
