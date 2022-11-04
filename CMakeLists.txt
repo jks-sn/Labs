@@ -1,0 +1,13 @@
+
+cmake_minimum_required(VERSION 3.21)
+project(Labs)
+project(Test)
+set(CMAKE_CXX_STANDARD 14)
+add_subdirectory(googletest)
+include_directories(googletest/googletest/include)
+set(Sources main.cpp Life_Core.cpp Life_Core.h Life_Interface.h Life_ConstructorFromFile.cpp Life_Interface_online.cpp Life_Interface_offline.cpp)
+set(Sources_test test_main.cpp tests.cpp Life_Core.cpp Life_Core.h Life_ConstructorFromFile.cpp)
+add_executable(Labs ${Sources})
+add_executable(Test ${Sources_test})
+target_link_libraries(Labs gtest)
+target_link_libraries(Test gtest)

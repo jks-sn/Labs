@@ -3,7 +3,6 @@
 *.iml
 *.json
 *.txt
-*.cmake
 *.log
 *.ninja
 *.bin
