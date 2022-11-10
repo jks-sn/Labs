@@ -2,7 +2,6 @@
 // Created by User on 03.11.2022.
 //
 #include "Life_Core.h"
-
 Life::Life(std::ifstream &finput) {
     std::fill(when_birth.begin(), when_birth.end(), false);
     std::fill(when_survival.begin(), when_survival.end(), false);
@@ -41,7 +40,7 @@ Life::Life(std::ifstream &finput) {
     if (finput.eof())
         throw LifeException("Invalid format of file(no size of univercity)(height)");
     height_ = std::stoul(buffer);
-    if (height_ > 50 || weight_ > 50)
+    if (height_ > BiggestHeight || weight_ > BiggestWeight)
         throw LifeException("too big size of university");
     this->univercity.resize(weight_ * height_);
     std::fill(univercity.begin(), univercity.end(), false);

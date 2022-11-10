@@ -2,7 +2,6 @@
 // Created by User on 10.10.2022.
 //
 #pragma once
-
 #include <fstream>
 #include <array>
 #include <vector>
@@ -10,6 +9,8 @@
 #include <string>
 #include <exception>
 #include <cstring>
+const size_t BiggestWeight = 50;
+const size_t BiggestHeight = 50;
 const int numberExampleUnivercity = 2;
 class LifeException : public std::exception {
 public:
