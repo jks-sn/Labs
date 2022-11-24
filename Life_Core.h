@@ -44,6 +44,7 @@ public:
 
     void at(long long x, long long y);
 
+    void FileParsing(std::ifstream &finput);
     size_t height_; //как сделать конст\static  и т.д.
     size_t weight_;
     std::string name;
@@ -51,4 +52,5 @@ public:
     std::array<bool, 9> when_birth;
     std::vector<unsigned char> neighbours;
     std::vector<bool> univercity;
+
 };

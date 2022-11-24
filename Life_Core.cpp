@@ -11,9 +11,9 @@ int mod(const int x, const int y) {
 Life::Life() {}
 
 void Life::at(long long x, long long y) {
-    while (x < 1 || x > weight_)
+    if (x < 1 || x > weight_)
         throw LifeException("Invalid coordinates(x)");
-    while (y < 1 || y > height_)
+    if (y < 1 || y > height_)
         throw LifeException("Invalid coordinates(y)");
     univercity[weight_ * (y - 1) + (x - 1)] = true; //найти нормальный метод
 }
