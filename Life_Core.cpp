@@ -8,7 +8,6 @@ int mod(const int x, const int y) {
     return (x == -1 ? y - 1 : x % y); //обёртка обработки x or y = -1 && x = weight+1; y = height+1
 }
 
-Life::Life() {}
 
 void Life::at(long long x, long long y) {
     if (x < 1 || x > weight_)

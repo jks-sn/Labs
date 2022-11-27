@@ -24,7 +24,7 @@ private:
 
 class Life {
 public:
-    explicit Life();
+    explicit Life() = default;
 
     explicit Life(std::ifstream &);
 

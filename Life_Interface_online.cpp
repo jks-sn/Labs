@@ -3,25 +3,8 @@
 //
 #include "Life_Interface.h"
 void interface_online::interface_() {
-    std::string buffer;
-    std::string finput_path;
     std::ifstream finput;
-    while(true) {
-        std::cout << "Write path to input file or number of example university" << std::endl;
-        std::getline(std::cin,buffer);
-        try{
-            if (std::stoi(buffer) >= 1 && std::stoi(buffer) <= numberExampleUnivercity) {
-                finput_path = "example_" + buffer + ".txt";}
-        }
-        catch(std::invalid_argument &exception){
-            finput_path = buffer;
-        }
-        finput.open(finput_path);
-        if (!finput.is_open())
-            std::cout<<"No such file, please try again"<<std::endl;
-        else
-            break;
-    }
+    this->getInputFile(finput);
     Life life(finput);
     system("CLS");
     unsigned int index_;
@@ -64,3 +47,4 @@ void interface_online::interface_() {
         }
     }
 }
+

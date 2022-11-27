@@ -3,55 +3,47 @@
 //
 #include "Life_Interface.h"
 void interface_offline::interface_() {
-    std::string buffer;
-    std::string finput_path;
     std::ifstream finput;
-    Life life;
-    while(true) {
-        std::cout << "Write path to input file or number of example university(from 1 to " <<numberExampleUnivercity<<"):"<< std::endl;
-        std::getline(std::cin,buffer);
-        try{
-            if (std::stoi(buffer) >= 1 && std::stoi(buffer) <= numberExampleUnivercity) {
-                finput_path = "example_" + buffer + ".txt";}
-        }
-        catch(std::invalid_argument &exception){
-            finput_path = buffer;
-        }
-        finput.open(finput_path);
-        if (!finput.is_open()) {
-            std::cout << "No such file, please try again" << std::endl;
-        }
-        else
-        {
-            try {
-                life = Life(finput);
-                break;
-            }
-            catch (LifeException &exception) {
-                std::cerr << exception.what() <<"Please try again" <<std::endl;
-                finput.close();
-            }
-        }
-    }
+    unsigned char iterations;
+    this->getInputFile(finput);
+    Life life(finput);
+    iterations = this->getNumberIterations();
+    std::ofstream foutput;
+    this->getOutputFile(foutput);
+    life.RunLife(iterations);
+    life.PrintBoard(foutput);
+    finput.close();
+    foutput.close();
+}
+unsigned int interface_offline::iterationsFromStringToInt(std::string &buffer) {
     unsigned int iterations;
+    std::size_t pos;
+    iterations = std::stoul(buffer,&pos);
+    if(pos != buffer.size())
+        throw(std::invalid_argument(""));
+    return iterations;
+}
+unsigned int interface_offline::getNumberIterations() {
     while(true)
     {
-        std::size_t pos;
+        unsigned int iterations;
+        std::string buffer;
+        std::cout << "number of iterations:" << std::endl;
+        std::getline(std::cin,buffer);
         std::cout << "number of iterations:" << std::endl;
         std::getline(std::cin,buffer);
         try {
-            iterations = std::stoul(buffer,&pos);
-            if(pos != buffer.size())
-                throw(std::invalid_argument(""));
-            break;
+            iterations = this->iterationsFromStringToInt(buffer);
+            return iterations;
         }
         catch(std::invalid_argument &exception)
         {
             std::cout << "wrong number of iterations, please try again" << std::endl;
         }
     }
+}
+void interface_offline::getOutputFile(std::ofstream &foutput) {
     std::string outpath;
-    std::ofstream foutput;
     while(true)
     {
         std::cout << "Write path to output file:" << std::endl;
@@ -62,8 +54,6 @@ void interface_offline::interface_() {
         else
             break;
     }
-    life.RunLife(iterations);
-    life.PrintBoard(foutput);
-    finput.close();
-    foutput.close();
 }
+
+

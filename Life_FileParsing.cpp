@@ -11,7 +11,7 @@ void Life::FileParsing(std::ifstream &finput)
 {
     std::string buffer;
     std::getline(finput, buffer);
-    if (buffer != "game_version") {
+    if (buffer != game_version) {
         throw LifeException("Invalid format of file(first line)");
     }
     finput >> buffer;
