@@ -4,11 +4,11 @@
 #include "Life_Interface.h"
 void interface_offline::interface_() {
     std::ifstream finput;
+    std::ofstream foutput;
     unsigned char iterations;
     this->getInputFile(finput);
     Life life(finput);
     iterations = this->getNumberIterations();
-    std::ofstream foutput;
     this->getOutputFile(foutput);
     life.RunLife(iterations);
     life.PrintBoard(foutput);
@@ -28,8 +28,6 @@ unsigned int interface_offline::getNumberIterations() {
     {
         unsigned int iterations;
         std::string buffer;
-        std::cout << "number of iterations:" << std::endl;
-        std::getline(std::cin,buffer);
         std::cout << "number of iterations:" << std::endl;
         std::getline(std::cin,buffer);
         try {
