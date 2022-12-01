@@ -7,7 +7,11 @@
 int mod(const int x, const int y) {
     return (x == -1 ? y - 1 : x % y); //обёртка обработки x or y = -1 && x = weight+1; y = height+1
 }
-
+Life::Life(std::ifstream &finput) {
+    std::fill(when_birth.begin(), when_birth.end(), false);
+    std::fill(when_survival.begin(), when_survival.end(), false);
+    FileParsing(finput);
+}
 
 void Life::at(long long x, long long y) {
     if (x < 1 || x > weight_)
