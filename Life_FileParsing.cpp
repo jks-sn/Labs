@@ -9,8 +9,8 @@ const std::string flag_rules_life = "#R";
 const char flag_rule_birth = 'B';
 const char flag_rule_survival = 'S';
 const char separator_birth_survive = '/';
-void Life::FileParsing(std::ifstream &finput)
-{
+
+void Life::FileParsing(std::ifstream &finput) {
     std::string buffer;
     std::getline(finput, buffer);
     if (buffer != game_version) {
@@ -25,8 +25,10 @@ void Life::FileParsing(std::ifstream &finput)
     if (buffer != flag_rules_life)
         throw LifeException("Invalid format of file(third line1)");
     finput >> buffer;
-    if ((buffer.empty()) || (buffer[0] != flag_rule_birth) || (buffer.find(separator_birth_survive) == std::string::npos) ||
-        ((buffer.find(separator_birth_survive) + 1) == buffer.size()) || (buffer[(buffer.find(separator_birth_survive) + 1)] != flag_rule_survival))
+    if ((buffer.empty()) || (buffer[0] != flag_rule_birth) ||
+        (buffer.find(separator_birth_survive) == std::string::npos) ||
+        ((buffer.find(separator_birth_survive) + 1) == buffer.size()) ||
+        (buffer[(buffer.find(separator_birth_survive) + 1)] != flag_rule_survival))
         throw LifeException("Invalid format of file(third line2)");
     for (size_t i = 1; i < buffer.find(separator_birth_survive); ++i) {
         if (!std::isdigit(buffer[i]))

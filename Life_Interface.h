@@ -8,6 +8,7 @@ public:
     virtual void interface_() = 0;
     static std::string getNumberExample(std::string &buffer);
     void getInputFile(std::ifstream &finput);
+    static void startGame();
 };
 
 class interface_online : public interface {
