@@ -28,7 +28,7 @@ void Life::FileParsing(std::ifstream &finput)
     if ((buffer.empty()) || (buffer[0] != flag_rule_birth) || (buffer.find(separator_birth_survive) == std::string::npos) ||
         ((buffer.find(separator_birth_survive) + 1) == buffer.size()) || (buffer[(buffer.find(separator_birth_survive) + 1)] != flag_rule_survival))
         throw LifeException("Invalid format of file(third line2)");
-    for (size_t i = 1; i < buffer.find('/'); ++i) {
+    for (size_t i = 1; i < buffer.find(separator_birth_survive); ++i) {
         if (!std::isdigit(buffer[i]))
             throw LifeException("Invalid formal of file(third line3");
         when_birth[static_cast <size_t>(buffer[i] - '0')] = true;
