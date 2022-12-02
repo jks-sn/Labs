@@ -41,17 +41,23 @@ class ParamTestLife_RecheckLife : public ::testing::TestWithParam<ParamList3> {
 
 TEST_P(ParamTestLife_at, test1) {
     std::vector<bool> a1 = GetParam().a1;
+    std::stringstream a1_string;
+    std::string a1_str;
+    std::string a2_str;
     std::vector<bool> a2 = GetParam().a2;
-    Life example;
-    example.univercity = a1;
+    std::stringstream a2_string;
+    for(const auto &i:a2)
+        a2_string <<i;
     int a3 = GetParam().a3;
     int a4 = GetParam().a4;
-    example.weight_ = a3;
-    example.height_ = a4;
+    Life example(a1,a3,a4);
     int a5 = GetParam().a5;
     int a6 = GetParam().a6;
     example.at(a5, a6);
-    EXPECT_TRUE(example.univercity == a2);
+    example.PrintBoard(a1_string);
+    a1_string >> a1_str;
+    a2_string >> a2_str;
+    EXPECT_TRUE(a1_str == a2_str);
     //std::string s = GetParam().s;
     //std::cout<<s<<std::endl;
 }
@@ -59,34 +65,40 @@ TEST_P(ParamTestLife_at, test1) {
 TEST_P(ParamTestLife_CountNeigbours, test2) {
     std::vector<bool> univercity_test = GetParam().univercity_test;
     std::vector<unsigned char> answer = GetParam().answer;
-    Life example;
-    example.univercity = univercity_test;
+    std::string neigbours_test_str;
+    std::string answer_str;
+    std::stringstream neigbours_test_string;
+    std::stringstream answer_string;
     int weight = GetParam().weight;
     int height = GetParam().height;
-    example.weight_ = weight;
-    example.height_ = height;
-    example.neighbours.resize(example.weight_ * example.height_);
-    std::fill(example.neighbours.begin(), example.neighbours.end(), 0);
+    Life example(univercity_test,weight,height);
     for (size_t i = 0; i != weight * height; ++i)
         example.CountNeigbours(i);
-    EXPECT_TRUE(example.neighbours == answer);
+    example.getNeighbours(neigbours_test_string);
+    for(const auto &i:answer)
+        answer_string <<i;
+    answer_string >> answer_str;
+    neigbours_test_string >> neigbours_test_str;
+    EXPECT_TRUE(neigbours_test_str == answer_str);
     //std::string s = GetParam().s;
     //std::cout<<s<<std::endl;
 }
 
 TEST_P(ParamTestLife_RecheckLife, test3) {
     std::vector<bool> answer = GetParam().answer;
-    Life example;
-    example.when_survival = GetParam().when_survival_;
-    example.when_birth = GetParam().when_birth_;
-    example.univercity = GetParam().univercity_test;
-    example.weight_ = GetParam().weight;
-    example.height_ = GetParam().height;
-    example.neighbours.resize(example.weight_ * example.height_);
-    std::fill(example.neighbours.begin(), example.neighbours.end(), 0);
+    std::stringstream answer_string;
+    std::stringstream univercity_test_string;
+    std::string answer_str;
+    std::string univercity_test_str;
+    Life example(GetParam().univercity_test,GetParam().when_survival_,GetParam().when_birth_,GetParam().weight,GetParam().height);
     example.RecountNeigbours();
     example.RecheckLife();
-    EXPECT_TRUE(example.univercity == answer);
+    example.PrintBoard(univercity_test_string);
+    for(const auto &i:answer)
+        answer_string <<i;
+    univercity_test_string>>univercity_test_str;
+    answer_string>>answer_str;
+    EXPECT_TRUE(answer_str == univercity_test_str);
 }
 
 INSTANTIATE_TEST_CASE_P

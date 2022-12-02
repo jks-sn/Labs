@@ -2,7 +2,8 @@
 // Created by User on 25.11.2022.
 //
 #include "Life_Interface.h"
-
+const std::string flag_online_interface = "1";
+const std::string flag_offline_interface = "2";
 std::string interface::getNumberExample(std::string &buffer) {
     if (std::stoi(buffer) >= 1 && std::stoi(buffer) <= numberExampleUnivercity)
         return("example_" + buffer + ".txt");
@@ -39,13 +40,13 @@ void interface::startGame() {
               << std::endl;
     while(true) {
         std::getline(std::cin,buffer);
-        if (buffer == "1") {
+        if (buffer == flag_online_interface) {
             try {
                 onlineInterface.interface_();
             }
             catch (LifeException &exception) { std::cerr << exception.what() << std::endl; }
             break;
-        } else if (buffer == "2") {
+        } else if (buffer == flag_offline_interface) {
             try {
                 offlineInterface.interface_();
             }

@@ -9,6 +9,7 @@
 #include <string>
 #include <exception>
 #include <cstring>
+#include <sstream>
 const size_t BiggestWeight = 50;
 const size_t BiggestHeight = 50;
 const int numberExampleUnivercity = 2;
@@ -28,6 +29,11 @@ public:
 
     explicit Life(std::ifstream &);
 
+    Life(const std::vector<bool> &univercity_, size_t weight_, size_t height_);
+
+    Life(const std::vector<bool> &univercity_, std::array<bool, 9> when_survival_, std::array<bool, 9> when_birth_,
+         size_t weight, size_t height);
+
     void RecountNeigbours();
 
     void RecheckLife();
@@ -35,6 +41,7 @@ public:
     void PrintBoard();
 
     void PrintBoard(std::ofstream &);
+    void PrintBoard(std::stringstream &soutput);
 
     void RunLife(unsigned long int index);
 
@@ -45,6 +52,8 @@ public:
     void at(long long x, long long y);
 
     void FileParsing(std::ifstream &finput);
+    void getNeighbours(std::stringstream &soutput);
+private:
     size_t height_; //как сделать конст\static  и т.д.
     size_t weight_;
     std::string name;

@@ -10,9 +10,16 @@ int mod(const int x, const int y) {
 Life::Life(std::ifstream &finput) {
     std::fill(when_birth.begin(), when_birth.end(), false);
     std::fill(when_survival.begin(), when_survival.end(), false);
-    FileParsing(finput);
+    this->FileParsing(finput);
 }
-
+Life::Life(const std::vector<bool>& univercity_, size_t weight, size_t height):weight_(weight),height_(height),univercity(univercity_) {
+    this->neighbours.resize(this->weight_ * this->height_);
+    std::fill(this->neighbours.begin(), this->neighbours.end(), 0);
+}
+Life::Life(const std::vector<bool>& univercity_,std::array<bool, 9> when_survival_,std::array<bool, 9> when_birth_, size_t weight, size_t height):weight_(weight),height_(height),when_birth(when_birth_),when_survival(when_survival_),univercity(univercity_) {
+    this->neighbours.resize(this->weight_ * this->height_);
+    std::fill(this->neighbours.begin(), this->neighbours.end(), 0);
+}
 void Life::at(long long x, long long y) {
     if (x < 1 || x > weight_)
         throw LifeException("Invalid coordinates(x)");
@@ -56,7 +63,16 @@ void Life::CountNeigbours(const size_t &index) {
                         univercity[mod(y + 1, height_) * weight_ + mod(x, weight_)] +
                         univercity[mod(y + 1, height_) * weight_ + mod((x + 1), weight_)];
 }
-
+void Life::getNeighbours(std::stringstream &soutput)
+{
+    for(const auto &i:this->neighbours)
+        soutput <<i;
+}
+void Life::PrintBoard(std::stringstream &soutput)
+{
+    for(const auto &i:this->univercity)
+        soutput <<i;
+}
 void Life::PrintBoard() {
     for (int i = 0; i < height_ * weight_; ++i) {
         if (i % weight_ == 0 && i != 0)
