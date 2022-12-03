@@ -3,6 +3,7 @@
 //
 #pragma once
 #include "Life_Core.h"
+using namespace life;
 class interface {
 public:
     virtual void interface_() = 0;

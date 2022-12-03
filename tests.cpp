@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "Life_Core.h"
 
+using namespace life;
 struct ParamList1 {
     std::vector<bool> a1;
     std::vector<bool> a2;
@@ -46,11 +47,11 @@ TEST_P(ParamTestLife_at, test1) {
     std::string a2_str;
     std::vector<bool> a2 = GetParam().a2;
     std::stringstream a2_string;
-    for(const auto &i:a2)
-        a2_string <<i;
+    for (const auto &i: a2)
+        a2_string << i;
     int a3 = GetParam().a3;
     int a4 = GetParam().a4;
-    Life example(a1,a3,a4);
+    Life example(a1, a3, a4);
     int a5 = GetParam().a5;
     int a6 = GetParam().a6;
     example.at(a5, a6);
@@ -71,12 +72,12 @@ TEST_P(ParamTestLife_CountNeigbours, test2) {
     std::stringstream answer_string;
     int weight = GetParam().weight;
     int height = GetParam().height;
-    Life example(univercity_test,weight,height);
+    Life example(univercity_test, weight, height);
     for (size_t i = 0; i != weight * height; ++i)
         example.CountNeigbours(i);
     example.getNeighbours(neigbours_test_string);
-    for(const auto &i:answer)
-        answer_string <<i;
+    for (const auto &i: answer)
+        answer_string << i;
     answer_string >> answer_str;
     neigbours_test_string >> neigbours_test_str;
     EXPECT_TRUE(neigbours_test_str == answer_str);
@@ -90,14 +91,15 @@ TEST_P(ParamTestLife_RecheckLife, test3) {
     std::stringstream univercity_test_string;
     std::string answer_str;
     std::string univercity_test_str;
-    Life example(GetParam().univercity_test,GetParam().when_survival_,GetParam().when_birth_,GetParam().weight,GetParam().height);
+    Life example(GetParam().univercity_test, GetParam().when_survival_, GetParam().when_birth_, GetParam().weight,
+                 GetParam().height);
     example.RecountNeigbours();
     example.RecheckLife();
     example.PrintBoard(univercity_test_string);
-    for(const auto &i:answer)
-        answer_string <<i;
-    univercity_test_string>>univercity_test_str;
-    answer_string>>answer_str;
+    for (const auto &i: answer)
+        answer_string << i;
+    univercity_test_string >> univercity_test_str;
+    answer_string >> answer_str;
     EXPECT_TRUE(answer_str == univercity_test_str);
 }
 
