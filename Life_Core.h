@@ -26,7 +26,7 @@ namespace life {
         std::string error_;
     };
 
-    class Life {
+    class Life final {
     public:
         explicit Life() = default;
 
