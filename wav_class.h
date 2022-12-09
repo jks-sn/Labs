@@ -1,6 +1,7 @@
 //
 // Created by User on 27.11.2022.
 //
+
 #pragma once
 
 #include <iostream>
@@ -38,3 +39,4 @@ public:
     Wav_header header;
     std::vector<unsigned char> data;
 };
+
