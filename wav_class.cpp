@@ -3,7 +3,7 @@
 //
 
 #include "wav_class.h"
-
+/*
 Wav::Wav(FILE *finput) {
     size_t numread;
     numread = fread_s(&(this->header), sizeof(this->header), sizeof(this->header), 1, finput);
@@ -12,5 +12,5 @@ Wav::Wav(FILE *finput) {
         this->header.numChannels != 1 || this->header.sampleRate != FREQ || this->header.subchunk2Id != DATA)
         throw std::exception();
 
-}
+}*/
 

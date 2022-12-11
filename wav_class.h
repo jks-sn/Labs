@@ -15,7 +15,7 @@ const unsigned int WAVE = 0x57415645;
 const unsigned int fmt = 0x666d7420;
 const unsigned int subchunk1Size_PCM = 16;
 const unsigned int WAVE_FORMAT_PCM = 0x0001;
-const unsigned int DATA = 0x64617461
+const unsigned int DATA = 0x64617461;
 typedef struct Wav_header {
     unsigned int chunkId;
     unsigned long int chunckSize;
