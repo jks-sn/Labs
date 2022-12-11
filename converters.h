@@ -4,15 +4,17 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include "sample.h"
 class converter{
 public:
-    virtual void do_something(std::istream &, std::ostream &, std::vector<int> &) = 0;
+    virtual void do_something(std::ifstream &, std::ofstream &, std::vector<int> ) = 0;
 };
 class mute: public converter
 {
-    void do_something(std::istream &, std::ostream &, std::vector<int> &) override ;
+    void do_something(std::ifstream &, std::ofstream &, std::vector<int> ) override ;
 };
 class mix: public converter
 {
-    void do_something(std::istream &, std::ostream &, std::vector<int> &) override ;
+    void do_something(std::ifstream &, std::ofstream &, std::vector<int> ) override ;
 };
