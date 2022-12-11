@@ -9,5 +9,4 @@ set(Sources main.cpp Life_Core.cpp Life_Core.h Life_Interface.h Life_Interface_o
 set(Sources_test test_main.cpp tests.cpp Life_Core.cpp Life_Core.h Life_FileParsing.cpp Life_FileParsing_functions.cpp Life_FileParsing.h)
 add_executable(Labs ${Sources})
 add_executable(Test ${Sources_test})
-target_link_libraries(Labs gtest)
 target_link_libraries(Test gtest)

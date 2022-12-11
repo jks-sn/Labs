@@ -1,0 +1,7 @@
+#Life 1.06
+#N my universe
+#R B3/S23
+20 20
+2 2
+3 3
+4 4
