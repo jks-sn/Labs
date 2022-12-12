@@ -1,8 +1,20 @@
 //
 // Created by User on 11.12.2022.
 //
+#pragma once
+#include <string>
+#include <fstream>
+#include "sample.h"
+#include <cstring>
+class wawWrite {
+public:
+    explicit wawWrite(std::string &outpath);
 
-#ifndef LABS_WAW_OUTPUT_H
-#define LABS_WAW_OUTPUT_H
+    void writeSecond(sample *buffer, size_t FREQ);
+    void writeSomeData(char *data, size_t size);
+    void writeHeader(char *data);
 
-#endif //LABS_WAW_OUTPUT_H
+    ~wawWrite();
+private:
+    std::ofstream foutput;
+};

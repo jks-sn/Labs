@@ -8,13 +8,13 @@
 #include "sample.h"
 class converter{
 public:
-    virtual void do_something(std::ifstream &, std::ofstream &, std::vector<int> ) = 0;
+    virtual void do_something(std::string &, std::string &, std::vector<std::string>& ) = 0;
 };
 class mute: public converter
 {
-    void do_something(std::ifstream &, std::ofstream &, std::vector<int> ) override ;
+    void do_something(std::string &, std::string &, std::vector<std::string>& ) override ;
 };
 class mix: public converter
 {
-    void do_something(std::ifstream &, std::ofstream &, std::vector<int> ) override ;
+    void do_something(std::string &, std::string &, std::vector<std::string>& ) override ;
 };

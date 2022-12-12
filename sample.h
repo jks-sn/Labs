@@ -4,5 +4,5 @@
 #pragma once
 #include <array>
 struct sample{
-    short sample_; //sample 16 bit
+    char buffer_[2]; //sample 16 bit
 };

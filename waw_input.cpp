@@ -3,3 +3,34 @@
 //
 
 #include "waw_input.h"
+
+wawRead::wawRead(std::string &inpath) {
+    this->finput.open(inpath, std::ios::in | std::ios::binary);
+    if (!this->finput.is_open()) {
+        throw std::invalid_argument("Error, can't open file for input");
+    }
+}
+
+void wawRead::readSecond(sample *buffer, size_t FREQ) {
+    for (int i = 0; i < FREQ; ++i) {
+        this->finput.read(buffer[i].buffer_, 2);
+    }
+}
+
+void wawRead::readHeader(char *data) {
+        this->finput.read(data, 4);
+}
+
+wawRead::~wawRead() {
+    this->finput.close();
+}
+
+std::string wawRead::readSomeData(size_t size) {
+    char buffer[size];
+    this->finput.read(buffer,size);
+    return buffer;
+}
+
+bool wawRead::isFileEnd() {
+    return finput.eof();
+}

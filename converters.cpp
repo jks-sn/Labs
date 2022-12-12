@@ -8,10 +8,10 @@ void jump(std::ifstream &input, std::ofstream &output, int seconds) {
     input.read(buffer,seconds*44100);
     output.write(buffer,seconds*44100);
 }
-void mute::do_something(std::ifstream &input, std::ofstream &output, std::vector<int> parametrs) {
+void mute::do_something(std::string &input, std::string &output, std::vector<std::string>& parametrs) {
     jump(input,output,parametrs[0]);
 }
 
-void mix::do_something(std::ifstream &, std::ofstream &, std::vector<std::int> &) {
+void mix::do_something(std::string &input, std::string &output, std::vector<std::string>& parametrs) {
 
 }
