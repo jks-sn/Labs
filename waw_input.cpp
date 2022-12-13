@@ -17,8 +17,10 @@ void wawRead::readSecond(sample *buffer, size_t FREQ) {
     }
 }
 
-void wawRead::readHeader(char *data) {
-        this->finput.read(data, 4);
+std::string wawRead::readHeader() {
+    char data[4];
+    this->finput.read(data, 4);
+    return data;
 }
 
 wawRead::~wawRead() {
@@ -27,7 +29,7 @@ wawRead::~wawRead() {
 
 std::string wawRead::readSomeData(size_t size) {
     char buffer[size];
-    this->finput.read(buffer,size);
+    this->finput.read(buffer, size);
     return buffer;
 }
 

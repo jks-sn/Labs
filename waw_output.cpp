@@ -3,6 +3,7 @@
 //
 
 #include "waw_output.h"
+
 wawWrite::wawWrite(std::string &outpath) {
     this->foutput.open(outpath, std::ios::in | std::ios::binary);
     if (!this->foutput.is_open()) {
@@ -16,15 +17,15 @@ void wawWrite::writeSecond(sample *buffer, size_t FREQ) {
     }
 }
 
-void wawWrite::writeHeader(char *data) {
-        this->foutput.write(data, 4);
+void wawWrite::writeHeader(std::string &data) {
+    this->foutput.write(data.c_str(), 4);
 }
 
 wawWrite::~wawWrite() {
     this->foutput.close();
 }
 
-void wawWrite::writeSomeData(char *data, size_t size) {
-    this->foutput.write(data,size);
+void wawWrite::writeSomeData(std::string &data, size_t size) {
+    this->foutput.write(data.c_str(), size);
 }
 
