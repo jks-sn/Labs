@@ -17,7 +17,7 @@ void wawRead::readSecond(sample *buffer, size_t FREQ) {
     }
 }
 
-std::string wawRead::readHeader() {
+std::string wawRead::readFourBytes() {
     char data[4];
     this->finput.read(data, 4);
     return data;

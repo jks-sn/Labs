@@ -16,7 +16,7 @@ public:
 
     void writeSomeData(std::string &, size_t size);
 
-    void writeHeader(std::string &data);
+    void writeFourBytes(std::string &data);
 
     ~wawWrite();
 

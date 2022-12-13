@@ -17,7 +17,7 @@ void wawWrite::writeSecond(sample *buffer, size_t FREQ) {
     }
 }
 
-void wawWrite::writeHeader(std::string &data) {
+void wawWrite::writeFourBytes(std::string &data) {
     this->foutput.write(data.c_str(), 4);
 }
 

@@ -17,7 +17,7 @@ public:
 
     std::string readSomeData(size_t size);
 
-    std::string readHeader();
+    std::string readFourBytes();
 
     bool isFileEnd();
 

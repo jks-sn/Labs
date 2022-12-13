@@ -15,6 +15,14 @@ public:
     virtual void do_something(std::string &, std::string &, std::vector<std::string> &) = 0;
 
     void writeAndReadHeader(wawRead &, wawWrite &);
+
+    void fillToEnd(wawRead &, wawWrite &);
+
+    void jump(wawRead &, wawWrite &, int );
+
+    void intToSample(int , sample *);
+
+    int sampleToInt(sample &);
 };
 
 class mute : public converter {
@@ -23,4 +31,6 @@ class mute : public converter {
 
 class mix : public converter {
     void do_something(std::string &, std::string &, std::vector<std::string> &) override;
+
+    void mixSecond(sample *input1, sample *input2);
 };
