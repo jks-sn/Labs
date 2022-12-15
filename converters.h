@@ -2,13 +2,12 @@
 // Created by User on 10.12.2022.
 //
 #pragma once
-
 #include <iostream>
 #include <vector>
 #include "wav_output.h"
 #include "wav_input.h"
 #include "sample.h"
-
+const size_t FREQ = 44100;
 class converter {
 public:
     virtual void do_something(std::string &, std::string &, std::vector<std::string> &) = 0;
@@ -19,9 +18,6 @@ public:
 
     void jump(wavRead &, wavWrite &, int );
 
-    void intToSample(int , sample *);
-
-    int sampleToInt(sample &);
 };
 
 class mute : public converter {

@@ -13,16 +13,16 @@ void mute::do_something(std::string &input, std::string &output, std::vector<std
     jump(finput, foutput, stoi(parametrs[0]));
     int delta = std::stoi(parametrs[1]) - std::stoi(parametrs[0]);
     while (delta && (!finput.isFileEnd()) ){
-        finput.readSecond(buffer, 44100);
+        finput.readSecond(buffer, FREQ);
         --delta;
-        foutput.writeSecond(zerobuffer, 44100);
+        foutput.writeSecond(zerobuffer, FREQ);
     }
     fillToEnd(finput, foutput);
 }
 
 void mix::mixSecond(sample *input1, sample *input2) {
     long long int buffer;
-    for (size_t i = 0; i < 44100; ++i) {
+    for (size_t i = 0; i < FREQ; ++i) {
         buffer = this->sampleToInt(input1[i]);
         buffer += this->sampleToInt(input2[i]);
         buffer /= 2;

@@ -5,6 +5,10 @@
 #include "converters.h"
 #include <algorithm>
 #include <stdexcept>
+enum converters_type{
+    mute_type,
+    mix_type
+};
 class converters_factory
 {
 public:

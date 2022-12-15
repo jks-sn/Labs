@@ -2,36 +2,12 @@
 // Created by User on 14.12.2022.
 //
 #include "converters.h"
-
-int converter::sampleToInt(sample &sample_) {
-    int buffer;
-    if (sample_.buffer_[0] & (0x01 << 8)) {
-        sample_.buffer_[0] = sample_.buffer_[0] & 0x7F;
-        buffer = (static_cast<int>(sample_.buffer_[1]) << 8);
-        buffer += sample_.buffer_[0];
-        buffer = (~buffer) + 1;
-    } else {
-        buffer = (static_cast<int>(sample_.buffer_[1]) << 8);
-        buffer += sample_.buffer_[0];
-    }
-    return buffer;
-}
-
-void converter::intToSample(int data, sample *sample_) {
-    if (data > 0) {
-        sample_->buffer_[1] = static_cast<char>(data);
-        sample_->buffer_[0] = static_cast<char>(data >> 8);
-    } else {
-        data = (~data) + 1;
-        sample_->buffer_[1] = static_cast<char>(data);
-        sample_->buffer_[0] = static_cast<char>((data >> 8) | 128);
-    }
-}
-
+const size_t blockForReadHeader = 10000;
+const size_t blockForReadSomeData = 1024;
 void converter::jump(wavRead &infile, wavWrite &outfile, int seconds) {
     std::string data;
-    infile.readSomeData(data,seconds * 44100 * 2);
-    outfile.writeSomeData(data, seconds * 44100 * 2);
+    infile.readSomeData(data,seconds * FREQ * bytesPerSample);
+    outfile.writeSomeData(data, seconds * FREQ * bytesPerSample);
 }
 /*int find(const char*data,int data_size,const char*key,int key_size)
 {
@@ -58,7 +34,7 @@ void converter::jump(wavRead &infile, wavWrite &outfile, int seconds) {
 void converter::writeAndReadHeader(wavRead &finput, wavWrite &foutput) {
     std::string data;
     size_t index_data;
-    finput.readSomeData(data,10000);
+    finput.readSomeData(data,blockForReadHeader);
     index_data = data.find("data")+4;
     if(index_data == data.npos)
         throw std::invalid_argument("Error, this is not .wav file");
@@ -71,7 +47,7 @@ void converter::writeAndReadHeader(wavRead &finput, wavWrite &foutput) {
 void converter::fillToEnd(wavRead &finput, wavWrite &foutput) {
     while (!finput.isFileEnd()) {
         std::string data;
-        finput.readSomeData(data,1024);
-        foutput.writeSomeData(data, 1024);
+        finput.readSomeData(data,blockForReadSomeData);
+        foutput.writeSomeData(data, blockForReadSomeData);
     }
 }

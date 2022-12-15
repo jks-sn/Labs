@@ -4,7 +4,14 @@
 #pragma once
 
 #include <array>
+const unsigned int bytesPerSample = 2;
+class sample
+{
+public:
+    void intToSample(int);
 
-typedef struct sample {
-    char buffer_[2]; //sample 16 bit
-} sample;
+    int sampleToInt();
+
+private:
+    char buffer_[bytesPerSample];
+};
