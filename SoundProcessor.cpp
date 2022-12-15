@@ -4,37 +4,36 @@
 
 #include "SoundProcessor.h"
 
-void fileCopy(std::string finput, std::string foutput) {
-    wawRead wawRead_(finput);
-    wawWrite wawWrite_(foutput);
-    while (true) {
-        std::string buffer = wawRead_.readSomeData(1024);
-        wawWrite_.writeSomeData(buffer, 1024);
-        if (wawRead_.isFileEnd()) {
-            break;
-        }
-    }
-};
+void copy_file(const std::string& name1, const std::string& name2)
+{
+     std::ifstream in(name1.c_str());
+     std::ofstream out(name2.c_str());
+     std::copy( std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>(), std::ostreambuf_iterator<char>(out));
+}
 
 void SoundProcessor::start(std::string &config_file_, std::string &output_file_,
                            std::vector<std::string> &input_files_) {
     try {
         std::string buffer;
-        std::string buffer_waw = "buffer.waw";
+        std::string buffer_wav = "buffer.wav";
         converters_factory factory;
         config fconfig(config_file_);
-        fileCopy(input_files_[0], buffer);
+        copy_file(input_files_[0], buffer_wav);
         while (true) {
             buffer = fconfig.getConvert();
             if (buffer == "config_end")
                 break;
-            std::vector<std::string> abacaba = fconfig.readArgumentConvert();
+            std::vector<std::string> arguments = fconfig.readArgumentConvert();
             converter *converter_current = factory.converter_create(buffer);
-            converter_current->do_something(buffer, output_file_, abacaba);
-            fileCopy(output_file_, buffer);
+            converter_current->do_something(buffer_wav, output_file_, arguments);
+            copy_file(output_file_, buffer_wav);
         }
     }
     catch (const std::ifstream::failure &e) {
-        std::cerr << e.what();
+        std::cerr << e.what()<<std::endl;
+    }
+    catch (std::invalid_argument const& ex)
+    {
+        std::cout << ex.what() << std::endl;
     }
 }

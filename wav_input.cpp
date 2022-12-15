@@ -2,37 +2,40 @@
 // Created by User on 11.12.2022.
 //
 
-#include "waw_input.h"
+#include "wav_input.h"
 
-wawRead::wawRead(std::string &inpath) {
+wavRead::wavRead(std::string &inpath) {
     this->finput.open(inpath, std::ios::in | std::ios::binary);
     if (!this->finput.is_open()) {
         throw std::invalid_argument("Error, can't open file for input");
     }
 }
 
-void wawRead::readSecond(sample *buffer, size_t FREQ) {
+void wavRead::readSecond(sample *buffer, size_t FREQ) {
     for (int i = 0; i < FREQ; ++i) {
         this->finput.read(buffer[i].buffer_, 2);
     }
 }
 
-std::string wawRead::readFourBytes() {
+std::string wavRead::readFourBytes() {
     char data[4];
     this->finput.read(data, 4);
     return data;
 }
 
-wawRead::~wawRead() {
+wavRead::~wavRead() {
     this->finput.close();
 }
-
-std::string wawRead::readSomeData(size_t size) {
-    char buffer[size];
-    this->finput.read(buffer, size);
-    return buffer;
+void wavRead::setFlagToStartFile()
+{
+    this->finput.seekg(0,(this->finput).beg);
+}
+void wavRead::readSomeData(std::string& buffer,size_t size) {
+    char data[size];
+    this->finput.read(data, size);
+    buffer.assign(data,data+size);
 }
 
-bool wawRead::isFileEnd() {
+bool wavRead::isFileEnd() {
     return finput.eof();
 }

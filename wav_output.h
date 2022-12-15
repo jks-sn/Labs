@@ -8,17 +8,17 @@
 #include "sample.h"
 #include <cstring>
 
-class wawWrite {
+class wavWrite {
 public:
-    explicit wawWrite(std::string &outpath);
+    explicit wavWrite(std::string &outpath);
 
     void writeSecond(sample *buffer, size_t FREQ);
 
-    void writeSomeData(std::string &, size_t size);
+    void writeSomeData(std::string&data, size_t );
 
-    void writeFourBytes(std::string &data);
+    void writeFourBytes(std::string &);
 
-    ~wawWrite();
+    ~wavWrite();
 
 private:
     std::ofstream foutput;

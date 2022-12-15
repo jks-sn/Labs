@@ -9,19 +9,21 @@
 #include "sample.h"
 #include <cstring>
 
-class wawRead {
+class wavRead {
 public:
-    explicit wawRead(std::string &inpath);
+    explicit wavRead(std::string &inpath);
 
     void readSecond(sample *buffer, size_t FREQ);
 
-    std::string readSomeData(size_t size);
+    void readSomeData(std::string& buffer, size_t size);
 
     std::string readFourBytes();
 
     bool isFileEnd();
 
-    ~wawRead();
+    ~wavRead();
+
+    void setFlagToStartFile();
 
 private:
     std::ifstream finput;

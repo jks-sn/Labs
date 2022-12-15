@@ -5,20 +5,19 @@
 
 #include <iostream>
 #include <vector>
-#include <fstream>
-#include "waw_output.h"
-#include "waw_input.h"
+#include "wav_output.h"
+#include "wav_input.h"
 #include "sample.h"
 
 class converter {
 public:
     virtual void do_something(std::string &, std::string &, std::vector<std::string> &) = 0;
 
-    void writeAndReadHeader(wawRead &, wawWrite &);
+    void writeAndReadHeader(wavRead &, wavWrite &);
 
-    void fillToEnd(wawRead &, wawWrite &);
+    void fillToEnd(wavRead &, wavWrite &);
 
-    void jump(wawRead &, wawWrite &, int );
+    void jump(wavRead &, wavWrite &, int );
 
     void intToSample(int , sample *);
 
