@@ -23,7 +23,7 @@ public:
 
     ~wavRead();
 
-    void setFlagToStartFile();
+    void setFlagToPlace(size_t i);
 
 private:
     std::ifstream finput;

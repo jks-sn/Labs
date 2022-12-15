@@ -62,14 +62,15 @@ void converter::writeAndReadHeader(wavRead &finput, wavWrite &foutput) {
     index_data = data.find("data")+4;
     if(index_data == data.npos)
         throw std::invalid_argument("Error, this is not .wav file");
-    finput.setFlagToStartFile();
-    finput.readSomeData(data,index_data);
+    data.erase(index_data);
+    finput.setFlagToPlace(index_data);
+    //finput.readSomeData(data,index_data);
     foutput.writeSomeData(data,index_data);
 }
 
 void converter::fillToEnd(wavRead &finput, wavWrite &foutput) {
-    std::string data;
     while (!finput.isFileEnd()) {
+        std::string data;
         finput.readSomeData(data,1024);
         foutput.writeSomeData(data, 1024);
     }

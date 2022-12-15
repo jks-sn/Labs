@@ -26,9 +26,9 @@ std::string wavRead::readFourBytes() {
 wavRead::~wavRead() {
     this->finput.close();
 }
-void wavRead::setFlagToStartFile()
+void wavRead::setFlagToPlace(size_t i)
 {
-    this->finput.seekg(0,(this->finput).beg);
+    this->finput.seekg(i,(this->finput).beg);
 }
 void wavRead::readSomeData(std::string& buffer,size_t size) {
     char data[size];
