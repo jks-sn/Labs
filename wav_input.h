@@ -24,7 +24,10 @@ public:
     ~wavRead();
 
     void setFlagToPlace(size_t i);
+    void setFlagToEnd();
 
+    int getPosition();
 private:
     std::ifstream finput;
+
 };

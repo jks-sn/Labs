@@ -8,10 +8,14 @@ const unsigned int bytesPerSample = 2;
 class sample
 {
 public:
+    explicit sample();
     void intToSample(int);
 
     int sampleToInt();
+    void setSample(char &, char &);
 
+    void getSample(char *);
 private:
-    char buffer_[bytesPerSample];
+    char buffer_[bytesPerSample]{};
+
 };

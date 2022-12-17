@@ -45,9 +45,13 @@ void converter::writeAndReadHeader(wavRead &finput, wavWrite &foutput) {
 }
 
 void converter::fillToEnd(wavRead &finput, wavWrite &foutput) {
-    while (!finput.isFileEnd()) {
+    {
         std::string data;
-        finput.readSomeData(data,blockForReadSomeData);
-        foutput.writeSomeData(data, blockForReadSomeData);
+        int nowPosition = finput.getPosition();
+        finput.setFlagToEnd();
+        int endPosition = finput.getPosition();
+        finput.setFlagToPlace(nowPosition);
+        finput.readSomeData(data, endPosition-nowPosition);
+        foutput.writeSomeData(data, endPosition-nowPosition);
     }
 }

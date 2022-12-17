@@ -12,8 +12,10 @@ wavWrite::wavWrite(std::string &outpath) {
 }
 
 void wavWrite::writeSecond(sample *buffer, size_t FREQ) {
+    char buffer_[2];
     for (int i = 0; i < FREQ; ++i) {
-        this->foutput.write(buffer[i].buffer_, 2);
+        (buffer[i]).getSample(buffer_);
+        this->foutput.write(buffer_, 2);
     }
 }
 

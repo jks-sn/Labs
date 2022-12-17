@@ -8,7 +8,7 @@ void mute::do_something(std::string &input, std::string &output, std::vector<std
     wavRead finput(input);
     wavWrite foutput(output);
     sample buffer[44100];
-    sample zerobuffer[44100] = {0};
+    sample zerobuffer[44100];
     writeAndReadHeader(finput, foutput);
     jump(finput, foutput, stoi(parametrs[0]));
     int delta = std::stoi(parametrs[1]) - std::stoi(parametrs[0]);
@@ -21,12 +21,12 @@ void mute::do_something(std::string &input, std::string &output, std::vector<std
 }
 
 void mix::mixSecond(sample *input1, sample *input2) {
-    long long int buffer;
+    int buffer;
     for (size_t i = 0; i < FREQ; ++i) {
-        buffer = this->sampleToInt(input1[i]);
-        buffer += this->sampleToInt(input2[i]);
+        buffer = (input1[i]).sampleToInt();
+        buffer += (input2[i]).sampleToInt();
         buffer /= 2;
-        this->intToSample(static_cast<int>(buffer), &input1[i]);
+        (input1[i]).intToSample(buffer);
     }
 }
 

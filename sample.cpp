@@ -26,3 +26,16 @@ void sample::intToSample(int data) {
         this->buffer_[0] = static_cast<char>((data >> 8) | 128);
     }
 }
+void sample::setSample(char& a, char & b){
+    this->buffer_[0] = a;
+    this->buffer_[1] = b;
+};
+void sample::getSample(char *buffer)
+{
+    buffer[0] = this->buffer_[0];
+    buffer[1] = this->buffer_[1];
+}
+sample::sample(){
+    buffer_[0] = 0;
+    buffer_[1] = 0;
+}

@@ -12,8 +12,10 @@ wavRead::wavRead(std::string &inpath) {
 }
 
 void wavRead::readSecond(sample *buffer, size_t FREQ) {
+    char buffer_[2];
     for (int i = 0; i < FREQ; ++i) {
-        this->finput.read(buffer[i].buffer_, 2);
+        this->finput.read(buffer_, 2);
+        (buffer[i]).setSample(buffer_[0],buffer_[1]);
     }
 }
 
@@ -39,3 +41,11 @@ void wavRead::readSomeData(std::string& buffer,size_t size) {
 bool wavRead::isFileEnd() {
     return finput.eof();
 }
+void wavRead::setFlagToEnd() {
+    this->finput.seekg(0,this->finput.end);
+}
+
+int wavRead::getPosition()
+{
+    return this->finput.tellg();
+};
