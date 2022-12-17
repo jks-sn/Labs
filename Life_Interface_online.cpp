@@ -11,7 +11,7 @@ void interface_online::interface_() {
     unsigned int index_;
     life.PrintBoard();
     while (true) {
-        std::size_t pos;
+        std::size_t pos = 0;
         std::string string;
         std::cout << "Enter the command:";
         std::getline(std::cin, string);
@@ -19,11 +19,15 @@ void interface_online::interface_() {
             finput.close();
             break;
         } else if (string.find("tick") == 0) { //0 - начало строки
-            string = string.substr(string.find("tick") + 5);
             try {
-                index_ = std::stoul(string, &pos);
-                if (pos != string.size())
-                    throw (std::invalid_argument(""));
+                if(string.size() != 4) {
+                    string = string.substr(string.find("tick") + 5);
+                    index_ = std::stoul(string, &pos);
+                    if ((pos != string.size()) || (index_>maxNumberTicks))
+                        throw (std::invalid_argument(""));
+                }
+                else
+                    index_  = 1;
                 life.RunLife(index_);
                 system("CLS");
                 life.PrintBoard();
@@ -31,15 +35,30 @@ void interface_online::interface_() {
             catch (std::invalid_argument &exception) {
                 std::cout << "invalid number of ticks, please try enter command again" << std::endl;
             }
+            catch(std::out_of_range &exception)
+            {
+                std::cout << "invalid number of ticks, please try enter command again" << std::endl;
+            }
         } else if (string.find("dump") == 0) {
-            std::ofstream foutput;
-            std::string foutput_path = string.substr(string.find("dump") + 5);
-            foutput.open(foutput_path);
-            if (!foutput.is_open()) {
-                std::cout << "Output file not found/wrong name of file, please try again" << std::endl;
-            } else {
-                life.PrintBoard(foutput);
-                foutput.close();
+            try {
+                std::ofstream foutput;
+                if (string.size() == 4)
+                    throw (std::invalid_argument(""));
+                std::string foutput_path = string.substr(string.find("dump") + 5);
+                foutput.open(foutput_path);
+                if (!foutput.is_open()) {
+                    std::cout << "Output file not found/wrong name of file, please try again" << std::endl;
+                } else {
+                    life.PrintBoard(foutput);
+                    foutput.close();
+                }
+            }
+            catch (std::invalid_argument &exception) {
+                std::cout << "invalid dump arguments, please try enter command again" << std::endl;
+            }
+            catch(std::out_of_range &exception)
+            {
+                std::cout << "invalid dump arguments, please try enter command again" << std::endl;
             }
         } else if (string == "help") {
             std::cout << "4 supported commands: help; dump filename; tick x; exit" << std::endl;

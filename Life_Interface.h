@@ -4,6 +4,7 @@
 #pragma once
 #include "Life_Core.h"
 using namespace life;
+const size_t maxNumberTicks = 1e9;
 class interface {
 public:
     virtual void interface_() = 0;

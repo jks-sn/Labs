@@ -4,24 +4,33 @@
 #include "Life_Interface.h"
 
 void interface_offline::interface_() {
-    std::ifstream finput;
-    std::ofstream foutput;
-    unsigned char iterations;
-    this->getInputFile(finput);
-    Life life(finput);
-    iterations = this->getNumberIterations();
-    this->getOutputFile(foutput);
-    life.RunLife(iterations);
-    life.PrintBoard(foutput);
-    finput.close();
-    foutput.close();
+    try {
+        std::ifstream finput;
+        std::ofstream foutput;
+        unsigned char iterations;
+        this->getInputFile(finput);
+        Life life(finput);
+        iterations = this->getNumberIterations();
+        this->getOutputFile(foutput);
+        life.RunLife(iterations);
+        life.PrintBoard(foutput);
+        finput.close();
+        foutput.close();
+    }
+    catch (std::invalid_argument &exception) {
+        std::cout << "invalid dump arguments, please try enter command again" << std::endl;
+    }
+    catch(std::out_of_range &exception)
+    {
+        std::cout << "invalid dump arguments, please try enter command again" << std::endl;
+    }
 }
 
 unsigned int interface_offline::iterationsFromStringToInt(std::string &buffer) {
     unsigned int iterations;
     std::size_t pos;
     iterations = std::stoul(buffer, &pos);
-    if (pos != buffer.size())
+    if (pos != buffer.size() || iterations>maxNumberTicks)
         throw (std::invalid_argument(""));
     return iterations;
 }
@@ -38,6 +47,10 @@ unsigned int interface_offline::getNumberIterations() {
         }
         catch (std::invalid_argument &exception) {
             std::cout << "wrong number of iterations, please try again" << std::endl;
+        }
+        catch(std::out_of_range &exception)
+        {
+            std::cout << "invalid number of ticks, please try enter command again" << std::endl;
         }
     }
 }
