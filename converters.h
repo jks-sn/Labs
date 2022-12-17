@@ -18,6 +18,7 @@ public:
 
     void jump(wavRead &, wavWrite &, int );
 
+    void readANDwriteSomeData(wavRead &infile, wavWrite &outfile, size_t size);
 };
 
 class mute : public converter {

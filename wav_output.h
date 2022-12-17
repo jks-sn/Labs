@@ -19,7 +19,7 @@ public:
     void writeFourBytes(std::string &);
 
     ~wavWrite();
-
+    friend class converter;
 private:
     std::ofstream foutput;
 };

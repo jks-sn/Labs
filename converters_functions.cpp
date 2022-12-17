@@ -5,9 +5,37 @@
 const size_t blockForReadHeader = 10000;
 const size_t blockForReadSomeData = 1024;
 void converter::jump(wavRead &infile, wavWrite &outfile, int seconds) {
-    std::string data;
-    infile.readSomeData(data,seconds * FREQ * bytesPerSample);
-    outfile.writeSomeData(data, seconds * FREQ * bytesPerSample);
+    readANDwriteSomeData(infile,outfile,seconds*FREQ*bytesPerSample);
+}
+
+void converter::readANDwriteSomeData(wavRead &infile, wavWrite &outfile, size_t size)
+{
+    std::vector<char> buffer_( size );
+    infile.finput.read(buffer_.data(), size);
+    outfile.foutput.write(buffer_.data(),size);
+};
+void converter::writeAndReadHeader(wavRead &infile, wavWrite &outfile) {
+    std::vector<char> buffer(blockForReadHeader);
+    infile.finput.read(buffer.data(), blockForReadHeader);
+    std::vector<char>::iterator index_data;
+    for(index_data = buffer.begin();index_data < buffer.end()-3;++index_data) {
+        if (*index_data == 'd' && *(index_data + 1) == 'a' && *(index_data + 2) == 't' && *(index_data + 3) == 'a')
+            break;
+    }
+    if(index_data == buffer.end()-3)
+        throw std::invalid_argument("Error, this is not .wav file");
+    infile.setFlagToPlace(0);
+    readANDwriteSomeData(infile,outfile, index_data-buffer.begin()+4);
+}
+
+void converter::fillToEnd(wavRead &infile, wavWrite &outfile) {
+    {
+        int nowPosition = infile.getPosition();
+        infile.setFlagToEnd();
+        int endPosition = infile.getPosition();
+        infile.setFlagToPlace(nowPosition);
+        readANDwriteSomeData(infile,outfile, endPosition-nowPosition);
+    }
 }
 /*int find(const char*data,int data_size,const char*key,int key_size)
 {
@@ -31,27 +59,3 @@ void converter::jump(wavRead &infile, wavWrite &outfile, int seconds) {
     }
     return -1;
 }*/
-void converter::writeAndReadHeader(wavRead &finput, wavWrite &foutput) {
-    std::string data;
-    size_t index_data;
-    finput.readSomeData(data,blockForReadHeader);
-    index_data = data.find("data")+4;
-    if(index_data == data.npos)
-        throw std::invalid_argument("Error, this is not .wav file");
-    data.erase(index_data);
-    finput.setFlagToPlace(index_data);
-    //finput.readSomeData(data,index_data);
-    foutput.writeSomeData(data,index_data);
-}
-
-void converter::fillToEnd(wavRead &finput, wavWrite &foutput) {
-    {
-        std::string data;
-        int nowPosition = finput.getPosition();
-        finput.setFlagToEnd();
-        int endPosition = finput.getPosition();
-        finput.setFlagToPlace(nowPosition);
-        finput.readSomeData(data, endPosition-nowPosition);
-        foutput.writeSomeData(data, endPosition-nowPosition);
-    }
-}

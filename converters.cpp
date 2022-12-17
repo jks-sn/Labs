@@ -29,7 +29,7 @@ void mix::mixSecond(sample *input1, sample *input2) {
         (input1[i]).intToSample(buffer);
     }
 }
-
+//переписать микс под новые знания
 void mix::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;
     if (parametrs[0].find('$') == parametrs[0].npos) {

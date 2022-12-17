@@ -27,6 +27,7 @@ public:
     void setFlagToEnd();
 
     int getPosition();
+    friend class converter;
 private:
     std::ifstream finput;
 
