@@ -44,6 +44,7 @@ int main() {
     wavRead input(finput);
     wavWrite output(foutput);
     writeAndReadHeader(input,output);
-    fillToEnd(input,output);
+    input.setFlagToPlace(0);
+    writeAndReadHeader(input,output);
     return 0;
 }
