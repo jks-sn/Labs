@@ -25,9 +25,16 @@ void converter::writeAndReadHeader(wavRead &infile, wavWrite &outfile) {
     if(index_data == buffer.end()-3)
         throw std::invalid_argument("Error, this is not .wav file");
     infile.setFlagToPlace(0);
+    if(infile.getPosition()!= 0)
+        throw std::invalid_argument("idiot");
     readANDwriteSomeData(infile,outfile, index_data-buffer.begin()+4);
 }
-
+void converter::copy_file(std::string& name1, std::string& name2)
+{
+    wavRead in(name1);
+    wavWrite out(name2);
+    fillToEnd(in,out);
+}
 void converter::fillToEnd(wavRead &infile, wavWrite &outfile) {
     {
         int nowPosition = infile.getPosition();

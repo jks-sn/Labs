@@ -5,7 +5,7 @@
 #include "wav_input.h"
 
 wavRead::wavRead(std::string &inpath) {
-    this->finput.open(inpath, std::ios::in | std::ios::binary);
+    this->finput.open(inpath, std::ios::binary);
     if (!this->finput.is_open()) {
         throw std::invalid_argument("Error, can't open file for input");
     }
@@ -30,7 +30,7 @@ wavRead::~wavRead() {
 }
 void wavRead::setFlagToPlace(size_t i)
 {
-    this->finput.seekg(i,(this->finput).beg);
+    this->finput.seekg(i,std::ios::beg);
 }
 void wavRead::readSomeData(std::string& buffer,size_t size) {
     char data[size];
@@ -42,6 +42,7 @@ bool wavRead::isFileEnd() {
     return finput.eof();
 }
 void wavRead::setFlagToEnd() {
+    this->finput.clear();
     this->finput.seekg(0,this->finput.end);
 }
 

@@ -19,6 +19,8 @@ public:
     void jump(wavRead &, wavWrite &, int );
 
     void readANDwriteSomeData(wavRead &infile, wavWrite &outfile, size_t size);
+
+    void copy_file(std::string &name1, std::string &name2);
 };
 
 class mute : public converter {
