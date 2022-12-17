@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.21)
+project(Labs)
+set(CMAKE_CXX_STANDARD 14)
+set(Sources main.cpp test.cpp test.h)
+add_executable(Labs ${Sources})
