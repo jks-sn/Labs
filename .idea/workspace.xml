@@ -13,8 +13,11 @@
   <component name="ChangeListManager">
     <list default="true" id="8083d939-2fd2-4490-866c-62607d748098" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wav_input.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/wav_input.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wav_input.h" beforeDir="false" afterPath="$PROJECT_DIR$/wav_input.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wav_output.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/wav_output.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wav_output.h" beforeDir="false" afterPath="$PROJECT_DIR$/wav_output.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,12 +57,12 @@
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RunManager">
-    <configuration name="Labs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Labs" TARGET_NAME="Labs" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Labs" RUN_TARGET_NAME="Labs">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="Labs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Labs" TARGET_NAME="Labs" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Labs" RUN_TARGET_NAME="Labs">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>

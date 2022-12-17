@@ -29,16 +29,11 @@ int wavRead::getPosition()
         {
         return this->finput.tellg();
         };
-void wavRead::readSomeData(std::string& buffer,size_t size) {
-    char data[size];
-    this->finput.read(data, size);
-    buffer.assign(data,data+size);
-}
 
 bool wavRead::isFileEnd() {
     return finput.eof();
 }
 
 void wavRead::setFlagToEnd() {
-    this->finput.seekg(0,this->finput.end);
+    this->finput.seekg(0,(this->finput).end);
 }

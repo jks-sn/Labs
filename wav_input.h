@@ -7,13 +7,13 @@
 #include <string>
 #include <fstream>
 #include <cstring>
+#include <vector>
 
 class wavRead {
 public:
     explicit wavRead(std::string &inpath);
 
 
-    void readSomeData(std::string& buffer, size_t size);
 
     std::string readFourBytes();
 
@@ -26,7 +26,6 @@ public:
     void setFlagToPlace(size_t i);
     void setFlagToEnd();
 
-private:
     std::ifstream finput;
 
 };

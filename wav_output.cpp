@@ -20,7 +20,4 @@ wavWrite::~wavWrite() {
     this->foutput.close();
 }
 
-void wavWrite::writeSomeData(std::string&data, size_t size) {
-    (this->foutput)<<data;
-}
 

@@ -12,12 +12,9 @@ public:
     explicit wavWrite(std::string &outpath);
 
 
-    void writeSomeData(std::string&data, size_t );
-
     void writeFourBytes(std::string &);
 
     ~wavWrite();
 
-private:
     std::ofstream foutput;
 };
