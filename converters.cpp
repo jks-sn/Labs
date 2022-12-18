@@ -55,12 +55,12 @@ void mix::do_something(std::string &input, std::string &output, std::vector<std:
     int min_size = (std::min(input_size-input_now,input1_size-input1_now))/FREQ/bytesPerSample;
     for(size_t i = 0; i <min_size;++i)
     {
-        sample second1[44100];
-        sample second2[44100];
+        sample second1[FREQ];
+        sample second2[FREQ];
         inputFile.readSecond(second1,FREQ);
-        inputFile.readSecond(second2,44100);
+        inputFile.readSecond(second2,FREQ);
         this->mixSecond(second1,second2);
-        outputFile.writeSecond(second1,44100);
+        outputFile.writeSecond(second1,FREQ);
     }
     if(!inputFile.isFileEnd())
         fillToEnd(inputFile,outputFile);
