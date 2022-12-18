@@ -5,6 +5,7 @@
 const size_t blockForReadHeader = 10000;
 const size_t blockForReadSomeData = 1024;
 const size_t sizeOfWORDdata = 4;
+const size_t indexOfBeginFile = 0;
 void converter::jump(wavRead &infile, wavWrite &outfile, int seconds) {
     readANDwriteSomeData(infile,outfile,seconds*FREQ*bytesPerSample);
 }
@@ -41,7 +42,7 @@ void converter::writeAndReadHeader(wavRead &infile, wavWrite &outfile) {
     }
     if(index_data == buffer.end()-3)
         throw std::invalid_argument("Error, this is not .wav file");
-    infile.setFlagToPlace(0);
+    infile.setFlagToPlace(indexOfBeginFile);
     readANDwriteSomeData(infile,outfile, index_data-buffer.begin()+sizeOfWORDdata);
 }
 void converter::copy_file(std::string& name1, std::string& name2)
