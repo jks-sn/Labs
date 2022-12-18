@@ -7,8 +7,8 @@
 void mute::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     wavRead finput(input);
     wavWrite foutput(output);
-    sample buffer[44100];
-    sample zerobuffer[44100];
+    sample buffer[FREQ];
+    sample zerobuffer[FREQ];
     writeAndReadHeader(finput, foutput);
     jump(finput, foutput, stoi(parametrs[0]));
     int delta = std::stoi(parametrs[1]) - std::stoi(parametrs[0]);

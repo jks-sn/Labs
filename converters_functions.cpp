@@ -4,6 +4,7 @@
 #include "converters.h"
 const size_t blockForReadHeader = 10000;
 const size_t blockForReadSomeData = 1024;
+const size_t sizeOfWORDdata = 4;
 void converter::jump(wavRead &infile, wavWrite &outfile, int seconds) {
     readANDwriteSomeData(infile,outfile,seconds*FREQ*bytesPerSample);
 }
@@ -45,7 +46,7 @@ void converter::writeAndReadHeader(wavRead &infile, wavWrite &outfile) {
     infile.setFlagToPlace(0);
     if(infile.getPosition()!= 0)
         throw std::invalid_argument("byaka");
-    readANDwriteSomeData(infile,outfile, index_data-buffer.begin()+4);
+    readANDwriteSomeData(infile,outfile, index_data-buffer.begin()+sizeOfWORDdata);
 }
 void converter::copy_file(std::string& name1, std::string& name2)
 {
