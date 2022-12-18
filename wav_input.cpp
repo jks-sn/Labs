@@ -50,3 +50,11 @@ int wavRead::getPosition()
 {
     return this->finput.tellg();
 };
+int wavRead::getSizeFile()
+{
+    int buffer = this->getPosition();
+    this->setFlagToEnd();
+    int answer = this->getPosition();
+    this->setFlagToPlace(buffer);
+    return answer;
+}

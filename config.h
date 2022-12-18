@@ -13,7 +13,7 @@ public:
 
     std::string getConvert();
 
-    std::vector<std::string> readArgumentConvert();
+    std::vector<std::string> readArgumentConvert(std::string &);
 
     ~config();
 

@@ -7,7 +7,25 @@ const size_t blockForReadSomeData = 1024;
 void converter::jump(wavRead &infile, wavWrite &outfile, int seconds) {
     readANDwriteSomeData(infile,outfile,seconds*FREQ*bytesPerSample);
 }
-
+void converter::jump(wavRead &infile, int seconds) {
+    std::vector<char> buffer_(seconds*FREQ*bytesPerSample);
+    infile.finput.read(buffer_.data(), seconds*FREQ*bytesPerSample);
+}
+void converter::readHeader(wavRead &infile)
+{
+    std::vector<char> buffer(blockForReadHeader);
+    infile.finput.read(buffer.data(), blockForReadHeader);
+    std::vector<char>::iterator index_data;
+    for(index_data = buffer.begin();index_data < buffer.end()-3;++index_data) {
+        if (*index_data == 'd' && *(index_data + 1) == 'a' && *(index_data + 2) == 't' && *(index_data + 3) == 'a')
+            break;
+    }
+    if(index_data == buffer.end()-3)
+        throw std::invalid_argument("Error, this is not .wav file");
+    infile.setFlagToPlace(index_data-buffer.begin()+4);
+    if(infile.getPosition()!= index_data-buffer.begin()+4)
+        throw std::invalid_argument("byaka2");
+}
 void converter::readANDwriteSomeData(wavRead &infile, wavWrite &outfile, size_t size)
 {
     std::vector<char> buffer_( size );
@@ -26,7 +44,7 @@ void converter::writeAndReadHeader(wavRead &infile, wavWrite &outfile) {
         throw std::invalid_argument("Error, this is not .wav file");
     infile.setFlagToPlace(0);
     if(infile.getPosition()!= 0)
-        throw std::invalid_argument("idiot");
+        throw std::invalid_argument("byaka");
     readANDwriteSomeData(infile,outfile, index_data-buffer.begin()+4);
 }
 void converter::copy_file(std::string& name1, std::string& name2)
@@ -36,13 +54,11 @@ void converter::copy_file(std::string& name1, std::string& name2)
     fillToEnd(in,out);
 }
 void converter::fillToEnd(wavRead &infile, wavWrite &outfile) {
-    {
         int nowPosition = infile.getPosition();
         infile.setFlagToEnd();
         int endPosition = infile.getPosition();
         infile.setFlagToPlace(nowPosition);
         readANDwriteSomeData(infile,outfile, endPosition-nowPosition);
-    }
 }
 /*int find(const char*data,int data_size,const char*key,int key_size)
 {

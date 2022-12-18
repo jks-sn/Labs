@@ -7,13 +7,14 @@
 #include <stdexcept>
 enum converters_type{
     mute_type,
-    mix_type
+    mix_type,
+    add_type
 };
 class converters_factory
 {
 public:
     converter *converter_create(std::string &converter_type);
 private:
-    std::vector<std::string> converters = {"mute","mix"};
+    std::vector<std::string> converters = {"mute","mix","add"};
 };
 

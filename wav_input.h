@@ -27,6 +27,7 @@ public:
     void setFlagToEnd();
 
     int getPosition();
+    int getSizeFile();
     friend class converter;
 private:
     std::ifstream finput;

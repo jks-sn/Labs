@@ -8,6 +8,7 @@
 #include "wav_input.h"
 #include "sample.h"
 const size_t FREQ = 44100;
+const int FREQ_int = 44100;
 class converter {
 public:
     virtual void do_something(std::string &, std::string &, std::vector<std::string> &) = 0;
@@ -21,6 +22,10 @@ public:
     void readANDwriteSomeData(wavRead &infile, wavWrite &outfile, size_t size);
 
     void copy_file(std::string &name1, std::string &name2);
+
+    void readHeader(wavRead &infile);
+
+    void jump(wavRead &infile, int seconds);
 };
 
 class mute : public converter {
@@ -31,4 +36,7 @@ class mix : public converter {
     void do_something(std::string &, std::string &, std::vector<std::string> &) override;
 
     void mixSecond(sample *input1, sample *input2);
+};
+class add : public converter{
+    void do_something(std::string &, std::string &, std::vector<std::string> &) override;
 };

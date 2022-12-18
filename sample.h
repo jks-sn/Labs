@@ -5,6 +5,7 @@
 
 #include <array>
 const unsigned int bytesPerSample = 2;
+const int bytesPerSample_int = 2;
 class sample
 {
 public:

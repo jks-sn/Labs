@@ -12,6 +12,9 @@ converter *converters_factory::converter_create(std::string &converter_type) {
         case mix_type: {
             return new mix;
         }
+        case add_type:{
+            return new add;
+        }
         default:
         {
             throw std::invalid_argument("error, our program not supported this converter");
