@@ -24,8 +24,6 @@ void converter::readHeader(wavRead &infile)
     if(index_data == buffer.end()-3)
         throw std::invalid_argument("Error, this is not .wav file");
     infile.setFlagToPlace(index_data-buffer.begin()+4);
-    if(infile.getPosition()!= index_data-buffer.begin()+4)
-        throw std::invalid_argument("byaka2");
 }
 void converter::readANDwriteSomeData(wavRead &infile, wavWrite &outfile, size_t size)
 {
@@ -44,8 +42,6 @@ void converter::writeAndReadHeader(wavRead &infile, wavWrite &outfile) {
     if(index_data == buffer.end()-3)
         throw std::invalid_argument("Error, this is not .wav file");
     infile.setFlagToPlace(0);
-    if(infile.getPosition()!= 0)
-        throw std::invalid_argument("byaka");
     readANDwriteSomeData(infile,outfile, index_data-buffer.begin()+sizeOfWORDdata);
 }
 void converter::copy_file(std::string& name1, std::string& name2)
