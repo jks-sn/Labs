@@ -13,16 +13,14 @@ void SoundProcessor::start(std::string &config_file_, std::string &output_file_,
         std::string buffer_wav = "buffer.wav";
         converters_factory factory;
         config fconfig(config_file_);
-        {
-            converter *copy = nullptr;
-            copy->copy_file(input_files_[0], buffer_wav);
-        }
+        converter *converter_current;
+        converter_current->copy_file(input_files_[0], buffer_wav);
         while (true) {
             buffer = fconfig.getConvert();
             if (buffer == "config_end")
                 break;
             std::vector<std::string> arguments = fconfig.readArgumentConvert(buffer);
-            converter *converter_current = factory.converter_create(buffer);
+            converter_current = factory.converter_create(buffer);
             converter_current->do_something(buffer_wav, output_file_, arguments);
             converter_current->copy_file(output_file_, buffer_wav);
         }
