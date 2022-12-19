@@ -67,6 +67,26 @@ int converter::minLength2Files(wavRead &inputFile, wavRead &inputFile1) {
     int min_size = (std::min(input_size-input_now,input1_size-input1_now))/FREQ/bytesPerSample;
     return min_size;
 }
+
+std::string converter::getSecondFile(std::string &parametr) {
+    if (parametr.find('$') == parametr.npos) {
+        throw std::invalid_argument("error, no input file");
+    }
+    if(parametr[0] != '$')
+        throw std::invalid_argument("Errior, wrong first argument for mix");
+    std::string input_number = parametr.erase(0,1);
+    int buffer = std::stoi(parametr);
+    input_number = std::to_string(buffer);
+    return("input" + input_number+ ".wav");
+}
+void mix::readANDmixANDwriteSecond(wavRead &inputFile, wavWrite &outputFile) {
+    sample second1[FREQ];
+    sample second2[FREQ];
+    inputFile.readSecond(second1,FREQ);
+    inputFile.readSecond(second2,FREQ);
+    this->mixSecond(second1,second2);
+    outputFile.writeSecond(second1,FREQ);
+}
 /*int find(const char*data,int data_size,const char*key,int key_size)
 {
     int pos_search = 0;

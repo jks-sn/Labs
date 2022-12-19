@@ -32,15 +32,13 @@ void mix::mixSecond(sample *input1, sample *input2) {
 //переписать микс под новые знания
 void mix::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;
-    if (parametrs[0].find('$') == parametrs[0].npos) {
-        throw std::invalid_argument("error, no input file");
+    try{
+        finput = getSecondFile(parametrs[0]);
     }
-    if(parametrs[0][0] != '$')
-        throw std::invalid_argument("Errior, wrong first argument for mix");
-    std::string input_number = parametrs[0].erase(0,1);
-    int buffer = std::stoi(parametrs[0]);
-    input_number = std::to_string(buffer);
-    finput = "input" + input_number+ ".wav";
+    catch(std::exception &e){
+        std::cout<<e.what();
+        return;
+    }
     wavRead inputFile(input);
     wavRead inputFile1(finput);
     wavWrite outputFile(output);
@@ -51,16 +49,12 @@ void mix::do_something(std::string &input, std::string &output, std::vector<std:
     int min_size = minLength2Files(inputFile,inputFile1);
     for(size_t i = 0; i <min_size;++i)
     {
-        sample second1[FREQ];
-        sample second2[FREQ];
-        inputFile.readSecond(second1,FREQ);
-        inputFile.readSecond(second2,FREQ);
-        this->mixSecond(second1,second2);
-        outputFile.writeSecond(second1,FREQ);
+        readANDmixANDwriteSecond(inputFile,outputFile);
     }
     if(!inputFile.isFileEnd())
         fillToEnd(inputFile,outputFile);
 }
+
 
 void add::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;

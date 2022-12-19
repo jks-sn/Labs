@@ -11,7 +11,6 @@ class sample
 public:
     explicit sample();
     void intToSample(int);
-
     int sampleToInt();
     void setSample(char &, char &);
 
