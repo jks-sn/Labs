@@ -8,28 +8,33 @@
 #include <fstream>
 #include "sample.h"
 #include <cstring>
+namespace wavconverter {
+    class wavRead {
+        friend class converter;
+    public:
+        explicit wavRead(std::string &inpath);
 
-class wavRead {
-public:
-    explicit wavRead(std::string &inpath);
+        void readSecond(sample *buffer, size_t FREQ);
 
-    void readSecond(sample *buffer, size_t FREQ);
+        void readSomeData(std::string &buffer, size_t size);
 
-    void readSomeData(std::string& buffer, size_t size);
+        std::string readFourBytes();
 
-    std::string readFourBytes();
+        bool isFileEnd();
 
-    bool isFileEnd();
+        ~wavRead();
 
-    ~wavRead();
+        void setFlagToPlace(size_t i);
 
-    void setFlagToPlace(size_t i);
-    void setFlagToEnd();
+        void setFlagToEnd();
 
-    int getPosition();
-    int getSizeFile();
-    friend class converter;
-private:
-    std::ifstream finput;
+        int getPosition();
 
-};
+        int getSizeFile();
+
+
+    private:
+
+        std::ifstream finput;
+    };
+}

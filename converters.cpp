@@ -4,7 +4,8 @@
 
 #include "converters.h"
 
-void mute::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
+using namespace wavconverter;
+void wavconverter::mute::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     wavRead finput(input);
     wavWrite foutput(output);
     sample buffer[FREQ];
@@ -12,7 +13,7 @@ void mute::do_something(std::string &input, std::string &output, std::vector<std
     writeAndReadHeader(finput, foutput);
     jump(finput, foutput, stoi(parametrs[0]));
     int delta = std::stoi(parametrs[1]) - std::stoi(parametrs[0]);
-    while (delta && (!finput.isFileEnd()) ){
+    while (delta && (!finput.isFileEnd())) {
         finput.readSecond(buffer, FREQ);
         --delta;
         foutput.writeSecond(zerobuffer, FREQ);
@@ -21,13 +22,13 @@ void mute::do_something(std::string &input, std::string &output, std::vector<std
 }
 
 //переписать микс под новые знания
-void mix::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
+void wavconverter::mix::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;
-    try{
+    try {
         finput = getSecondFile(parametrs[0]);
     }
-    catch(std::exception &e){
-        std::cout<<e.what();
+    catch (std::exception &e) {
+        std::cout << e.what();
         return;
     }
     wavRead inputFile(input);
@@ -37,19 +38,18 @@ void mix::do_something(std::string &input, std::string &output, std::vector<std:
     writeAndReadHeader(inputFile, outputFile);
     readHeader(inputFile1);
     jump(inputFile, outputFile, startPosition);
-    int min_size = minLength2Files(inputFile,inputFile1);
-    for(size_t i = 0; i <min_size;++i)
-    {
-        readANDmixANDwriteSecond(inputFile,outputFile);
+    int min_size = minLength2Files(inputFile, inputFile1);
+    for (size_t i = 0; i < min_size; ++i) {
+        readANDmixANDwriteSecond(inputFile, outputFile);
     }
-    if(!inputFile.isFileEnd())
-        fillToEnd(inputFile,outputFile);
+    if (!inputFile.isFileEnd())
+        fillToEnd(inputFile, outputFile);
 }
 
 
-void add::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
+void wavconverter::add::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;
-    if(parametrs.size() != 4)
+    if (parametrs.size() != 4)
         throw std::invalid_argument("error, wrong number of arguments for add");
     finput = getSecondFile(parametrs[0]);
     wavRead inputFile(input);
@@ -58,9 +58,8 @@ void add::do_something(std::string &input, std::string &output, std::vector<std:
     try {
         do_add(inputFile, inputFile1, outputFile, parametrs);
     }
-    catch(std::exception &e){
-        std::cout<<e.what();
+    catch (std::exception &e) {
+        std::cout << e.what();
         return;
     }
 }
-

@@ -10,7 +10,6 @@
 #include "wav_input.h"
 #include "wav_output.h"
 #include "config.h"
-
 class SoundProcessor {
 public:
     static void start(std::string &config_file_, std::string &output_file_,

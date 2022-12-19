@@ -11,9 +11,9 @@ void SoundProcessor::start(std::string &config_file_, std::string &output_file_,
     try {
         std::string buffer;
         std::string buffer_wav = "buffer.wav";
-        converters_factory factory;
+        wavconverter::converters_factory factory;
         config fconfig(config_file_);
-        converter *converter_current;
+        wavconverter::converter *converter_current;
         converter_current->copy_file(input_files_[0], buffer_wav);
         while (true) {
             buffer = fconfig.getConvert();

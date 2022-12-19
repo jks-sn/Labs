@@ -7,19 +7,22 @@
 #include <fstream>
 #include "sample.h"
 #include <cstring>
+namespace wavconverter {
+    class wavWrite {
+        friend class converter;
+    public:
+        explicit wavWrite(std::string &outpath);
 
-class wavWrite {
-public:
-    explicit wavWrite(std::string &outpath);
+        void writeSecond(sample *buffer, size_t FREQ);
 
-    void writeSecond(sample *buffer, size_t FREQ);
+        void writeSomeData(std::string &data, size_t);
 
-    void writeSomeData(std::string&data, size_t );
+        void writeFourBytes(std::string &);
 
-    void writeFourBytes(std::string &);
+        ~wavWrite();
 
-    ~wavWrite();
-    friend class converter;
-private:
-    std::ofstream foutput;
-};
+
+    private:
+        std::ofstream foutput;
+    };
+}

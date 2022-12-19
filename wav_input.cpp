@@ -3,15 +3,15 @@
 //
 
 #include "wav_input.h"
-
-wavRead::wavRead(std::string &inpath) {
+using namespace wavconverter;
+wavconverter::wavRead::wavRead(std::string &inpath) {
     this->finput.open(inpath, std::ios::binary);
     if (!this->finput.is_open()) {
         throw std::invalid_argument("Error, can't open file for input");
     }
 }
 
-void wavRead::readSecond(sample *buffer, size_t FREQ) {
+void wavconverter::wavRead::readSecond(sample *buffer, size_t FREQ) {
     char buffer_[2];
     for (int i = 0; i < FREQ; ++i) {
         this->finput.read(buffer_, 2);
@@ -19,38 +19,38 @@ void wavRead::readSecond(sample *buffer, size_t FREQ) {
     }
 }
 
-std::string wavRead::readFourBytes() {
+std::string wavconverter::wavRead::readFourBytes() {
     char data[4];
     this->finput.read(data, 4);
     return data;
 }
 
-wavRead::~wavRead() {
+wavconverter::wavRead::~wavRead() {
     this->finput.close();
 }
-void wavRead::setFlagToPlace(size_t i)
+void wavconverter::wavRead::setFlagToPlace(size_t i)
 {
     this->finput.seekg(i,std::ios::beg);
 }
-void wavRead::readSomeData(std::string& buffer,size_t size) {
+void wavconverter::wavRead::readSomeData(std::string& buffer,size_t size) {
     char data[size];
     this->finput.read(data, size);
     buffer.assign(data,data+size);
 }
 
-bool wavRead::isFileEnd() {
+bool wavconverter::wavRead::isFileEnd() {
     return finput.eof();
 }
-void wavRead::setFlagToEnd() {
+void wavconverter::wavRead::setFlagToEnd() {
     this->finput.clear();
     this->finput.seekg(0,this->finput.end);
 }
 
-int wavRead::getPosition()
+int wavconverter::wavRead::getPosition()
 {
     return this->finput.tellg();
 };
-int wavRead::getSizeFile()
+int wavconverter::wavRead::getSizeFile()
 {
     int buffer = this->getPosition();
     this->setFlagToEnd();

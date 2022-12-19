@@ -3,8 +3,8 @@
 //
 
 #include "converters_factory.h"
-
-converter *converters_factory::converter_create(std::string &converter_type) {
+using namespace wavconverter;
+wavconverter::converter *converters_factory::converter_create(std::string &converter_type) {
     switch (std::distance(this->converters.begin(),std::find(this->converters.begin(),this->converters.end(),converter_type))) {
         case mute_type: {
             return new mute;
