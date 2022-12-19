@@ -1,4 +1,5 @@
 /.idea
+/googletest
 *.xml
 *.iml
 *.json
