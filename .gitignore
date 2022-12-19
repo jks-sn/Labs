@@ -1,4 +1,4 @@
-
+/.idea
 *.xml
 *.iml
 *.json
@@ -14,7 +14,6 @@
 *.a
 *.dll
 *.html
-.idea/.name
 o1.abacaba
 /cmake-build-debug/
 *.wav
