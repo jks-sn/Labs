@@ -3,11 +3,12 @@
 //
 
 #include "SoundProcessor.h"
+
 using namespace wavSoundProcessor;
 
 
 void wavSoundProcessor::SoundProcessor::start(std::string &config_file_, std::string &output_file_,
-                           std::vector<std::string> &input_files_) {
+                                              std::vector<std::string> &input_files_) {
     try {
         std::string buffer;
         std::string buffer_wav = "buffer.wav";
@@ -26,13 +27,12 @@ void wavSoundProcessor::SoundProcessor::start(std::string &config_file_, std::st
         }
     }
     catch (const std::ifstream::failure &e) {
-        std::cerr << e.what()<<std::endl;
+        std::cerr << e.what() << std::endl;
     }
-    catch (const std::invalid_argument & ex)
-    {
+    catch (const std::invalid_argument &ex) {
         std::cout << ex.what() << std::endl;
     }
-    catch (const std::out_of_range & e) {
+    catch (const std::out_of_range &e) {
         std::cout << e.what() << std::endl;
     }
 }

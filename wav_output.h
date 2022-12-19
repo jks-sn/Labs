@@ -7,9 +7,11 @@
 #include <fstream>
 #include "sample.h"
 #include <cstring>
+
 namespace wavconverter {
     class wavWrite {
         friend class converter;
+
     public:
         explicit wavWrite(std::string &outpath);
 

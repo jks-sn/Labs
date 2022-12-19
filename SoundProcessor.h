@@ -11,11 +11,11 @@
 #include "wav_output.h"
 #include "config.h"
 
-namespace wavSoundProcessor{
-class SoundProcessor {
-public:
-    static void start(std::string &config_file_, std::string &output_file_,
-                      std::vector<std::string> &input_files_);
-};
+namespace wavSoundProcessor {
+    class SoundProcessor {
+    public:
+        static void start(std::string &config_file_, std::string &output_file_,
+                          std::vector<std::string> &input_files_);
+    };
 
 }

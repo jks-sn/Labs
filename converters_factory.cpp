@@ -3,20 +3,22 @@
 //
 
 #include "converters_factory.h"
+
 using namespace wavconverter;
+
 wavconverter::converter *converters_factory::converter_create(std::string &converter_type) {
-    switch (std::distance(this->converters.begin(),std::find(this->converters.begin(),this->converters.end(),converter_type))) {
+    switch (std::distance(this->converters.begin(),
+                          std::find(this->converters.begin(), this->converters.end(), converter_type))) {
         case mute_type: {
             return new mute;
         }
         case mix_type: {
             return new mix;
         }
-        case add_type:{
+        case add_type: {
             return new add;
         }
-        default:
-        {
+        default: {
             throw std::invalid_argument("error, our program not supported this converter");
         }
     }

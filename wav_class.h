@@ -34,7 +34,7 @@ typedef struct Wav_header {
 
 class Wav {
 public:
-    explicit Wav(FILE*);
+    explicit Wav(FILE *);
 
     Wav_header header;
     std::vector<unsigned char> data;

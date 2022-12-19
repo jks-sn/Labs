@@ -3,7 +3,9 @@
 //
 
 #include "config.h"
+
 using namespace wavconfig;
+
 wavconfig::config::config(std::string &config_path) {
     config_.open(config_path);
     if (!config_.is_open()) {

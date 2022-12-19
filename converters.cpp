@@ -5,6 +5,7 @@
 #include "converters.h"
 
 using namespace wavconverter;
+
 void wavconverter::mute::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     wavRead finput(input);
     wavWrite foutput(output);

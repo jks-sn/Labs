@@ -2,23 +2,25 @@
 // Created by User on 13.12.2022.
 //
 #pragma once
+
 #include <fstream>
 #include <string>
 #include "sample.h"
 #include <vector>
 #include <iostream>
-namespace wavconfig{
-class config {
-public:
-    explicit config(std::string&);
 
-    std::string getConvert();
+namespace wavconfig {
+    class config {
+    public:
+        explicit config(std::string &);
 
-    std::vector<std::string> readArgumentConvert(std::string &);
+        std::string getConvert();
 
-    ~config();
+        std::vector<std::string> readArgumentConvert(std::string &);
 
-private:
-    std::ifstream config_;
-};
+        ~config();
+
+    private:
+        std::ifstream config_;
+    };
 }

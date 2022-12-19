@@ -8,9 +8,11 @@
 #include <fstream>
 #include "sample.h"
 #include <cstring>
+
 namespace wavconverter {
     class wavRead {
         friend class converter;
+
     public:
         explicit wavRead(std::string &inpath);
 
