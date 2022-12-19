@@ -20,15 +20,6 @@ void mute::do_something(std::string &input, std::string &output, std::vector<std
     fillToEnd(finput, foutput);
 }
 
-void mix::mixSecond(sample *input1, sample *input2) {
-    int buffer;
-    for (size_t i = 0; i < FREQ; ++i) {
-        buffer = (input1[i]).sampleToInt();
-        buffer += (input2[i]).sampleToInt();
-        buffer /= 2;
-        (input1[i]).intToSample(buffer);
-    }
-}
 //переписать микс под новые знания
 void mix::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;

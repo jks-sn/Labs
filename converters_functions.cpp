@@ -79,6 +79,15 @@ std::string converter::getSecondFile(std::string &parametr) {
     input_number = std::to_string(buffer);
     return("input" + input_number+ ".wav");
 }
+void mix::mixSecond(sample *input1, sample *input2) {
+    int buffer;
+    for (size_t i = 0; i < FREQ; ++i) {
+        buffer = (input1[i]).sampleToInt();
+        buffer += (input2[i]).sampleToInt();
+        buffer /= 2;
+        (input1[i]).intToSample(buffer);
+    }
+}
 void mix::readANDmixANDwriteSecond(wavRead &inputFile, wavWrite &outputFile) {
     sample second1[FREQ];
     sample second2[FREQ];
