@@ -87,6 +87,21 @@ void mix::readANDmixANDwriteSecond(wavRead &inputFile, wavWrite &outputFile) {
     this->mixSecond(second1,second2);
     outputFile.writeSecond(second1,FREQ);
 }
+void add::do_add(wavRead &inputFile, wavRead &inputFile1, wavWrite &outputFile, std::vector<std::string> &parametrs) {
+    int startPositionExport = std::stoi(parametrs[1]);
+    int endPositionExport = std::stoi(parametrs[2]);
+    int startPosition = std::stoi(parametrs[3]);
+    writeAndReadHeader(inputFile, outputFile);
+    jump(inputFile,outputFile,startPosition);
+    inputFile1.setFlagToPlace(startPositionExport*FREQ*bytesPerSample);
+    int input_now = inputFile.getPosition();
+    int input_size = inputFile.getSizeFile();
+    int min_size = std::min(input_size-input_now,(endPositionExport-startPositionExport)*FREQ_int*bytesPerSample_int);
+    readANDwriteSomeData(inputFile1,outputFile,min_size);
+    inputFile.setFlagToPlace(input_now+min_size);
+    if(!inputFile.isFileEnd())
+        fillToEnd(inputFile,outputFile);
+}
 /*int find(const char*data,int data_size,const char*key,int key_size)
 {
     int pos_search = 0;

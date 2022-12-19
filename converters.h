@@ -40,5 +40,6 @@ class mix : public converter {
     void mixSecond(sample *input1, sample *input2);
 };
 class add : public converter{
+    void do_add(wavRead &,wavRead &, wavWrite &,std::vector<std::string> &);
     void do_something(std::string &, std::string &, std::vector<std::string> &) override;
 };

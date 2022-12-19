@@ -60,29 +60,16 @@ void add::do_something(std::string &input, std::string &output, std::vector<std:
     std::string finput;
     if(parametrs.size() != 4)
         throw std::invalid_argument("error, wrong number of arguments for add");
-    if (parametrs[0].find('$') == parametrs[0].npos) {
-        throw std::invalid_argument("error, no input file");
-    }
-    if(parametrs[0][0] != '$')
-        throw std::invalid_argument("Errior, wrong first argument for add");
-    std::string input_number = parametrs[0].erase(0,1);
-    int buffer = std::stoi(parametrs[0]);
-    input_number = std::to_string(buffer);
-    finput = "input" + input_number+ ".wav";
+    finput = getSecondFile(parametrs[0]);
     wavRead inputFile(input);
     wavRead inputFile1(finput);
     wavWrite outputFile(output);
-    int startPositionExport = std::stoi(parametrs[1]);
-    int endPositionExport = std::stoi(parametrs[2]);
-    int startPosition = std::stoi(parametrs[3]);
-    writeAndReadHeader(inputFile, outputFile);
-    jump(inputFile,outputFile,startPosition);
-    inputFile1.setFlagToPlace(startPositionExport*FREQ*bytesPerSample);
-    int input_now = inputFile.getPosition();
-    int input_size = inputFile.getSizeFile();
-    int min_size = std::min(input_size-input_now,(endPositionExport-startPositionExport)*FREQ_int*bytesPerSample_int);
-    readANDwriteSomeData(inputFile1,outputFile,min_size);
-    inputFile.setFlagToPlace(input_now+min_size);
-    if(!inputFile.isFileEnd())
-        fillToEnd(inputFile,outputFile);
+    try {
+        do_add(inputFile, inputFile1, outputFile, parametrs);
+    }
+    catch(std::exception &e){
+        std::cout<<e.what();
+        return;
+    }
 }
+
