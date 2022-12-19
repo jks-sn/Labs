@@ -7,5 +7,5 @@ int main(int argc, char*argv[])
     for (int i = 3; i < argc; ++i) {
          files.emplace_back(argv[i]);
     }
-    SoundProcessor::start(config_file, output_file, files);
+    wavSoundProcessor::SoundProcessor::start(config_file, output_file, files);
 }

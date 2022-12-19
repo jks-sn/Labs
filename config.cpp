@@ -3,15 +3,15 @@
 //
 
 #include "config.h"
-
-config::config(std::string &config_path) {
+using namespace wavconfig;
+wavconfig::config::config(std::string &config_path) {
     config_.open(config_path);
     if (!config_.is_open()) {
         throw std::invalid_argument("Error, can't open config file");
     }
 }
 
-std::string config::getConvert() {
+std::string wavconfig::config::getConvert() {
     std::string buffer;
     while (config_ >> buffer) {
         if (buffer == "#") { //считать комментарий
@@ -23,7 +23,7 @@ std::string config::getConvert() {
     return "config_end";
 }
 
-std::vector<std::string> config::readArgumentConvert(std::string &convert_type) {
+std::vector<std::string> wavconfig::config::readArgumentConvert(std::string &convert_type) {
     std::vector<std::string> arguments;
     std::string buffer;
     if (!(config_ >> buffer)) {
@@ -51,6 +51,6 @@ std::vector<std::string> config::readArgumentConvert(std::string &convert_type) 
     return arguments;
 }
 
-config::~config() {
+wavconfig::config::~config() {
     config_.close();
 }

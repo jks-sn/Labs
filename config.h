@@ -7,6 +7,7 @@
 #include "sample.h"
 #include <vector>
 #include <iostream>
+namespace wavconfig{
 class config {
 public:
     explicit config(std::string&);
@@ -20,3 +21,4 @@ public:
 private:
     std::ifstream config_;
 };
+}

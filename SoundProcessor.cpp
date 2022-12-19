@@ -3,16 +3,16 @@
 //
 
 #include "SoundProcessor.h"
+using namespace wavSoundProcessor;
 
 
-
-void SoundProcessor::start(std::string &config_file_, std::string &output_file_,
+void wavSoundProcessor::SoundProcessor::start(std::string &config_file_, std::string &output_file_,
                            std::vector<std::string> &input_files_) {
     try {
         std::string buffer;
         std::string buffer_wav = "buffer.wav";
         wavconverter::converters_factory factory;
-        config fconfig(config_file_);
+        wavconfig::config fconfig(config_file_);
         wavconverter::converter *converter_current;
         converter_current->copy_file(input_files_[0], buffer_wav);
         while (true) {
