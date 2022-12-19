@@ -48,11 +48,7 @@ void mix::do_something(std::string &input, std::string &output, std::vector<std:
     writeAndReadHeader(inputFile, outputFile);
     readHeader(inputFile1);
     jump(inputFile, outputFile, startPosition);
-    int input_now = inputFile.getPosition();
-    int input1_now = inputFile1.getPosition();
-    int input_size = inputFile.getSizeFile();
-    int input1_size = inputFile1.getSizeFile();
-    int min_size = (std::min(input_size-input_now,input1_size-input1_now))/FREQ/bytesPerSample;
+    int min_size = minLength2Files(inputFile,inputFile1);
     for(size_t i = 0; i <min_size;++i)
     {
         sample second1[FREQ];
@@ -74,7 +70,7 @@ void add::do_something(std::string &input, std::string &output, std::vector<std:
         throw std::invalid_argument("error, no input file");
     }
     if(parametrs[0][0] != '$')
-        throw std::invalid_argument("Errior, wrong first argument for mix");
+        throw std::invalid_argument("Errior, wrong first argument for add");
     std::string input_number = parametrs[0].erase(0,1);
     int buffer = std::stoi(parametrs[0]);
     input_number = std::to_string(buffer);

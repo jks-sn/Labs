@@ -26,6 +26,7 @@ public:
     void readHeader(wavRead &infile);
 
     void jump(wavRead &infile, int seconds);
+    int minLength2Files(wavRead &infile, wavRead &in1file)
 };
 
 class mute : public converter {
@@ -34,7 +35,6 @@ class mute : public converter {
 
 class mix : public converter {
     void do_something(std::string &, std::string &, std::vector<std::string> &) override;
-
     void mixSecond(sample *input1, sample *input2);
 };
 class add : public converter{

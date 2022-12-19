@@ -58,6 +58,15 @@ void converter::fillToEnd(wavRead &infile, wavWrite &outfile) {
         infile.setFlagToPlace(nowPosition);
         readANDwriteSomeData(infile,outfile, endPosition-nowPosition);
 }
+
+int converter::minLength2Files(wavRead &inputFile, wavRead &inputFile1) {
+    int input_now = inputFile.getPosition();
+    int input1_now = inputFile1.getPosition();
+    int input_size = inputFile.getSizeFile();
+    int input1_size = inputFile1.getSizeFile();
+    int min_size = (std::min(input_size-input_now,input1_size-input1_now))/FREQ/bytesPerSample;
+    return min_size;
+}
 /*int find(const char*data,int data_size,const char*key,int key_size)
 {
     int pos_search = 0;
