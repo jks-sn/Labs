@@ -30,3 +30,8 @@
 73	2243	6932369831378678	CMakeFiles/Labs.dir/SoundProcessor.cpp.obj	18270afdf1340bc2
 7	2255	6932369831378678	CMakeFiles/Labs.dir/main.cpp.obj	59eb87ad754f2dcc
 2256	3007	6932369838878541	Labs.exe	92cac78d474aaa53
+8	1439	6932374095449528	CMakeFiles/Labs.dir/wav_output.cpp.obj	d0790ebb88a6971d
+24	1509	6932374096074523	CMakeFiles/Labs.dir/converters_functions.cpp.obj	dad1d2e28f1acb7
+1510	2208	6932374102949384	Labs.exe	92cac78d474aaa53
+25	1896	6932387353527138	CMakeFiles/Labs.dir/wav_input.cpp.obj	9ef402eef826690b
+1897	2551	6932387360025137	Labs.exe	92cac78d474aaa53
