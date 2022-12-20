@@ -6,4 +6,4 @@
 *.txt
 *.wav
 /googletest
-/Lab3/cmake-build-debug
+Lab3/cmake-build-debug/
