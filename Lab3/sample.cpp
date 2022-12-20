@@ -2,13 +2,14 @@
 // Created by User on 15.12.2022.
 //
 #include "sample.h"
-int sample::sampleToInt() {
+using namespace wavconverter;
+int wavconverter::sample::sampleToInt() {
     int buffer;
-    if (this->buffer_[0] & (0x01 << 8)) {
-        this->buffer_[0] = this->buffer_[0] & 0x7F;
+    if (this->buffer_[0] & (maskForCheckFirstByteOfChar)) {
+        this->buffer_[0] = this->buffer_[0] & maskForSetZeroToFirstByteOfChar;
         buffer = (static_cast<int>(this->buffer_[1]) << 8);
         buffer += this->buffer_[0];
-        buffer = (~buffer) + 1;
+        changeDopCode(buffer);
     } else {
         buffer = (static_cast<int>(this->buffer_[1]) << 8);
         buffer += this->buffer_[0];
@@ -16,26 +17,30 @@ int sample::sampleToInt() {
     return buffer;
 }
 
-void sample::intToSample(int data) {
+void wavconverter::sample::intToSample(int data) {
     if (data > 0) {
         this->buffer_[1] = static_cast<char>(data);
         this->buffer_[0] = static_cast<char>(data >> 8);
     } else {
-        data = (~data) + 1;
+        changeDopCode(data);
         this->buffer_[1] = static_cast<char>(data);
-        this->buffer_[0] = static_cast<char>((data >> 8) | 128);
+        this->buffer_[0] = static_cast<char>((data >> 8) | maskForSetOneToFirstByteOfChar);
     }
 }
-void sample::setSample(char& a, char & b){
+void wavconverter::sample::setSample(char& a, char & b){
     this->buffer_[0] = a;
     this->buffer_[1] = b;
-};
-void sample::getSample(char *buffer)
+}
+void wavconverter::sample::getSample(char *buffer)
 {
     buffer[0] = this->buffer_[0];
     buffer[1] = this->buffer_[1];
 }
-sample::sample(){
+wavconverter::sample::sample(){
     buffer_[0] = 0;
     buffer_[1] = 0;
+}
+
+void wavconverter::sample::changeDopCode(int &buffer) {
+    buffer = ~(buffer)+1;
 }
