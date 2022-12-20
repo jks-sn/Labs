@@ -28,7 +28,7 @@ void wavconverter::converter::readHeader(wavRead &infile) {
     }
     if (index_data == buffer.end() - 3)
         throw std::invalid_argument("Error, this is not .wav file");
-    infile.setFlagToPlace(index_data - buffer.begin() + 4);
+    infile.setFlagToPlace(index_data - buffer.begin() + sizeOfWORDdata);
 }
 
 void wavconverter::converter::readANDwriteSomeData(wavRead &infile, wavWrite &outfile, size_t size) {

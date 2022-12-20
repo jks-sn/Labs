@@ -10,6 +10,7 @@ namespace wavconverter {
     const int maskForCheckFirstByteOfChar = 0x01 << 8;
     const int maskForSetZeroToFirstByteOfChar = 0x7F;
     const int maskForSetOneToFirstByteOfChar = 128;
+    const int sizeChar = 8;
     class sample {
     public:
         explicit sample();

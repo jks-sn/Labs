@@ -12,22 +12,24 @@ wavconverter::wavWrite::wavWrite(std::string &outpath) {
 }
 
 void wavconverter::wavWrite::writeSecond(sample *buffer, size_t FREQ) {
-    char buffer_[2];
+    char buffer_[bytesPerSample];
     for (int i = 0; i < FREQ; ++i) {
         (buffer[i]).getSample(buffer_);
-        this->foutput.write(buffer_, 2);
+        this->foutput.write(buffer_, bytesPerSample);
     }
 }
 
-void wavconverter::wavWrite::writeFourBytes(std::string &data) {
+/*void wavconverter::wavWrite::writeFourBytes(std::string &data) {
     this->foutput.write(data.c_str(), 4);
-}
+}*/
 
 wavconverter::wavWrite::~wavWrite() {
     this->foutput.close();
 }
 
+/*
 void wavconverter::wavWrite::writeSomeData(std::string&data, size_t size) {
     (this->foutput)<<data;
 }
+*/
 
