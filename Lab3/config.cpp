@@ -16,7 +16,7 @@ wavconfig::config::config(std::string &config_path) {
 std::string wavconfig::config::getConvert() {
     std::string buffer;
     while (config_ >> buffer) {
-        if (buffer == "#") { //считать комментарий
+        if (buffer == "#") { //поддерка комментариев
             getline(config_, buffer);
         } else if (buffer == "mute" || buffer == "mix" || buffer == "add") {
             return buffer;

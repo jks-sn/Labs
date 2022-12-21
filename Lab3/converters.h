@@ -37,7 +37,7 @@ class converter {
     };
 
     class mix : public converter {
-        void readANDmixANDwriteSecond(wavRead &, wavWrite &);
+        void readANDmixANDwriteSecond(wavRead &, wavRead&, wavWrite &);
 
         void do_something(std::string &, std::string &, std::vector<std::string> &) override;
 

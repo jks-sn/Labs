@@ -7,6 +7,7 @@ const size_t blockForReadHeader = 10000;
 const size_t blockForReadSomeData = 1024;
 const size_t sizeOfWORDdata = 4;
 const size_t indexOfBeginFile = 0;
+const int MaxPosition = 3;
 using namespace wavconverter;
 
 void wavconverter::converter::jump(wavRead &infile, wavWrite &outfile, int seconds) {
@@ -41,11 +42,11 @@ void wavconverter::converter::writeAndReadHeader(wavRead &infile, wavWrite &outf
     std::vector<char> buffer(blockForReadHeader);
     infile.finput.read(buffer.data(), blockForReadHeader);
     std::vector<char>::iterator index_data;
-    for (index_data = buffer.begin(); index_data < buffer.end() - 3; ++index_data) {
+    for (index_data = buffer.begin(); index_data <= buffer.end() - sizeOfWORDdata; ++index_data) {
         if (*index_data == 'd' && *(index_data + 1) == 'a' && *(index_data + 2) == 't' && *(index_data + 3) == 'a')
             break;
     }
-    if (index_data == buffer.end() - 3)
+    if (index_data == buffer.end() - sizeOfWORDdata + 1)
         throw std::invalid_argument("Error, this is not .wav file");
     infile.setFlagToPlace(indexOfBeginFile);
     readANDwriteSomeData(infile, outfile, index_data - buffer.begin() + sizeOfWORDdata);
@@ -97,11 +98,11 @@ void wavconverter::mix::mixSecond(sample *input1, sample *input2) {
     }
 }
 
-void wavconverter::mix::readANDmixANDwriteSecond(wavRead &inputFile, wavWrite &outputFile) {
+void wavconverter::mix::readANDmixANDwriteSecond(wavRead &inputFile, wavRead &inputFile1, wavWrite &outputFile) {
     sample second1[FREQ];
     sample second2[FREQ];
     inputFile.readSecond(second1, FREQ);
-    inputFile.readSecond(second2, FREQ);
+    inputFile1.readSecond(second2, FREQ);
     this->mixSecond(second1, second2);
     outputFile.writeSecond(second1, FREQ);
 }
