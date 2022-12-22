@@ -11,7 +11,7 @@
 
 namespace wavconverter {
     class WavRead {
-        friend class converter;
+        friend class Converter;
 
     public:
         explicit WavRead(std::string &inpath);

@@ -10,7 +10,7 @@
 
 namespace wavconverter {
     class WavWrite {
-        friend class converter;
+        friend class Converter;
 
     public:
         explicit WavWrite(std::string &outpath);

@@ -13,7 +13,7 @@ namespace wavconverter {
     const size_t FREQ = 44100;
     const int FREQ_int = 44100;
 
-    class converter {
+    class Converter {
     public:
 
         virtual void do_something(std::string &, std::string &, std::vector<std::string> &) = 0;
@@ -35,18 +35,24 @@ namespace wavconverter {
         int minLength2Files(WavRead &infile, WavRead &in1file);
 
         std::string getSecondFile(std::string &parametr);
+
+        virtual unsigned int getNumberArguments() = 0;
     };
 
-    class mute : public converter {
+    class Mute : public Converter {
     public:
             static const std::string name;
+        const unsigned int numberArgumentsForConverter = 2;
+        unsigned int getNumberArguments()override {return numberArgumentsForConverter;}
     private:
         void do_something(std::string &, std::string &, std::vector<std::string> &) override;
     };
 
-    class mix : public converter {
+    class Mix : public Converter {
     public:
         static const std::string name;
+        const unsigned int numberArgumentsForConverter = 2;
+        unsigned int getNumberArguments()override {return numberArgumentsForConverter;}
     private:
         void readANDmixANDwriteSecond(WavRead &, WavRead &, WavWrite &);
 
@@ -55,15 +61,13 @@ namespace wavconverter {
         void mixSecond(Sample *input1, Sample *input2);
     };
 
-    class add : public converter {
+    class Add : public Converter {
     public:
         static const  std::string name;
+        const unsigned int numberArgumentsForConverter = 4;
+        unsigned int getNumberArguments()override {return numberArgumentsForConverter;}
     private:
         void do_add(WavRead &, WavRead &, WavWrite &, std::vector<std::string> &);
-
         void do_something(std::string &, std::string &, std::vector<std::string> &) override;
     };
-    const std::string mute::name = "mute";
-    const std::string mix::name = "mix";
-    const std::string add::name = "add";
 }

@@ -8,7 +8,6 @@
 #include "sample.h"
 #include <vector>
 #include <iostream>
-
 namespace wavconfig  {
     const std::string MessageOfEndConfig = "config_end";
     class Config {
@@ -17,7 +16,7 @@ namespace wavconfig  {
 
         std::string getConvert();
 
-        std::vector<std::string> readArgumentConvert(std::string &);
+        std::vector<std::string> readArgumentConvert(unsigned int number_arguments);
 
         ~Config();
 

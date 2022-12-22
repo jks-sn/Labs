@@ -16,9 +16,9 @@ namespace wavconverter {
 
     class converters_factory {
     public:
-        converter *converter_create(std::string &converter_type);
+        Converter *converter_create(std::string &converter_type);
 
     private:
-        std::vector<std::string> converters = {mute::name, mix::name, add::name};
+        std::vector<std::string> converters = {Mute::name, Mix::name, Add::name};
     };
 }

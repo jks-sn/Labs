@@ -10,16 +10,16 @@ const size_t indexOfBeginFile = 0;
 const int MaxPosition = 3;
 using namespace wavconverter;
 
-void wavconverter::converter::jump(WavRead &infile, WavWrite &outfile, int seconds) {
+void wavconverter::Converter::jump(WavRead &infile, WavWrite &outfile, int seconds) {
     readANDwriteSomeData(infile, outfile, seconds * FREQ * bytesPerSample);
 }
 
-void wavconverter::converter::jump(WavRead &infile, int seconds) {
+void wavconverter::Converter::jump(WavRead &infile, int seconds) {
     std::vector<char> buffer_(seconds * FREQ * bytesPerSample);
     infile.finput.read(buffer_.data(), seconds * FREQ * bytesPerSample);
 }
 
-void wavconverter::converter::readHeader(WavRead &infile) {
+void wavconverter::Converter::readHeader(WavRead &infile) {
     std::vector<char> buffer(blockForReadHeader);
     infile.finput.read(buffer.data(), blockForReadHeader);
     std::vector<char>::iterator index_data;
@@ -32,13 +32,13 @@ void wavconverter::converter::readHeader(WavRead &infile) {
     infile.setFlagToPlace(index_data - buffer.begin() + sizeOfWORDdata);
 }
 
-void wavconverter::converter::readANDwriteSomeData(WavRead &infile, WavWrite &outfile, size_t size) {
+void wavconverter::Converter::readANDwriteSomeData(WavRead &infile, WavWrite &outfile, size_t size) {
     std::vector<char> buffer_(size);
     infile.finput.read(buffer_.data(), size);
     outfile.foutput.write(buffer_.data(), size);
 };
 
-void wavconverter::converter::writeAndReadHeader(WavRead &infile, WavWrite &outfile) {
+void wavconverter::Converter::writeAndReadHeader(WavRead &infile, WavWrite &outfile) {
     std::vector<char> buffer(blockForReadHeader);
     infile.finput.read(buffer.data(), blockForReadHeader);
     std::vector<char>::iterator index_data;
@@ -52,13 +52,13 @@ void wavconverter::converter::writeAndReadHeader(WavRead &infile, WavWrite &outf
     readANDwriteSomeData(infile, outfile, index_data - buffer.begin() + sizeOfWORDdata);
 }
 
-void wavconverter::converter::copy_file(std::string &name1, std::string &name2) {
+void wavconverter::Converter::copy_file(std::string &name1, std::string &name2) {
     WavRead in(name1);
     WavWrite out(name2);
     fillToEnd(in, out);
 }
 
-void wavconverter::converter::fillToEnd(WavRead &infile, WavWrite &outfile) {
+void wavconverter::Converter::fillToEnd(WavRead &infile, WavWrite &outfile) {
     int nowPosition = infile.getPosition();
     infile.setFlagToEnd();
     int endPosition = infile.getPosition();
@@ -66,7 +66,7 @@ void wavconverter::converter::fillToEnd(WavRead &infile, WavWrite &outfile) {
     readANDwriteSomeData(infile, outfile, endPosition - nowPosition);
 }
 
-int wavconverter::converter::minLength2Files(WavRead &inputFile, WavRead &inputFile1) {
+int wavconverter::Converter::minLength2Files(WavRead &inputFile, WavRead &inputFile1) {
     int input_now = inputFile.getPosition();
     int input1_now = inputFile1.getPosition();
     int input_size = inputFile.getSizeFile();
@@ -75,7 +75,7 @@ int wavconverter::converter::minLength2Files(WavRead &inputFile, WavRead &inputF
     return min_size;
 }
 
-std::string wavconverter::converter::getSecondFile(std::string &parametr) {
+std::string wavconverter::Converter::getSecondFile(std::string &parametr) {
     if (parametr.find('$') == parametr.npos) {
         throw std::invalid_argument("error, no input file");
     }
@@ -88,7 +88,7 @@ std::string wavconverter::converter::getSecondFile(std::string &parametr) {
 }
 
 
-void wavconverter::mix::mixSecond(Sample *input1, Sample *input2) {
+void wavconverter::Mix::mixSecond(Sample *input1, Sample *input2) {
     int buffer;
     for (size_t i = 0; i < FREQ; ++i) {
         buffer = (input1[i]).sampleToInt();
@@ -98,7 +98,7 @@ void wavconverter::mix::mixSecond(Sample *input1, Sample *input2) {
     }
 }
 
-void wavconverter::mix::readANDmixANDwriteSecond(WavRead &inputFile, WavRead &inputFile1, WavWrite &outputFile) {
+void wavconverter::Mix::readANDmixANDwriteSecond(WavRead &inputFile, WavRead &inputFile1, WavWrite &outputFile) {
     Sample second1[FREQ];
     Sample second2[FREQ];
     inputFile.readSecond(second1, FREQ);
@@ -107,7 +107,7 @@ void wavconverter::mix::readANDmixANDwriteSecond(WavRead &inputFile, WavRead &in
     outputFile.writeSecond(second1, FREQ);
 }
 
-void wavconverter::add::do_add(WavRead &inputFile, WavRead &inputFile1, WavWrite &outputFile,
+void wavconverter::Add::do_add(WavRead &inputFile, WavRead &inputFile1, WavWrite &outputFile,
                                std::vector<std::string> &parametrs) {
     int startPositionExport = std::stoi(parametrs[1]);
     int endPositionExport = std::stoi(parametrs[2]);
