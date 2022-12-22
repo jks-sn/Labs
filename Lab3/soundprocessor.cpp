@@ -2,23 +2,26 @@
 // Created by User on 11.12.2022.
 //
 
-#include "sound_processor.h"
+#include "soundprocessor.h"
 
 using namespace wavSoundProcessor;
+namespace wavSoundProcessor
+{
+    const std::string NameOfBuffer = "buffer.wav";
+}
 
-
-void wavSoundProcessor::sound_processor::start(std::string &config_file_, std::string &output_file_,
+void wavSoundProcessor::SoundProcessor::start(std::string &config_file_, std::string &output_file_,
                                                std::vector<std::string> &input_files_) {
     try {
         std::string buffer;
-        std::string buffer_wav = "buffer.wav";
+        std::string buffer_wav = NameOfBuffer;
         wavconverter::converters_factory factory;
-        wavconfig::config fconfig(config_file_);
+        wavconfig::Config fconfig(config_file_);
         wavconverter::converter *converter_current;
         converter_current->copy_file(input_files_[0], buffer_wav);
         while (true) {
             buffer = fconfig.getConvert();
-            if (buffer == "config_end")
+            if (buffer == wavconfig::MessageOfEndConfig)
                 break;
             std::vector<std::string> arguments = fconfig.readArgumentConvert(buffer);
             converter_current = factory.converter_create(buffer);
@@ -29,10 +32,7 @@ void wavSoundProcessor::sound_processor::start(std::string &config_file_, std::s
     catch (const std::ifstream::failure &e) {
         std::cerr << e.what() << std::endl;
     }
-    catch (const std::invalid_argument &ex) {
+    catch (const std::exception &ex) {
         std::cout << ex.what() << std::endl;
-    }
-    catch (const std::out_of_range &e) {
-        std::cout << e.what() << std::endl;
     }
 }

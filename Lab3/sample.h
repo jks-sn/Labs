@@ -11,9 +11,9 @@ namespace wavconverter {
     const int maskForSetZeroToFirstByteOfChar = 0x7F;
     const int maskForSetOneToFirstByteOfChar = 128;
     const int sizeChar = 8;
-    class sample {
+    class Sample {
     public:
-        explicit sample();
+        explicit Sample();
         void changeDopCode(int &buffer);
         void intToSample(int);
 

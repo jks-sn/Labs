@@ -5,15 +5,14 @@
 #include "config.h"
 
 using namespace wavconfig;
-
-wavconfig::config::config(std::string &config_path) {
+wavconfig::Config::Config(std::string &config_path) {
     config_.open(config_path);
     if (!config_.is_open()) {
         throw std::invalid_argument("Error, can't open config file");
     }
 }
 
-std::string wavconfig::config::getConvert() {
+std::string wavconfig::Config::getConvert() {
     std::string buffer;
     while (config_ >> buffer) {
         if (buffer == "#") { //поддерка комментариев
@@ -22,10 +21,10 @@ std::string wavconfig::config::getConvert() {
             return buffer;
         }
     }
-    return "config_end";
+    return MessageOfEndConfig;
 }
 
-std::vector<std::string> wavconfig::config::readArgumentConvert(std::string &convert_type) {
+std::vector<std::string> wavconfig::Config::readArgumentConvert(std::string &convert_type) {
     std::vector<std::string> arguments;
     std::string buffer;
     if (!(config_ >> buffer)) {
@@ -46,13 +45,9 @@ std::vector<std::string> wavconfig::config::readArgumentConvert(std::string &con
         throw std::invalid_argument("error, no argument 4 of converter");
     }
     arguments.push_back(buffer);
-/*    if((config_>>buffer))
-    {
-        arguments.push_back(buffer);
-    }*/
     return arguments;
 }
 
-wavconfig::config::~config() {
+wavconfig::Config::~Config() {
     config_.close();
 }

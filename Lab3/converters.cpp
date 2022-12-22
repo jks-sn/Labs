@@ -8,10 +8,10 @@ const int numberParametrsFORadd = 4;
 using namespace wavconverter;
 
 void wavconverter::mute::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
-    wavRead finput(input);
-    wavWrite foutput(output);
-    sample buffer[FREQ];
-    sample zerobuffer[FREQ];
+    WavRead finput(input);
+    WavWrite foutput(output);
+    Sample buffer[FREQ];
+    Sample zerobuffer[FREQ];
     writeAndReadHeader(finput, foutput);
     jump(finput, foutput, stoi(parametrs[0]));
     int delta = std::stoi(parametrs[1]) - std::stoi(parametrs[0]);
@@ -33,9 +33,9 @@ void wavconverter::mix::do_something(std::string &input, std::string &output, st
         std::cout << e.what();
         return;
     }
-    wavRead inputFile(input);
-    wavRead inputFile1(finput);
-    wavWrite outputFile(output);
+    WavRead inputFile(input);
+    WavRead inputFile1(finput);
+    WavWrite outputFile(output);
     int startPosition = std::stoi(parametrs[1]);
     writeAndReadHeader(inputFile, outputFile);
     readHeader(inputFile1);
@@ -54,9 +54,9 @@ void wavconverter::add::do_something(std::string &input, std::string &output, st
     if (parametrs.size() != numberParametrsFORadd)
         throw std::invalid_argument("error, wrong number of arguments for add");
     finput = getSecondFile(parametrs[0]);
-    wavRead inputFile(input);
-    wavRead inputFile1(finput);
-    wavWrite outputFile(output);
+    WavRead inputFile(input);
+    WavRead inputFile1(finput);
+    WavWrite outputFile(output);
     try {
         do_add(inputFile, inputFile1, outputFile, parametrs);
     }

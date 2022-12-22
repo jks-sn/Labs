@@ -4,14 +4,14 @@
 
 #include "wav_output.h"
 using namespace wavconverter;
-wavconverter::wavWrite::wavWrite(std::string &outpath) {
+wavconverter::WavWrite::WavWrite(std::string &outpath) {
     this->foutput.open(outpath, std::ios::in | std::ios::binary);
     if (!this->foutput.is_open()) {
         throw std::invalid_argument("Error, can't open file for output");
     }
 }
 
-void wavconverter::wavWrite::writeSecond(sample *buffer, size_t FREQ) {
+void wavconverter::WavWrite::writeSecond(Sample *buffer, size_t FREQ) {
     char buffer_[bytesPerSample];
     for (int i = 0; i < FREQ; ++i) {
         (buffer[i]).getSample(buffer_);
@@ -23,7 +23,7 @@ void wavconverter::wavWrite::writeSecond(sample *buffer, size_t FREQ) {
     this->foutput.write(data.c_str(), 4);
 }*/
 
-wavconverter::wavWrite::~wavWrite() {
+wavconverter::WavWrite::~WavWrite() {
     this->foutput.close();
 }
 

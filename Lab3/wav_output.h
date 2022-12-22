@@ -9,19 +9,19 @@
 #include <cstring>
 
 namespace wavconverter {
-    class wavWrite {
+    class WavWrite {
         friend class converter;
 
     public:
-        explicit wavWrite(std::string &outpath);
+        explicit WavWrite(std::string &outpath);
 
-        void writeSecond(sample *buffer, size_t FREQ);
+        void writeSecond(Sample *buffer, size_t FREQ);
 
         void writeSomeData(std::string &data, size_t);
 
         void writeFourBytes(std::string &);
 
-        ~wavWrite();
+        ~WavWrite();
 
 
     private:

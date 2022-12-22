@@ -12,7 +12,7 @@
 #include "config.h"
 
 namespace wavSoundProcessor {
-    class sound_processor {
+    class SoundProcessor {
     public:
         static void start(std::string &config_file_, std::string &output_file_,
                           std::vector<std::string> &input_files_);

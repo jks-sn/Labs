@@ -9,16 +9,17 @@
 #include <vector>
 #include <iostream>
 
-namespace wavconfig {
-    class config {
+namespace wavconfig  {
+    const std::string MessageOfEndConfig = "config_end";
+    class Config {
     public:
-        explicit config(std::string &);
+        explicit Config(std::string &);
 
         std::string getConvert();
 
         std::vector<std::string> readArgumentConvert(std::string &);
 
-        ~config();
+        ~Config();
 
     private:
         std::ifstream config_;

@@ -19,6 +19,6 @@ namespace wavconverter {
         converter *converter_create(std::string &converter_type);
 
     private:
-        std::vector<std::string> converters = {"mute", "mix", "add"};
+        std::vector<std::string> converters = {mute::name, mix::name, add::name};
     };
 }

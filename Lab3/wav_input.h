@@ -10,13 +10,13 @@
 #include <cstring>
 
 namespace wavconverter {
-    class wavRead {
+    class WavRead {
         friend class converter;
 
     public:
-        explicit wavRead(std::string &inpath);
+        explicit WavRead(std::string &inpath);
 
-        void readSecond(sample *buffer, size_t FREQ);
+        void readSecond(Sample *buffer, size_t FREQ);
 
         void readSomeData(std::string &buffer, size_t size);
 
@@ -24,7 +24,7 @@ namespace wavconverter {
 
         bool isFileEnd();
 
-        ~wavRead();
+        ~WavRead();
 
         void setFlagToPlace(size_t i);
 
