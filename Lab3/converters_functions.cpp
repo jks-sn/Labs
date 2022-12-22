@@ -23,11 +23,11 @@ void wavconverter::converter::readHeader(wavRead &infile) {
     std::vector<char> buffer(blockForReadHeader);
     infile.finput.read(buffer.data(), blockForReadHeader);
     std::vector<char>::iterator index_data;
-    for (index_data = buffer.begin(); index_data < buffer.end() - 3; ++index_data) {
+    for (index_data = buffer.begin(); index_data <= buffer.end() - sizeOfWORDdata; ++index_data) {
         if (*index_data == 'd' && *(index_data + 1) == 'a' && *(index_data + 2) == 't' && *(index_data + 3) == 'a')
             break;
     }
-    if (index_data == buffer.end() - 3)
+    if (index_data == buffer.end() - sizeOfWORDdata + 1)
         throw std::invalid_argument("Error, this is not .wav file");
     infile.setFlagToPlace(index_data - buffer.begin() + sizeOfWORDdata);
 }
