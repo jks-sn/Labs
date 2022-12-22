@@ -27,7 +27,6 @@ void wavconverter::Mute::сhanger(std::string &input, std::string &output, std::
 
 void wavconverter::Mix::сhanger(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;
-    try {
         finput = getSecondFile(parametrs[0]);
         WavRead inputFile(input);
         WavRead inputFile1(finput);
@@ -42,11 +41,6 @@ void wavconverter::Mix::сhanger(std::string &input, std::string &output, std::v
         }
         if (!inputFile.isFileEnd())
             fillToEnd(inputFile, outputFile);
-    }
-    catch (std::exception &e) {
-        std::cout << e.what();
-        return;
-    }
 }
 
 
@@ -58,12 +52,5 @@ void wavconverter::Add::сhanger(std::string &input, std::string &output, std::v
     WavRead inputFile(input);
     WavRead inputFile1(finput);
     WavWrite outputFile(output);
-    try {
         do_add(inputFile, inputFile1, outputFile, parametrs);
     }
-    catch (std::exception &e) {
-        std::cout << e.what();
-        return;
-    }
-
-}
