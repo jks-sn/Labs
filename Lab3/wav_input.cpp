@@ -21,12 +21,6 @@ void wavconverter::WavRead::readSecond(Sample *buffer, size_t FREQ) {
     }
 }
 
-/*std::string wavconverter::wavRead::readFourBytes() {
-    char data[4];
-    this->finput.read(data, 4);
-    return data;
-}*/
-
 wavconverter::WavRead::~WavRead() {
     this->finput.close();
 }
@@ -34,12 +28,6 @@ wavconverter::WavRead::~WavRead() {
 void wavconverter::WavRead::setFlagToPlace(size_t i) {
     this->finput.seekg(i, std::ios::beg);
 }
-
-/*void wavconverter::wavRead::readSomeData(std::string& buffer,size_t size) {
-    char data[size];
-    this->finput.read(data, size);
-    buffer.assign(data,data+size);
-}*/
 
 bool wavconverter::WavRead::isFileEnd() {
     return finput.eof();

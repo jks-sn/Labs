@@ -3,7 +3,9 @@
 //
 
 #include "wav_output.h"
+
 using namespace wavconverter;
+
 wavconverter::WavWrite::WavWrite(std::string &outpath) {
     this->foutput.open(outpath, std::ios::in | std::ios::binary);
     if (!this->foutput.is_open()) {
@@ -19,17 +21,8 @@ void wavconverter::WavWrite::writeSecond(Sample *buffer, size_t FREQ) {
     }
 }
 
-/*void wavconverter::wavWrite::writeFourBytes(std::string &data) {
-    this->foutput.write(data.c_str(), 4);
-}*/
-
 wavconverter::WavWrite::~WavWrite() {
     this->foutput.close();
 }
 
-/*
-void wavconverter::wavWrite::writeSomeData(std::string&data, size_t size) {
-    (this->foutput)<<data;
-}
-*/
 
