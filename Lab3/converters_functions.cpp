@@ -6,12 +6,12 @@
 using namespace wavconverter;
 namespace wavconverter
 {
-    const size_t blockForReadHeader = 10000;
-    const size_t blockForReadSomeData = 1024;
-    const size_t sizeOfWORDdata = 4;
-    const size_t indexOfBeginFile = 0;
+    const size_t BlockForReadHeader = 10000;
+    const size_t BlockForReadSomeData = 1024;
+    const size_t SizeOfWORDdata = 4;
+    const size_t IndexOfBeginFile = 0;
     const int MaxPosition = 3;
-    const char symboolOfNumberFile = '$';
+    const char SymboolOfNumberFile = '$';
 }
 void wavconverter::Converter::jump(WavRead &infile, WavWrite &outfile, int seconds) {
     readANDwriteSomeData(infile, outfile, seconds * FREQ * BytesPerSample);
@@ -23,16 +23,16 @@ void wavconverter::Converter::jump(WavRead &infile, int seconds) {
 }
 
 void wavconverter::Converter::readHeader(WavRead &infile) {
-    std::vector<char> buffer(blockForReadHeader);
-    infile.finput.read(buffer.data(), blockForReadHeader);
+    std::vector<char> buffer(BlockForReadHeader);
+    infile.finput.read(buffer.data(), BlockForReadHeader);
     std::vector<char>::iterator index_data;
-    for (index_data = buffer.begin(); index_data <= buffer.end() - sizeOfWORDdata; ++index_data) {
+    for (index_data = buffer.begin(); index_data <= buffer.end() - SizeOfWORDdata; ++index_data) {
         if (*index_data == 'd' && *(index_data + 1) == 'a' && *(index_data + 2) == 't' && *(index_data + 3) == 'a')
             break;
     }
-    if (index_data == buffer.end() - sizeOfWORDdata + 1)
+    if (index_data == buffer.end() - SizeOfWORDdata + 1)
         throw std::invalid_argument("Error, this is not .wav file");
-    infile.setFlagToPlace(index_data - buffer.begin() + sizeOfWORDdata);
+    infile.setFlagToPlace(index_data - buffer.begin() + SizeOfWORDdata);
 }
 
 void wavconverter::Converter::readANDwriteSomeData(WavRead &infile, WavWrite &outfile, size_t size) {
@@ -42,17 +42,17 @@ void wavconverter::Converter::readANDwriteSomeData(WavRead &infile, WavWrite &ou
 };
 
 void wavconverter::Converter::writeAndReadHeader(WavRead &infile, WavWrite &outfile) {
-    std::vector<char> buffer(blockForReadHeader);
-    infile.finput.read(buffer.data(), blockForReadHeader);
+    std::vector<char> buffer(BlockForReadHeader);
+    infile.finput.read(buffer.data(), BlockForReadHeader);
     std::vector<char>::iterator index_data;
-    for (index_data = buffer.begin(); index_data <= buffer.end() - sizeOfWORDdata; ++index_data) {
+    for (index_data = buffer.begin(); index_data <= buffer.end() - SizeOfWORDdata; ++index_data) {
         if (*index_data == 'd' && *(index_data + 1) == 'a' && *(index_data + 2) == 't' && *(index_data + 3) == 'a')
             break;
     }
-    if (index_data == buffer.end() - sizeOfWORDdata + 1)
+    if (index_data == buffer.end() - SizeOfWORDdata + 1)
         throw std::invalid_argument("Error, this is not .wav file");
-    infile.setFlagToPlace(indexOfBeginFile);
-    readANDwriteSomeData(infile, outfile, index_data - buffer.begin() + sizeOfWORDdata);
+    infile.setFlagToPlace(IndexOfBeginFile);
+    readANDwriteSomeData(infile, outfile, index_data - buffer.begin() + SizeOfWORDdata);
 }
 
 void wavconverter::Converter::copy_file(std::string &name1, std::string &name2) {
@@ -79,10 +79,10 @@ int wavconverter::Converter::minLength2Files(WavRead &inputFile, WavRead &inputF
 }
 
 std::string wavconverter::Converter::getSecondFile(std::string &parametr) {
-    if (parametr.find(symboolOfNumberFile) == parametr.npos) {
+    if (parametr.find(SymboolOfNumberFile) == parametr.npos) {
         throw std::invalid_argument("error, no input file");
     }
-    if (parametr[0] != symboolOfNumberFile)
+    if (parametr[0] != SymboolOfNumberFile)
         throw std::invalid_argument("Error, wrong first argument for mix");
     std::string input_number = parametr.erase(0, 1);
     int buffer = std::stoi(parametr);
