@@ -1,4 +1,4 @@
-#include "SoundProcessor.h"
+#include "sound_processor.h"
 
 int main(int argc, char *argv[]) {
     std::string config_file = argv[1];
@@ -7,5 +7,5 @@ int main(int argc, char *argv[]) {
     for (int i = 3; i < argc; ++i) {
         files.emplace_back(argv[i]);
     }
-    wavSoundProcessor::SoundProcessor::start(config_file, output_file, files);
+    wavSoundProcessor::sound_processor::start(config_file, output_file, files);
 }

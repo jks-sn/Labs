@@ -2,13 +2,13 @@
 // Created by User on 11.12.2022.
 //
 
-#include "SoundProcessor.h"
+#include "sound_processor.h"
 
 using namespace wavSoundProcessor;
 
 
-void wavSoundProcessor::SoundProcessor::start(std::string &config_file_, std::string &output_file_,
-                                              std::vector<std::string> &input_files_) {
+void wavSoundProcessor::sound_processor::start(std::string &config_file_, std::string &output_file_,
+                                               std::vector<std::string> &input_files_) {
     try {
         std::string buffer;
         std::string buffer_wav = "buffer.wav";
