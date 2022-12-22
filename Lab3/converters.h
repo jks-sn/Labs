@@ -2,23 +2,28 @@
 // Created by User on 10.12.2022.
 //
 #pragma once
+
 #include <iostream>
 #include <vector>
 #include "wav_output.h"
 #include "wav_input.h"
 #include "sample.h"
+
 namespace wavconverter {
     const size_t FREQ = 44100;
     const int FREQ_int = 44100;
-class converter {
+
+    class converter {
     public:
 
-    virtual void do_something(std::string &, std::string &, std::vector<std::string> &) = 0;
+        virtual void do_something(std::string &, std::string &, std::vector<std::string> &) = 0;
 
         void writeAndReadHeader(wavRead &, wavWrite &);
 
         void fillToEnd(wavRead &, wavWrite &);
+
         void jump(wavRead &, wavWrite &, int);
+
         void readANDwriteSomeData(wavRead &infile, wavWrite &outfile, size_t size);
 
         void copy_file(std::string &name1, std::string &name2);
@@ -37,7 +42,7 @@ class converter {
     };
 
     class mix : public converter {
-        void readANDmixANDwriteSecond(wavRead &, wavRead&, wavWrite &);
+        void readANDmixANDwriteSecond(wavRead &, wavRead &, wavWrite &);
 
         void do_something(std::string &, std::string &, std::vector<std::string> &) override;
 

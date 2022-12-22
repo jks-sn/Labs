@@ -3,6 +3,7 @@
 //
 
 #include "converters.h"
+
 const int numberParametrsFORadd = 4;
 using namespace wavconverter;
 
@@ -41,7 +42,7 @@ void wavconverter::mix::do_something(std::string &input, std::string &output, st
     jump(inputFile, outputFile, startPosition);
     int min_size = minLength2Files(inputFile, inputFile1);
     for (size_t i = 0; i < min_size; ++i) {
-        readANDmixANDwriteSecond(inputFile,inputFile1, outputFile);
+        readANDmixANDwriteSecond(inputFile, inputFile1, outputFile);
     }
     if (!inputFile.isFileEnd())
         fillToEnd(inputFile, outputFile);
