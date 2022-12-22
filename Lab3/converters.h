@@ -51,8 +51,8 @@ namespace wavconverter {
     class Mix : public Converter {
     public:
         static const std::string name;
-        const unsigned int numberArgumentsForConverter = 2;
-        unsigned int getNumberArguments()override {return numberArgumentsForConverter;}
+        const unsigned int NumberArgumentsForConverter = 2;
+        unsigned int getNumberArguments()override {return NumberArgumentsForConverter;}
     private:
         void readANDmixANDwriteSecond(WavRead &, WavRead &, WavWrite &);
 
@@ -64,8 +64,8 @@ namespace wavconverter {
     class Add : public Converter {
     public:
         static const  std::string name;
-        const unsigned int numberArgumentsForConverter = 4;
-        unsigned int getNumberArguments()override {return numberArgumentsForConverter;}
+        const unsigned int NumberArgumentsForConverter = 4;
+        unsigned int getNumberArguments()override {return NumberArgumentsForConverter;}
     private:
         void do_add(WavRead &, WavRead &, WavWrite &, std::vector<std::string> &);
         void do_something(std::string &, std::string &, std::vector<std::string> &) override;

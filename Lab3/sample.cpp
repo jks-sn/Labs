@@ -5,13 +5,13 @@
 using namespace wavconverter;
 int wavconverter::Sample::sampleToInt() {
     int buffer;
-    if (this->buffer_[0] & (maskForCheckFirstByteOfChar)) {
-        this->buffer_[0] = this->buffer_[0] & maskForSetZeroToFirstByteOfChar;
-        buffer = (static_cast<int>(this->buffer_[1]) << sizeChar);
+    if (this->buffer_[0] & (MaskForCheckFirstByteOfChar)) {
+        this->buffer_[0] = this->buffer_[0] & MaskForSetZeroToFirstByteOfChar;
+        buffer = (static_cast<int>(this->buffer_[1]) << SizeChar);
         buffer += this->buffer_[0];
         changeDopCode(buffer);
     } else {
-        buffer = (static_cast<int>(this->buffer_[1]) << sizeChar);
+        buffer = (static_cast<int>(this->buffer_[1]) << SizeChar);
         buffer += this->buffer_[0];
     }
     return buffer;
@@ -20,11 +20,11 @@ int wavconverter::Sample::sampleToInt() {
 void wavconverter::Sample::intToSample(int data) {
     if (data > 0) {
         this->buffer_[1] = static_cast<char>(data);
-        this->buffer_[0] = static_cast<char>(data >> sizeChar);
+        this->buffer_[0] = static_cast<char>(data >> SizeChar);
     } else {
         changeDopCode(data);
         this->buffer_[1] = static_cast<char>(data);
-        this->buffer_[0] = static_cast<char>((data >> sizeChar) | maskForSetOneToFirstByteOfChar);
+        this->buffer_[0] = static_cast<char>((data >> SizeChar) | MaskForSetOneToFirstByteOfChar);
     }
 }
 void wavconverter::Sample::setSample(char& a, char & b){

@@ -5,12 +5,12 @@
 
 #include <array>
 namespace wavconverter {
-    const unsigned int bytesPerSample = 2;
-    const int bytesPerSample_int = 2;
-    const int maskForCheckFirstByteOfChar = 0x01 << 8;
-    const int maskForSetZeroToFirstByteOfChar = 0x7F;
-    const int maskForSetOneToFirstByteOfChar = 128;
-    const int sizeChar = 8;
+    const unsigned int BytesPerSample = 2;
+    const int BytesPerSample_int = 2;
+    const int MaskForCheckFirstByteOfChar = 0x01 << 8;
+    const int MaskForSetZeroToFirstByteOfChar = 0x7F;
+    const int MaskForSetOneToFirstByteOfChar = 128;
+    const int SizeChar = 8;
     class Sample {
     public:
         explicit Sample();
@@ -24,7 +24,7 @@ namespace wavconverter {
         void getSample(char *);
 
     private:
-        char buffer_[bytesPerSample]{};
+        char buffer_[BytesPerSample]{};
 
     };
 }

@@ -14,10 +14,10 @@ wavconverter::WavWrite::WavWrite(std::string &outpath) {
 }
 
 void wavconverter::WavWrite::writeSecond(Sample *buffer, size_t FREQ) {
-    char buffer_[bytesPerSample];
+    char buffer_[BytesPerSample];
     for (int i = 0; i < FREQ; ++i) {
         (buffer[i]).getSample(buffer_);
-        this->foutput.write(buffer_, bytesPerSample);
+        this->foutput.write(buffer_, BytesPerSample);
     }
 }
 

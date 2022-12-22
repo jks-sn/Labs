@@ -4,7 +4,7 @@
 
 #include "converters.h"
 
-const int numberParametrsFORadd = 4;
+const int NumberParametrsFORadd = 4;
 using namespace wavconverter;
 const std::string wavconverter::Mute::name = "mute";
 const std::string wavconverter::Mix::name = "mix";
@@ -52,7 +52,7 @@ void wavconverter::Mix::do_something(std::string &input, std::string &output, st
 
 void wavconverter::Add::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;
-    if (parametrs.size() != numberParametrsFORadd)
+    if (parametrs.size() != NumberParametrsFORadd)
         throw std::invalid_argument("error, wrong number of arguments for add");
     finput = getSecondFile(parametrs[0]);
     WavRead inputFile(input);

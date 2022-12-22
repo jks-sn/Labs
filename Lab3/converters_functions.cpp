@@ -14,12 +14,12 @@ namespace wavconverter
     const char symboolOfNumberFile = '$';
 }
 void wavconverter::Converter::jump(WavRead &infile, WavWrite &outfile, int seconds) {
-    readANDwriteSomeData(infile, outfile, seconds * FREQ * bytesPerSample);
+    readANDwriteSomeData(infile, outfile, seconds * FREQ * BytesPerSample);
 }
 
 void wavconverter::Converter::jump(WavRead &infile, int seconds) {
-    std::vector<char> buffer_(seconds * FREQ * bytesPerSample);
-    infile.finput.read(buffer_.data(), seconds * FREQ * bytesPerSample);
+    std::vector<char> buffer_(seconds * FREQ * BytesPerSample);
+    infile.finput.read(buffer_.data(), seconds * FREQ * BytesPerSample);
 }
 
 void wavconverter::Converter::readHeader(WavRead &infile) {
@@ -74,7 +74,7 @@ int wavconverter::Converter::minLength2Files(WavRead &inputFile, WavRead &inputF
     int input1_now = inputFile1.getPosition();
     int input_size = inputFile.getSizeFile();
     int input1_size = inputFile1.getSizeFile();
-    int min_size = (std::min(input_size - input_now, input1_size - input1_now)) / FREQ / bytesPerSample;
+    int min_size = (std::min(input_size - input_now, input1_size - input1_now)) / FREQ / BytesPerSample;
     return min_size;
 }
 
@@ -117,11 +117,11 @@ void wavconverter::Add::do_add(WavRead &inputFile, WavRead &inputFile1, WavWrite
     int startPosition = std::stoi(parametrs[3]);
     writeAndReadHeader(inputFile, outputFile);
     jump(inputFile, outputFile, startPosition);
-    inputFile1.setFlagToPlace(startPositionExport * FREQ * bytesPerSample);
+    inputFile1.setFlagToPlace(startPositionExport * FREQ * BytesPerSample);
     int input_now = inputFile.getPosition();
     int input_size = inputFile.getSizeFile();
     int min_size = std::min(input_size - input_now,
-                            (endPositionExport - startPositionExport) * FREQ_int * bytesPerSample_int);
+                            (endPositionExport - startPositionExport) * FREQ_int * BytesPerSample_int);
     readANDwriteSomeData(inputFile1, outputFile, min_size);
     inputFile.setFlagToPlace(input_now + min_size);
     if (!inputFile.isFileEnd())
