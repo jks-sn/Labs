@@ -11,7 +11,7 @@
 namespace wavconfig  {
     const std::string SymboolOfComment = "#";
     const std::string MessageOfEndConfig = "config_end";
-    class Config {
+    class Config final {
     public:
         explicit Config(std::string &);
 
