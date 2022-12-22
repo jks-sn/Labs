@@ -9,7 +9,7 @@ using namespace wavconverter;
 const std::string wavconverter::Mute::name = "mute";
 const std::string wavconverter::Mix::name = "mix";
 const std::string wavconverter::Add::name = "add";
-void wavconverter::Mute::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
+void wavconverter::Mute::сhanger(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     WavRead finput(input);
     WavWrite foutput(output);
     Sample buffer[FREQ];
@@ -25,7 +25,7 @@ void wavconverter::Mute::do_something(std::string &input, std::string &output, s
     fillToEnd(finput, foutput);
 }
 
-void wavconverter::Mix::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
+void wavconverter::Mix::сhanger(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;
     try {
         finput = getSecondFile(parametrs[0]);
@@ -50,7 +50,7 @@ void wavconverter::Mix::do_something(std::string &input, std::string &output, st
 }
 
 
-void wavconverter::Add::do_something(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
+void wavconverter::Add::сhanger(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;
     if (parametrs.size() != NumberParametrsFORadd)
         throw std::invalid_argument("error, wrong number of arguments for add");

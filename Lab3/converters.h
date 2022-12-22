@@ -16,7 +16,7 @@ namespace wavconverter {
     class Converter {
     public:
 
-        virtual void do_something(std::string &, std::string &, std::vector<std::string> &) = 0;
+        virtual void сhanger(std::string &, std::string &, std::vector<std::string> &) = 0;
 
         void writeAndReadHeader(WavRead &, WavWrite &);
 
@@ -45,7 +45,7 @@ namespace wavconverter {
         const unsigned int numberArgumentsForConverter = 2;
         unsigned int getNumberArguments()override {return numberArgumentsForConverter;}
     private:
-        void do_something(std::string &, std::string &, std::vector<std::string> &) override;
+        void сhanger(std::string &, std::string &, std::vector<std::string> &) override;
     };
 
     class Mix : public Converter {
@@ -56,7 +56,7 @@ namespace wavconverter {
     private:
         void readANDmixANDwriteSecond(WavRead &, WavRead &, WavWrite &);
 
-        void do_something(std::string &, std::string &, std::vector<std::string> &) override;
+        void сhanger(std::string &, std::string &, std::vector<std::string> &) override;
 
         void mixSecond(Sample *input1, Sample *input2);
     };
@@ -68,6 +68,6 @@ namespace wavconverter {
         unsigned int getNumberArguments()override {return NumberArgumentsForConverter;}
     private:
         void do_add(WavRead &, WavRead &, WavWrite &, std::vector<std::string> &);
-        void do_something(std::string &, std::string &, std::vector<std::string> &) override;
+        void сhanger(std::string &, std::string &, std::vector<std::string> &) override;
     };
 }
