@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 namespace wavconfig  {
+    const std::string SymboolOfComment = "#";
     const std::string MessageOfEndConfig = "config_end";
     class Config {
     public:

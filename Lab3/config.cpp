@@ -5,7 +5,6 @@
 #include "config.h"
 
 using namespace wavconfig;
-
 wavconfig::Config::Config(std::string &config_path) {
     config_.open(config_path);
     if (!config_.is_open()) {
@@ -16,7 +15,7 @@ wavconfig::Config::Config(std::string &config_path) {
 std::string wavconfig::Config::getConvert() {
     std::string buffer;
     while (config_ >> buffer) {
-        if (buffer == "#") { //поддерка комментариев
+        if (buffer == SymboolOfComment) { //поддерка комментариев
             getline(config_, buffer);
         } else
             return buffer;

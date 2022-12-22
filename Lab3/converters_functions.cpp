@@ -3,13 +3,16 @@
 //
 #include "converters.h"
 
-const size_t blockForReadHeader = 10000;
-const size_t blockForReadSomeData = 1024;
-const size_t sizeOfWORDdata = 4;
-const size_t indexOfBeginFile = 0;
-const int MaxPosition = 3;
 using namespace wavconverter;
-
+namespace wavconverter
+{
+    const size_t blockForReadHeader = 10000;
+    const size_t blockForReadSomeData = 1024;
+    const size_t sizeOfWORDdata = 4;
+    const size_t indexOfBeginFile = 0;
+    const int MaxPosition = 3;
+    const char symboolOfNumberFile = '$';
+}
 void wavconverter::Converter::jump(WavRead &infile, WavWrite &outfile, int seconds) {
     readANDwriteSomeData(infile, outfile, seconds * FREQ * bytesPerSample);
 }
@@ -76,11 +79,11 @@ int wavconverter::Converter::minLength2Files(WavRead &inputFile, WavRead &inputF
 }
 
 std::string wavconverter::Converter::getSecondFile(std::string &parametr) {
-    if (parametr.find('$') == parametr.npos) {
+    if (parametr.find(symboolOfNumberFile) == parametr.npos) {
         throw std::invalid_argument("error, no input file");
     }
-    if (parametr[0] != '$')
-        throw std::invalid_argument("Errior, wrong first argument for mix");
+    if (parametr[0] != symboolOfNumberFile)
+        throw std::invalid_argument("Error, wrong first argument for mix");
     std::string input_number = parametr.erase(0, 1);
     int buffer = std::stoi(parametr);
     input_number = std::to_string(buffer);
