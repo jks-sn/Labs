@@ -1,5 +1,4 @@
 /.idea
-/googletest
 *.xml
 *.iml
 *.json
@@ -18,3 +17,6 @@
 o1.abacaba
 /cmake-build-debug/
 *.wav
+/Lab3
+/googletest
+/Lab2
