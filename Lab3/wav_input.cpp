@@ -14,11 +14,7 @@ wavconverter::WavRead::WavRead(std::string &inpath) {
 }
 
 void wavconverter::WavRead::readSecond(Sample *buffer, size_t FREQ) {
-    char buffer_[BytesPerSample];
-    for (int i = 0; i < FREQ; ++i) {
-        this->finput.read(buffer_, BytesPerSample);
-        (buffer[i]).setSample(buffer_[0], buffer_[1]);
-    }
+        this->finput.read(reinterpret_cast<char *>(buffer), BytesPerSample * FREQ);
 }
 
 wavconverter::WavRead::~WavRead() {

@@ -4,6 +4,7 @@
 #pragma once
 
 #include <array>
+#include <cstdint>
 namespace wavconverter {
     const unsigned int BytesPerSample = 2;
     const int BytesPerSample_int = 2;
@@ -15,16 +16,16 @@ namespace wavconverter {
     public:
         explicit Sample();
         void changeDopCode(int &buffer);
-        void intToSample(int);
+/*        void intToSample(int);
 
-        int sampleToInt();
+        int sampleToInt();*/
 
-        void setSample(char &, char &);
+        void setSample(int16_t);
 
-        void getSample(char *);
+        int16_t getSample();
 
     private:
-        char buffer_[BytesPerSample]{};
+        int16_t buffer_;
 
     };
 }

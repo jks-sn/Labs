@@ -3,6 +3,7 @@
 //
 #include "sample.h"
 using namespace wavconverter;
+/*
 int wavconverter::Sample::sampleToInt() {
     int buffer;
     if (this->buffer_[0] & (MaskForCheckFirstByteOfChar)) {
@@ -26,19 +27,17 @@ void wavconverter::Sample::intToSample(int data) {
         this->buffer_[1] = static_cast<char>(data);
         this->buffer_[0] = static_cast<char>((data >> SizeChar) | MaskForSetOneToFirstByteOfChar);
     }
+    }
+*/
+void wavconverter::Sample::setSample(int16_t a){
+    this->buffer_ = a;
 }
-void wavconverter::Sample::setSample(char& a, char & b){
-    this->buffer_[0] = a;
-    this->buffer_[1] = b;
-}
-void wavconverter::Sample::getSample(char *buffer)
+int16_t wavconverter::Sample::getSample()
 {
-    buffer[0] = this->buffer_[0];
-    buffer[1] = this->buffer_[1];
+    return this->buffer_;
 }
 wavconverter::Sample::Sample(){
-    buffer_[0] = 0;
-    buffer_[1] = 0;
+    this->buffer_ = 0;
 }
 
 void wavconverter::Sample::changeDopCode(int &buffer) {

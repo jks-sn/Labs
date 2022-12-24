@@ -92,12 +92,8 @@ std::string wavconverter::Converter::getSecondFile(std::string &parametr) {
 
 
 void wavconverter::Mix::mixSecond(Sample *input1, Sample *input2) {
-    int buffer;
     for (size_t i = 0; i < FREQ; ++i) {
-        buffer = (input1[i]).sampleToInt();
-        buffer += (input2[i]).sampleToInt();
-        buffer /= 2;
-        (input1[i]).intToSample(buffer);
+        input1[i].setSample(input1[i].getSample()/2+input2[i].getSample()/2);
     }
 }
 

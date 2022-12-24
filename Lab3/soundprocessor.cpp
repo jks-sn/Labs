@@ -24,7 +24,7 @@ void wavSoundProcessor::SoundProcessor::start(std::string &config_file_, std::st
                 break;
             converter_current = factory.converter_create(buffer);
             std::vector<std::string> arguments = fconfig.readArgumentConvert(converter_current->getNumberArguments());
-            converter_current->сhanger(buffer_wav, output_file_, arguments);
+            converter_current->changer(buffer_wav, output_file_, arguments);
             converter_current->copy_file(output_file_, buffer_wav);
         }
     }
