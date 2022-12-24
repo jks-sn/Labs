@@ -17,6 +17,8 @@ void wavconverter::Mute::changer(std::string &input, std::string &output, std::v
     writeAndReadHeader(finput, foutput);
     jump(finput, foutput, stoi(parametrs[0]));
     int delta = std::stoi(parametrs[1]) - std::stoi(parametrs[0]);
+    if(delta < 0)
+        throw std::invalid_argument("");
     while (delta && (!finput.isFileEnd())) {
         finput.readSecond(buffer, FREQ);
         --delta;
@@ -32,6 +34,8 @@ void wavconverter::Mix::changer(std::string &input, std::string &output, std::ve
         WavRead inputFile1(finput);
         WavWrite outputFile(output);
         int startPosition = std::stoi(parametrs[1]);
+        if(startPosition < 0)
+            throw std::invalid_argument("");
         writeAndReadHeader(inputFile, outputFile);
         readHeader(inputFile1);
         jump(inputFile, outputFile, startPosition);
@@ -47,7 +51,7 @@ void wavconverter::Mix::changer(std::string &input, std::string &output, std::ve
 void wavconverter::Add::changer(std::string &input, std::string &output, std::vector<std::string> &parametrs) {
     std::string finput;
     if (parametrs.size() != NumberParametrsFORadd)
-        throw std::invalid_argument("error, wrong number of arguments for add");
+        throw std::invalid_argument("");
     finput = getSecondFile(parametrs[0]);
     WavRead inputFile(input);
     WavRead inputFile1(finput);

@@ -24,12 +24,22 @@ void wavSoundProcessor::SoundProcessor::start(std::string &config_file_, std::st
                 break;
             converter_current = factory.converter_create(buffer);
             std::vector<std::string> arguments = fconfig.readArgumentConvert(converter_current->getNumberArguments());
-            converter_current->changer(buffer_wav, output_file_, arguments);
+            try {
+                converter_current->changer(buffer_wav, output_file_, arguments);
+            }
+            catch(std::exception &exception)
+            {
+                throw WavException(buffer,arguments);
+            }
             converter_current->copy_file(output_file_, buffer_wav);
         }
     }
     catch (const std::ifstream::failure &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << e.what()<<std::endl;
+    }
+    catch(WavException &exception)
+    {
+        std::cout<<exception.what()<<std::endl;
     }
     catch (const std::exception &ex) {
         std::cout << ex.what() << std::endl;

@@ -12,6 +12,19 @@
 #include "config.h"
 
 namespace wavSoundProcessor {
+    class WavException : public std::exception {
+    public:
+        explicit WavException(std::string &converter_type, std::vector<std::string> argmunets) : error_(
+                std::move("Error,something got wrong with  " + converter_type+" ")) {
+            for(auto i = argmunets.begin(); i < argmunets.end();++i)
+                error_ += (*i)+" ";
+        }
+        const char *what() const noexcept override { return error_.c_str(); }
+
+    private:
+        std::string error_;
+    };
+
     class SoundProcessor {
     public:
         static void start(std::string &config_file_, std::string &output_file_,

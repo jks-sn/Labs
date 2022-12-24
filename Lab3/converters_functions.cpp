@@ -111,6 +111,8 @@ void wavconverter::Add::do_add(WavRead &inputFile, WavRead &inputFile1, WavWrite
     int startPositionExport = std::stoi(parametrs[1]);
     int endPositionExport = std::stoi(parametrs[2]);
     int startPosition = std::stoi(parametrs[3]);
+    if(startPositionExport < 0 || endPositionExport < 0 || startPosition < 0 || startPositionExport > endPositionExport)
+        throw std::invalid_argument("");
     writeAndReadHeader(inputFile, outputFile);
     jump(inputFile, outputFile, startPosition);
     inputFile1.setFlagToPlace(startPositionExport * FREQ * BytesPerSample);
