@@ -6,3 +6,4 @@
 *.txt
 /googletest
 /Lab3/cmake-build-debug/
+/Lab2

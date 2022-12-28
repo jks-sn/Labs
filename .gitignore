@@ -1,9 +1,0 @@
-/cmake-build-debug
-/.idea
-*.iml
-*.xml
-*.exe
-*.txt
-/googletest
-/Lab3/cmake-build-debug/
-/Lab2
