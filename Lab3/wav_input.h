@@ -18,9 +18,6 @@ namespace wavconverter {
 
         void readSecond(Sample *buffer, size_t FREQ);
 
-        void readSomeData(std::string &buffer, size_t size);
-
-        std::string readFourBytes();
 
         bool isFileEnd();
 

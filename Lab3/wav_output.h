@@ -16,10 +16,7 @@ namespace wavconverter {
         explicit WavWrite(std::string &outpath);
 
         void writeSecond(Sample *buffer, size_t FREQ);
-
-        void writeSomeData(std::string &data, size_t);
-
-        void writeFourBytes(std::string &);
+        
 
         ~WavWrite();
 
